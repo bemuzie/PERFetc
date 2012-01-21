@@ -1,7 +1,7 @@
 # Nifti Image load and save
 import numpy as np
-#import nibabel as nib
-from os import *
+import nibabel as nib
+import os
 import timeit
 def loadnii(folder,name):
     """ Load Nifti file and parse it to image and header """
@@ -16,28 +16,31 @@ def convert(img,folder):
 #convert 4d image
     a=nib.funcs.four_to_three(img)
     for i in range(len(a)):
-        nib.nifti1.save(a[i],folder+'%s'%(i))
+        nib.nifti1.save(a[i],folder+'%s'% i)
 
-def dcm_parser(folder,folder_out=[]):
+def dcm_parser(folder, folder_out=None):
     """ parse DICOM in folder and copy it in folder_out
 with folder structure /PatientName-BirthDate/StudyNumber/SeriesNumber/"""
+    global out_path
     import dicom
     import shutil
     
-    if folder_out == []:
+    if not folder_out:
         folder_out=folder
-    ls=listdir(folder)
+    ls=os.listdir(folder)
     for i in ls:
         try:
-            ds=dicom.read_file(path.join(folder,i))
-            out_path=path.join(folder_out,ds.PatientsName,str(ds.StudyDate)+'_'+str(ds.StudyID),str(ds.SeriesNumber))
-            shutil.copy(path.join(folder,i),out_path+'/')
+            ds=dicom.read_file(os.path.join(folder,i))
+            out_path=os.path.join(folder_out,ds.PatientsName,str(ds.StudyDate)+'_'+str(ds.StudyID),str(ds.SeriesNumber))
+            shutil.copy(os.path.join(folder,i),out_path+'/')
         except IOError as (s):
-                makedirs(s.filename)
-                shutil.copy(path.join(folder,i),out_path+'/')
+                os.makedirs(s.filename)
+                #noinspection PyUnboundLocalVariable
+                shutil.copy(os.path.join(folder,i),out_path+'/')
         continue
-    print len(listdir(folder))
-    print len(listdir(out_path))
+    print len(os.listdir(folder))
+    #noinspection PyUnboundLocalVariable
+    print len(os.listdir(out_path))
      
     
 func=dcm_parser('/media/63A0113C6D30EAE8/_PERF/temp/perf_20111228_111309207/','/media/63A0113C6D30EAE8/_CT/')
