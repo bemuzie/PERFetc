@@ -29,9 +29,10 @@ def t_weighted_ar(array, sigma=1):
 #make array weighted with TIPS	
 	return ssd(array,sigma)*array
 
-def g_kernel (x,y=[],z=[],sigma=1,out='xyz',norm=True):
+def g_kernel(x, y=[], z=[], sigma=1, out='xyz', norm=True):
 #make Gaussian kernel	
-	if y == z == []:
+	if not y: y = []
+    if y == z == []:
 		y,z=x,x
 #one dimmensional kernels	
 	xkernel = np.exp(-0.5*(((np.arange(1,x+1)-ceil(x/2.)) /sigma)**2))
@@ -42,7 +43,7 @@ def g_kernel (x,y=[],z=[],sigma=1,out='xyz',norm=True):
 	ykernel = ykernel[np.newaxis,:,np.newaxis,np.newaxis]
 	zkernel = zkernel[np.newaxis,np.newaxis,:,np.newaxis]
 #normalisation
-	if norm == True:
+	if norm:
 		xkernel /= np.sum(xkernel)
 		ykernel /= np.sum(ykernel)
 		zkernel /= np.sum(zkernel)
@@ -63,7 +64,7 @@ def tips_filter (array,sigmaT=1,x=3,y=[],z=[],sigma=1,norm = True):
 	data_t=signal.convolve(data_t,g_kernel(x=x,y=y,z=z,sigma=sigma,out='x'), 'same')
 	data_t=signal.convolve(data_t,g_kernel(x=x,y=y,z=z,sigma=sigma, out='y'), 'same')
 	data_t=signal.convolve(data_t,g_kernel(x=x,y=y,z=z,sigma=sigma,out='z'), 'same')
-	if norm == True:
+	if norm:
 		tipsar=ssd(array, sigmaT)
 		tipsar=signal.convolve(tipsar,g_kernel(x=x,y=y,z=z,sigma=sigma,out='x'), 'same')
 		tipsar=signal.convolve(tipsar,g_kernel(x=x,y=y,z=z,sigma=sigma, out='y'), 'same')

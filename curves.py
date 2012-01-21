@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 import numpy as np
-import scipy
-import scipy.stats as ss
 from scipy.optimize import curve_fit
 import matplotlib.pyplot as plt
 from math import pi as pi
@@ -12,12 +10,12 @@ def logn(time,a=1,m=1,s=1,ts=1,b=1):
     #t=time a=area under curve m=location s=scale ts - arrival time b=base level
     t2=time-ts
     t2[t2<=0]=time[0]
-    lognPdf=b+a*np.exp(-(np.log(t2)-m)*(np.log(t2)-m)/(2*s*s))/((t2)*s*pipow)
+    lognPdf=b+a*np.exp(-(np.log(t2)-m)*(np.log(t2)-m)/(2*s*s))/(t2 *s*pipow)
     #print('t1',time[0])
     return lognPdf
 
 def passcurve_l(t,n,m,s,ts,tc,b,cont=True):
-    if cont == True:
+    if cont:
         return logn(t,n,m,s,ts,b), logn(tc,n,m,s,ts,b)
     return logn(t,n,m,s,ts,b)
 #def passcurve_g
@@ -35,7 +33,7 @@ def samplet(fl=11,fp=2.,sl=6,sp=4.,cont=True):
     tr_add=np.arange(sl)*sp+28
     tr=np.append(tr,tr_add)
     tc=np.linspace(np.min(tr),np.max(tr),100)
-    if cont == True:
+    if cont:
         return tr,tc
     return tr
 
@@ -48,7 +46,6 @@ def fitcurve(time,data):
     except RuntimeError:
         popt=[area,4,0.6,1,b]
         print('error')
-        er=1
         pass
     #print ('area',area,'base',b)
     
@@ -64,7 +61,6 @@ tr,tc = samplet()
 
 def modelfit(data,data_tc,time,ns,it=1,name='none'):
     grad_dif=np.zeros(it)
-    a=0
     tc=np.linspace(np.min(time),np.max(time),100)
 #fitting tissue curve
     for i in np.arange(len(grad_dif)):
