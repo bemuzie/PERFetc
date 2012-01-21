@@ -2,7 +2,10 @@
 import numpy as np
 from scipy.optimize import curve_fit
 import matplotlib.pyplot as plt
+import gc
 from math import pi as pi
+
+gc.disable()
 
 pipow=np.power(pi,0.5)*2
 def logn(time,a=1,m=1,s=1,ts=1,b=1):
@@ -60,21 +63,22 @@ def maxgrad(data):
 tr,tc = samplet()
 
 def modelfit(data,data_tc,time,ns,it=1,name='none'):
-    grad_dif=np.zeros(it)
+    grad_dif=np.array([])
     tc=np.linspace(np.min(time),np.max(time),100)
 #fitting tissue curve
-    for i in np.arange(len(grad_dif)):
+    gc.disable()
+    for i in np.arange(it):
 #adding noise to real time samples curve
         data_n=data+noise(data,ns)
-        if name == 'art':
-            plt.plot(time,data_n,'.k')
-        plt.plot(time,data_n,'_m')
+#        if name == 'art':
+#            plt.plot(time,data_n,'.k')
+#        plt.plot(time,data_n,'_m')
 #fitting curve
         data_p=fitcurve(time,data_n)
 #making fitted curves
-        data_f=logn(tr,data_p[0],data_p[1],data_p[2],data_p[3],data_p[4])
+        #data_f=logn(tr,data_p[0],data_p[1],data_p[2],data_p[3],data_p[4])
         data_f_tc=logn(tc,data_p[0],data_p[1],data_p[2],data_p[3],data_p[4])
-        plt.plot(tc,data_f_tc,'--b')
+        #plt.plot(tc,data_f_tc,'--b')
 #calculating maximum gradient
         if name=='tiss':
             prnt_true=maxgrad(data_tc)
@@ -82,7 +86,8 @@ def modelfit(data,data_tc,time,ns,it=1,name='none'):
         if name == 'art':
             prnt_true=np.max(data_tc)
             prnt_fit=np.max(data_f_tc)
-        grad_dif[i] += abs(prnt_true-prnt_fit)
+        grad_dif= np.append(grad_dif,abs(prnt_true-prnt_fit))
+        print 100*i/float(it)
     print(name,'average',np.average(grad_dif),'SD',np.std(grad_dif))
     print('max true',prnt_true,'max fit',prnt_fit)
     return data_n
