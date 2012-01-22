@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ea6e190f-4ae5-4bfa-a9b8-ba632dac4edd" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modelling.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/curves.py" afterPath="$PROJECT_DIR$/curves.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image.py" afterPath="$PROJECT_DIR$/image.py" />
     </list>
     <ignored path="FlowPy.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -28,8 +30,13 @@
       <file leaf-file-name="image.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/image.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="11" selection-start="753" selection-end="753" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="43" column="0" selection-start="1441" selection-end="1441" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#123#299#0" expanded="false" />
+                <element signature="e#337#397#0" expanded="false" />
+                <element signature="e#446#549#0" expanded="false" />
+                <element signature="e#596#1440#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -37,15 +44,24 @@
       <file leaf-file-name="curves.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/curves.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="0" selection-start="750" selection-end="750" vertical-scroll-proportion="0.44686648">
+            <state line="3" column="31" selection-start="80" selection-end="111" vertical-scroll-proportion="0.12261581">
               <folding>
-                <element signature="e#24#42#0" expanded="true" />
-                <element signature="e#548#641#0" expanded="false" />
-                <element signature="e#801#1188#0" expanded="false" />
-                <element signature="e#1219#1511#0" expanded="false" />
-                <element signature="e#1539#1574#0" expanded="false" />
-                <element signature="e#1599#1631#0" expanded="false" />
-                <element signature="e#1769#2817#0" expanded="false" />
+                <element signature="e#205#474#0" expanded="false" />
+                <element signature="e#524#617#0" expanded="false" />
+                <element signature="e#1264#1556#0" expanded="false" />
+                <element signature="e#1581#1613#0" expanded="false" />
+                <element signature="e#1734#2861#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="modelling.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modelling.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="3" column="31" selection-start="90" selection-end="90" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#45#58#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -54,8 +70,14 @@
       <file leaf-file-name="tips.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tips.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="17" selection-start="1188" selection-end="1188" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="31" column="0" selection-start="879" selection-end="879" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#308#531#0" expanded="false" />
+                <element signature="e#577#778#0" expanded="false" />
+                <element signature="e#848#877#0" expanded="false" />
+                <element signature="e#963#979#0" expanded="false" />
+                <element signature="e#1774#2378#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -75,16 +97,17 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/image.py" />
         <option value="$PROJECT_DIR$/tips.py" />
+        <option value="$PROJECT_DIR$/image.py" />
         <option value="$PROJECT_DIR$/curves.py" />
+        <option value="$PROJECT_DIR$/modelling.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="29" />
-    <option name="width" value="995" />
-    <option name="height" value="743" />
+    <option name="x" value="28" />
+    <option name="width" value="997" />
+    <option name="height" value="748" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -138,15 +161,15 @@
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.28482974" />
     <property name="WebServerToolWindowFactoryState" value="true" />
-    <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
-    <property name="options.lastSelected" value="PyConsoleConfigurable.Python Console" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="recentsLimit" value="5" />
+    <property name="options.lastSelected" value="PyConsoleConfigurable.Python Console" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
-    <property name="options.splitter.details.proportions" value="0.2" />
-    <property name="options.searchVisible" value="true" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
+    <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -159,7 +182,7 @@
       <PyConsoleSettings />
     </option>
   </component>
-  <component name="RunManager" selected="Python.curves">
+  <component name="RunManager" selected="Python.modelling">
     <configuration default="false" name="curves" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -196,17 +219,6 @@
       <option name="MULTIPROCESS" value="false" />
       <method />
     </configuration>
-    <configuration default="true" type="PyRemoteDebugConfigurationType" factoryName="Python Remote Debug">
-      <module name="" />
-      <option name="PORT" value="0" />
-      <option name="HOST" value="null" />
-      <option name="USE_MAPPING" value="false" />
-      <option name="REMOTE_ROOT" value="" />
-      <option name="LOCAL_ROOT" value="" />
-      <option name="REDIRECT_OUTPUT" value="true" />
-      <option name="SUSPEND_AFTER_CONNECT" value="true" />
-      <method />
-    </configuration>
     <configuration default="true" type="tests" factoryName="Unittests">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -224,6 +236,17 @@
       <option name="PATTERN" value="" />
       <option name="USE_PATTERN" value="false" />
       <option name="PUREUNITTEST" value="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="PyRemoteDebugConfigurationType" factoryName="Python Remote Debug">
+      <module name="" />
+      <option name="PORT" value="0" />
+      <option name="HOST" value="null" />
+      <option name="USE_MAPPING" value="false" />
+      <option name="REMOTE_ROOT" value="" />
+      <option name="LOCAL_ROOT" value="" />
+      <option name="REDIRECT_OUTPUT" value="true" />
+      <option name="SUSPEND_AFTER_CONNECT" value="true" />
       <method />
     </configuration>
     <configuration default="true" type="tests" factoryName="Doctests">
@@ -260,9 +283,28 @@
       <option name="MULTIPROCESS" value="false" />
       <method />
     </configuration>
-    <list size="2">
+    <configuration default="false" name="modelling" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <module name="FlowPy" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/modelling.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="MULTIPROCESS" value="false" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <list size="3">
       <item index="0" class="java.lang.String" itemvalue="Python.curves" />
       <item index="1" class="java.lang.String" itemvalue="Python.Unnamed" />
+      <item index="2" class="java.lang.String" itemvalue="Python.modelling" />
     </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
@@ -293,8 +335,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="29" y="0" width="995" height="743" extended-state="6" />
-    <editor active="true" />
+    <frame x="28" y="0" width="997" height="748" extended-state="6" />
+    <editor active="false" />
     <layout>
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293718" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -306,7 +348,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293718" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25554383" sideWeight="0.39388794" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25554383" sideWeight="0.6706282" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26187962" sideWeight="0.6706282" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3293718" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30899832" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -375,34 +417,54 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
+    <entry file="file:///usr/local/lib/python2.6/dist-packages/numpy/core/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="10" selection-start="86" selection-end="86" vertical-scroll-proportion="0.18404908" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/image.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="11" selection-start="753" selection-end="753" vertical-scroll-proportion="0.0" />
+        <state line="43" column="0" selection-start="1441" selection-end="1441" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#123#299#0" expanded="false" />
+            <element signature="e#337#397#0" expanded="false" />
+            <element signature="e#446#549#0" expanded="false" />
+            <element signature="e#596#1440#0" expanded="false" />
+          </folding>
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tips.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="17" selection-start="1188" selection-end="1188" vertical-scroll-proportion="0.0" />
+        <state line="31" column="0" selection-start="879" selection-end="879" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#308#531#0" expanded="false" />
+            <element signature="e#577#778#0" expanded="false" />
+            <element signature="e#848#877#0" expanded="false" />
+            <element signature="e#963#979#0" expanded="false" />
+            <element signature="e#1774#2378#0" expanded="false" />
+          </folding>
+        </state>
       </provider>
     </entry>
-    <entry file="file:///usr/local/lib/python2.6/dist-packages/numpy/core/__init__.py">
+    <entry file="file://$PROJECT_DIR$/modelling.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="10" selection-start="86" selection-end="86" vertical-scroll-proportion="0.18404908">
-          <folding />
+        <state line="3" column="31" selection-start="90" selection-end="90" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#45#58#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/curves.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="0" selection-start="750" selection-end="750" vertical-scroll-proportion="0.44686648">
+        <state line="3" column="31" selection-start="80" selection-end="111" vertical-scroll-proportion="0.12261581">
           <folding>
-            <element signature="e#24#42#0" expanded="true" />
-            <element signature="e#548#641#0" expanded="false" />
-            <element signature="e#801#1188#0" expanded="false" />
-            <element signature="e#1219#1511#0" expanded="false" />
-            <element signature="e#1539#1574#0" expanded="false" />
-            <element signature="e#1599#1631#0" expanded="false" />
-            <element signature="e#1769#2817#0" expanded="false" />
+            <element signature="e#205#474#0" expanded="false" />
+            <element signature="e#524#617#0" expanded="false" />
+            <element signature="e#1264#1556#0" expanded="false" />
+            <element signature="e#1581#1613#0" expanded="false" />
+            <element signature="e#1734#2861#0" expanded="false" />
           </folding>
         </state>
       </provider>

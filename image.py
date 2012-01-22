@@ -41,8 +41,4 @@ with folder structure /PatientName-BirthDate/StudyNumber/SeriesNumber/"""
     print len(os.listdir(folder))
     #noinspection PyUnboundLocalVariable
     print len(os.listdir(out_path))
-     
-    
-func=dcm_parser('/media/63A0113C6D30EAE8/_PERF/temp/perf_20111228_111309207/','/media/63A0113C6D30EAE8/_CT/')
-t = timeit.Timer(stmt="func", setup="from __main__ import * ")
-print t.timeit()
+

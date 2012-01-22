@@ -2,10 +2,7 @@
 import numpy as np
 from scipy.optimize import curve_fit
 import matplotlib.pyplot as plt
-import gc
 from math import pi as pi
-
-gc.disable()
 
 pipow=np.power(pi,0.5)*2
 def logn(time,a=1,m=1,s=1,ts=1,b=1):
@@ -27,10 +24,15 @@ def passcurve_l(t,n,m,s,ts,tc,b,cont=True):
 #		return ss.gamma.pdf(t,n,m,s)*400
 
 def samplet(fl=11,fp=2.,sl=6,sp=4.,cont=True):
-    #fl= lenth of first series fp - period of scans 
+    #fl= lenth of first series fp - period of scans
     #sl - length of second series sp - period of sl scans
     #making real time array
-    #tr - real time samples tc - continious time samples
+    #tr - real time0 samples tc - continious time samples
+    fl=float(fl)
+    fp=float(fp)
+    sl=float(sl)
+    sp=float(sp)
+
     tr=(np.arange(fl))*fp
     tr[0]=0.0001
     tr_add=np.arange(sl)*sp+28
@@ -57,13 +59,14 @@ def fitcurve(time,data):
 def maxgrad(data):
     return np.max(np.gradient(data))
 #making time steps, tr=real samples, tc = continuous samples
-tr,tc = samplet()
+
 
 def modelfit(data,data_tc,time,ns,it=1,name='none'):
+    """ Model noisy data and try to fit true curve 'it' times
+    """
     grad_dif=np.array([])
     tc=np.linspace(np.min(time),np.max(time),100)
 #fitting tissue curve
-    gc.disable()
     for i in np.arange(it):
 #adding noise to real time samples curve
         data_n=data+np.random.normal(scale=ns,size=len(data))
@@ -88,23 +91,4 @@ def modelfit(data,data_tc,time,ns,it=1,name='none'):
     print(name,'average',np.average(grad_dif),'SD',np.std(grad_dif))
     print('max true',prnt_true,'max fit',prnt_fit)
     return data_n
-
-#making passage curve
-tiss,tiss_tc= passcurve_l(tr,3000.,3.,0.6,ts=10.,tc=tc,b=50.)
-tissS,tissS_tc= passcurve_l(tr,1000.,3.5,0.6,ts=20.,tc=tc,b=0.)
-tissR_tc=tiss_tc+tissS_tc
-tissR=tiss+tissS
-artflow,artflow_tc=passcurve_l(tr,4000.,2.,0.75,ts=3.,tc=tc,b=40.)
-
-tissn=modelfit(tissR,tiss_tc,tr,it=1000,ns=5,name='tiss')
-artflown=modelfit(artflow,artflow_tc,tr,it=1000,ns=10,name='art')
-
-
-#plot passage curves
-plt.plot(tc,tiss_tc,'-r',tr,tissn,'o-g',tc,tissR_tc,'r')
-
-plt.plot(tc,artflow_tc,'-r',tr,artflown,'o-g')
-#print(maxgrad,maxgrad_f)
-#print (popt)
-plt.show()
 
