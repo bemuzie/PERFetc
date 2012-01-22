@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 from scipy.optimize import curve_fit
+#from scipy import scipy
 import matplotlib.pyplot as plt
 from math import pi as pi
 
@@ -13,6 +14,10 @@ def logn(time,a=1,m=1,s=1,ts=1,b=1):
     lognPdf=b+a*np.exp(-(np.log(t2)-m)*(np.log(t2)-m)/(2*s*s))/(t2 *s*pipow)
     #print('t1',time[0])
     return lognPdf
+
+def gammapdf(t,k,s):
+    pdf=pow(t,k-1)*np.exp(-t/s) / scisp.gamma(k)*pow(s,k)
+    return pdf
 
 def passcurve_l(t,n,m,s,ts,tc,b,cont=True):
     if cont:
