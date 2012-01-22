@@ -1,14 +1,20 @@
 # -*- coding: utf-8 -*-
 import numpy as np
-from scipy.optimize import curve_fit
+from scipy.optimize import curve_fit,leastsq
 from scipy import special as ssp
 import matplotlib.pyplot as plt
 from math import pi as pi
 
 pipow=np.power(pi,0.5)*2
 def logn(time,a=1,m=1,s=1,ts=1,b=1):
-    #PDF of lognormal distribution
-    #t=time a=area under curve m=location s=scale ts - arrival time b=base level
+    """PDF of lognormal distribution
+    0 t=time
+    1 a=area under curve
+    2 m=location
+    3 s=scale
+    4 ts - arrival time
+    5 b=base level
+    """
     t2=time-ts
     t2[t2<=0]=time[0]
     lognPdf=b+a*np.exp(-(np.log(t2)-m)*(np.log(t2)-m)/(2*s*s))/(t2 *s*pipow)
@@ -27,7 +33,19 @@ def gammapdf(t,coeffs):
     t2[t2<=0]=t[0]
     pdf=coeffs[3]+coeffs[2]*pow(t2,coeffs[0]-1)*np.exp(-t2/coeffs[1]) / ssp.gamma(coeffs[0])*pow(coeffs[1],coeffs[0])
     return pdf
-
+def gammapdf_c(t,sh,sc,amp,bg,ts):
+    """
+    coeffs:
+    0 sh=shape
+    1 sc=scale
+    2 amp=amplitude
+    3 bg=noise*background
+    4 ts=time step , time when lable arrive to point
+    """
+    t2=t-ts
+    t2[t2<=0]=t[0]
+    pdf=bg+amp*pow(t2,sh-1)*np.exp(-t2/sc) / ssp.gamma(sh)*pow(sc,sh)
+    return pdf
 def passcurve_l(t,n,m,s,ts,tc,b,cont=True):
     if cont:
         return logn(t,n,m,s,ts,b), logn(tc,n,m,s,ts,b)
@@ -52,7 +70,8 @@ def samplet(fl=11,fp=2.,sl=6,sp=4.,cont=True):
         return tr,tc
     return tr
 
-def residuals():
+def residuals(coeffs,data,t):
+    return data-gammapdf(t,coeffs)
 
 def fitcurve(data,time):
     #fitting curve function
@@ -67,10 +86,14 @@ def fitcurve(data,time):
     #print ('area',area,'base',b)
     
     return popt
-def fitcurve_lsq(data,time):
+def fitcurve_lsq(data,time,func='gamma'):
     """Fitting curves with least squares method
-
     """
+    initial=np.array([8,1.3,8,30,5],dtype=float)
+    #func=gammapdf
+    popt,smth=leastsq(residuals,initial,args=(data,time),maxfev=1500)
+    return popt
+
 def maxgrad(data):
     return np.max(np.gradient(data))
 
