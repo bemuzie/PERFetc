@@ -54,9 +54,6 @@ def fitcurve(time,data):
     
     return popt
 
-def noise(data,a=10):
-    return np.random.randn(len(data))*a
-
 def maxgrad(data):
     return np.max(np.gradient(data))
 #making time steps, tr=real samples, tc = continuous samples
@@ -69,16 +66,16 @@ def modelfit(data,data_tc,time,ns,it=1,name='none'):
     gc.disable()
     for i in np.arange(it):
 #adding noise to real time samples curve
-        data_n=data+noise(data,ns)
+        data_n=data+np.random.normal(scale=ns,size=len(data))
 #        if name == 'art':
 #            plt.plot(time,data_n,'.k')
 #        plt.plot(time,data_n,'_m')
 #fitting curve
         data_p=fitcurve(time,data_n)
 #making fitted curves
-        #data_f=logn(tr,data_p[0],data_p[1],data_p[2],data_p[3],data_p[4])
+#        data_f=logn(tr,data_p[0],data_p[1],data_p[2],data_p[3],data_p[4])
         data_f_tc=logn(tc,data_p[0],data_p[1],data_p[2],data_p[3],data_p[4])
-        #plt.plot(tc,data_f_tc,'--b')
+        plt.plot(tc,data_f_tc,'--b')
 #calculating maximum gradient
         if name=='tiss':
             prnt_true=maxgrad(data_tc)
@@ -99,8 +96,8 @@ tissR_tc=tiss_tc+tissS_tc
 tissR=tiss+tissS
 artflow,artflow_tc=passcurve_l(tr,4000.,2.,0.75,ts=3.,tc=tc,b=40.)
 
-tissn=modelfit(tissR,tiss_tc,tr,it=10000,ns=5,name='tiss')
-artflown=modelfit(artflow,artflow_tc,tr,it=10000,ns=10,name='art')
+tissn=modelfit(tissR,tiss_tc,tr,it=1000,ns=5,name='tiss')
+artflown=modelfit(artflow,artflow_tc,tr,it=1000,ns=10,name='art')
 
 
 #plot passage curves
