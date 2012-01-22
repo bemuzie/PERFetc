@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 from scipy.optimize import curve_fit
-#from scipy import scipy
+from scipy import special as ssp
 import matplotlib.pyplot as plt
 from math import pi as pi
 
@@ -14,9 +14,18 @@ def logn(time,a=1,m=1,s=1,ts=1,b=1):
     lognPdf=b+a*np.exp(-(np.log(t2)-m)*(np.log(t2)-m)/(2*s*s))/(t2 *s*pipow)
     #print('t1',time[0])
     return lognPdf
-
-def gammapdf(t,k,s):
-    pdf=pow(t,k-1)*np.exp(-t/s) / scisp.gamma(k)*pow(s,k)
+def gammapdf(t,coeffs):
+    """
+    coeffs:
+    0=shape
+    1=scale
+    2=amplitude
+    3=noise*background
+    4=time step , time when lable arrive to point
+    """
+    t2=t-coeffs[4]
+    t2[t2<=0]=t[0]
+    pdf=coeffs[3]+coeffs[2]*pow(t2,coeffs[0]-1)*np.exp(-t2/coeffs[1]) / ssp.gamma(coeffs[0])*pow(coeffs[1],coeffs[0])
     return pdf
 
 def passcurve_l(t,n,m,s,ts,tc,b,cont=True):
@@ -43,6 +52,8 @@ def samplet(fl=11,fp=2.,sl=6,sp=4.,cont=True):
         return tr,tc
     return tr
 
+def residuals():
+
 def fitcurve(data,time):
     #fitting curve function
     b=np.min(data)
@@ -56,7 +67,10 @@ def fitcurve(data,time):
     #print ('area',area,'base',b)
     
     return popt
+def fitcurve_lsq(data,time):
+    """Fitting curves with least squares method
 
+    """
 def maxgrad(data):
     return np.max(np.gradient(data))
 
