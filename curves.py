@@ -18,10 +18,6 @@ def passcurve_l(t,n,m,s,ts,tc,b,cont=True):
     if cont:
         return logn(t,n,m,s,ts,b), logn(tc,n,m,s,ts,b)
     return logn(t,n,m,s,ts,b)
-#def passcurve_g
-#making pass curve by gamma.pdf
-#	if type == 'gamma':
-#		return ss.gamma.pdf(t,n,m,s)*400
 
 def samplet(fl=11,fp=2.,sl=6,sp=4.,cont=True):
     #fl= lenth of first series fp - period of scans
@@ -42,12 +38,12 @@ def samplet(fl=11,fp=2.,sl=6,sp=4.,cont=True):
         return tr,tc
     return tr
 
-def fitcurve(time,data):
+def fitcurve(data,time):
     #fitting curve function
     b=np.min(data)
     area=np.trapz(data-b,time)
     try:
-        popt,pcov=curve_fit(logn,time,data,p0=(area,4,0.6,1,b))
+        popt,pcov=curve_fit(logn,time,data,p0=(area,4,0.6,1,10))
     except RuntimeError:
         popt=[area,4,0.6,1,b]
         print('error')
@@ -58,8 +54,6 @@ def fitcurve(time,data):
 
 def maxgrad(data):
     return np.max(np.gradient(data))
-#making time steps, tr=real samples, tc = continuous samples
-
 
 def modelfit(data,data_tc,time,ns,it=1,name='none'):
     """ Model noisy data and try to fit true curve 'it' times
@@ -91,4 +85,25 @@ def modelfit(data,data_tc,time,ns,it=1,name='none'):
     print(name,'average',np.average(grad_dif),'SD',np.std(grad_dif))
     print('max true',prnt_true,'max fit',prnt_fit)
     return data_n
+
+def FitArray(data,time):
+    PerfPopt=np.zeros(data[:,:,:,0:5].shape) #making array storing values
+    PerfVolume=np.zeros(data[:,:,:,0:2].shape)
+    tr,tc=samplet(time[0],time[1],time[2],time[3]) # making time axis
+    it = np.nditer (data[:,:,:,0], flags=['multi_index']) #iterator over volume axises
+    size=float(np.prod(data[:,:,:,0].shape))
+    i=0
+    while not it.finished:
+        popt=fitcurve(data[it.multi_index],tr) # fitting passage curve
+        #PerfPopt[it.multi_index]=popt
+        RealCurve=logn(tc,popt[0],popt[1],popt[2],popt[3],popt[4]) # making curve on bigger time resolution axis
+        slope=maxgrad(RealCurve) # maximum slope calculation
+        amplitude=np.max(RealCurve) # maximum amplitude calculation
+        PerfVolume[it.multi_index,0]=slope
+        PerfVolume[it.multi_index,1]=amplitude
+        i+=1
+        print 'посчитано', i,'вокселей из',size
+        it.iternext()
+    return PerfVolume
+
 

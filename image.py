@@ -10,6 +10,7 @@ def loadnii(folder,name):
     hdr = img.get_header()
     return hdr, data   
 def savenii(data,hdr,folder):
+    print data.ndim
     nib.nifti1.save(nib.Nifti1Image(data, np.eye(4),hdr),folder)
 
 def convert(img,folder):
@@ -41,4 +42,6 @@ with folder structure /PatientName-BirthDate/StudyNumber/SeriesNumber/"""
     print len(os.listdir(folder))
     #noinspection PyUnboundLocalVariable
     print len(os.listdir(out_path))
-
+def crop(data,xc,yc,zc,size=30):
+    data = data[xc-size:xc+size,yc-size:yc+size,zc-size:zc+size]# crop data
+    return data

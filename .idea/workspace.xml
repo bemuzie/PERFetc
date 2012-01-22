@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ea6e190f-4ae5-4bfa-a9b8-ba632dac4edd" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modelling.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/MaxSlopePerfusion.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/curves.py" afterPath="$PROJECT_DIR$/curves.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image.py" afterPath="$PROJECT_DIR$/image.py" />
@@ -30,12 +31,11 @@
       <file leaf-file-name="image.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/image.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="0" selection-start="1441" selection-end="1441" vertical-scroll-proportion="0.0">
+            <state line="13" column="50" selection-start="403" selection-end="403" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#123#299#0" expanded="false" />
-                <element signature="e#337#397#0" expanded="false" />
-                <element signature="e#446#549#0" expanded="false" />
-                <element signature="e#596#1440#0" expanded="false" />
+                <element signature="e#466#569#0" expanded="false" />
+                <element signature="e#616#1460#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -44,25 +44,33 @@
       <file leaf-file-name="curves.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/curves.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="31" selection-start="80" selection-end="111" vertical-scroll-proportion="0.12261581">
+            <state line="90" column="38" selection-start="2832" selection-end="2832" vertical-scroll-proportion="-0.4032258">
               <folding>
-                <element signature="e#205#474#0" expanded="false" />
                 <element signature="e#524#617#0" expanded="false" />
-                <element signature="e#1264#1556#0" expanded="false" />
-                <element signature="e#1581#1613#0" expanded="false" />
-                <element signature="e#1734#2861#0" expanded="false" />
+                <element signature="e#670#1126#0" expanded="false" />
+                <element signature="e#1475#1507#0" expanded="false" />
+                <element signature="e#1566#2693#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="modelling.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/modelling.py">
+      <file leaf-file-name="MaxSlopePerfusion.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MaxSlopePerfusion.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="31" selection-start="90" selection-end="90" vertical-scroll-proportion="0.0">
+            <state line="17" column="30" selection-start="515" selection-end="515" vertical-scroll-proportion="0.0">
               <folding>
-                <element signature="e#45#58#0" expanded="true" />
+                <element signature="e#21#41#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="test.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="4" column="10" selection-start="89" selection-end="89" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -78,6 +86,15 @@
                 <element signature="e#963#979#0" expanded="false" />
                 <element signature="e#1774#2378#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="modelling.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modelling.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -98,9 +115,11 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/tips.py" />
-        <option value="$PROJECT_DIR$/image.py" />
-        <option value="$PROJECT_DIR$/curves.py" />
         <option value="$PROJECT_DIR$/modelling.py" />
+        <option value="$PROJECT_DIR$/curves.py" />
+        <option value="$PROJECT_DIR$/image.py" />
+        <option value="$PROJECT_DIR$/MaxSlopePerfusion.py" />
+        <option value="$PROJECT_DIR$/test.py" />
       </list>
     </option>
   </component>
@@ -182,7 +201,7 @@
       <PyConsoleSettings />
     </option>
   </component>
-  <component name="RunManager" selected="Python.modelling">
+  <component name="RunManager" selected="Python.test">
     <configuration default="false" name="curves" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -301,10 +320,48 @@
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
-    <list size="3">
+    <configuration default="false" name="test" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <module name="FlowPy" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="MULTIPROCESS" value="false" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="MaxSlopePerfusion" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <module name="FlowPy" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MaxSlopePerfusion.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="MULTIPROCESS" value="false" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Python.curves" />
       <item index="1" class="java.lang.String" itemvalue="Python.Unnamed" />
       <item index="2" class="java.lang.String" itemvalue="Python.modelling" />
+      <item index="3" class="java.lang.String" itemvalue="Python.test" />
+      <item index="4" class="java.lang.String" itemvalue="Python.MaxSlopePerfusion" />
     </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
@@ -343,18 +400,18 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946146" sideWeight="0.60101867" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39898133" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293718" sideWeight="0.49630412" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293718" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25554383" sideWeight="0.39388794" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26187962" sideWeight="0.6706282" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3293718" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26187962" sideWeight="0.42444822" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.5755518" sideWeight="0.49630412" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30899832" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
@@ -422,15 +479,10 @@
         <state line="4" column="10" selection-start="86" selection-end="86" vertical-scroll-proportion="0.18404908" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/image.py">
+    <entry file="file://$PROJECT_DIR$/modelling.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="0" selection-start="1441" selection-end="1441" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#123#299#0" expanded="false" />
-            <element signature="e#337#397#0" expanded="false" />
-            <element signature="e#446#549#0" expanded="false" />
-            <element signature="e#596#1440#0" expanded="false" />
-          </folding>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
@@ -447,24 +499,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/modelling.py">
+    <entry file="file://$PROJECT_DIR$/image.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="31" selection-start="90" selection-end="90" vertical-scroll-proportion="0.0">
+        <state line="13" column="50" selection-start="403" selection-end="403" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#45#58#0" expanded="true" />
+            <element signature="e#123#299#0" expanded="false" />
+            <element signature="e#466#569#0" expanded="false" />
+            <element signature="e#616#1460#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="10" selection-start="89" selection-end="89" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MaxSlopePerfusion.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="30" selection-start="515" selection-end="515" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#21#41#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/curves.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="31" selection-start="80" selection-end="111" vertical-scroll-proportion="0.12261581">
+        <state line="90" column="38" selection-start="2832" selection-end="2832" vertical-scroll-proportion="-0.4032258">
           <folding>
-            <element signature="e#205#474#0" expanded="false" />
             <element signature="e#524#617#0" expanded="false" />
-            <element signature="e#1264#1556#0" expanded="false" />
-            <element signature="e#1581#1613#0" expanded="false" />
-            <element signature="e#1734#2861#0" expanded="false" />
+            <element signature="e#670#1126#0" expanded="false" />
+            <element signature="e#1475#1507#0" expanded="false" />
+            <element signature="e#1566#2693#0" expanded="false" />
           </folding>
         </state>
       </provider>
