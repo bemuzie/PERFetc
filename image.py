@@ -28,17 +28,17 @@ with folder structure /PatientName-BirthDate/StudyNumber/SeriesNumber/"""
     
     if not folder_out:
         folder_out=folder
-    ls=os.listdir(folder)
-    for i in ls:
-        try:
-            ds=dicom.read_file(os.path.join(folder,i))
-            out_path=os.path.join(folder_out,ds.PatientsName,str(ds.StudyDate)+'_'+str(ds.StudyID),str(ds.SeriesNumber))
-            shutil.copy(os.path.join(folder,i),out_path+'/')
-        except IOError as (s):
+    for root,dirs,file_list in os.walk(folder):
+        for file in file_list:
+            try:
+                ds=dicom.read_file(os.path.join(root,file))
+                out_path=os.path.join(folder_out,ds.PatientsName,str(ds.StudyDate)+'_'+str(ds.StudyID),str(ds.SeriesNumber))
+                shutil.copy(os.path.join(folder,i),out_path+'/')
+            except IOError as (s):
                 os.makedirs(s.filename)
                 #noinspection PyUnboundLocalVariable
                 shutil.copy(os.path.join(folder,i),out_path+'/')
-        continue
+            continue
     print len(os.listdir(folder))
     #noinspection PyUnboundLocalVariable
     print len(os.listdir(out_path))
