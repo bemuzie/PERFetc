@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Nifti Image load and save
 import numpy as np
 import nibabel as nib
@@ -27,19 +28,30 @@ def dcm_parser(folder, folder_out=None):
 with folder structure /PatientName-BirthDate/StudyNumber/SeriesNumber/"""
     import dicom
     import shutil
-
+    a=0
+    i=0
     if not folder_out:
         folder_out=folder
     for pathfold,dirs,file_list in os.walk(folder):
-        for file_name in filter(lambda x: '.dcm' in x,file_list):
+        dcm_list=filter(lambda x: '.dcm' in x,file_list)
+        a+=len(dcm_list)
+    for pathfold,dirs,file_list in os.walk(folder):
+        dcm_list=filter(lambda x: '.dcm' in x,file_list)
+        for file_name in dcm_list:
             try:
                 dcm=dicom.read_file( os.path.join(pathfold,file_name) )
                 out_path=os.path.join(folder_out,dcm.PatientsName,str(dcm.StudyDate)+'_'+str(dcm.StudyID),str(dcm.SeriesNumber))
                 shutil.copy(os.path.join(pathfold,file_name),out_path+'/')
+                i+=1
+                os.system('clear')
+                print 'скопировано ',i,'из',a
             except IOError as (s):
                 os.makedirs(s.filename)
                 #noinspection PyUnboundLocalVariable
                 shutil.copy(os.path.join(pathfold,file_name),out_path+'/')
+                i+=1
+                os.system('clear')
+                print 'скопировано ',i,'из',a
                 continue
             #except InvalidDicomError:continue
 
