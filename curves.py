@@ -73,19 +73,27 @@ def samplet(fl=11,fp=2.,sl=6,sp=4.,cont=True):
 def residuals(coeffs,data,t):
     return data-gammapdf(t,coeffs)
 
-def fitcurve(data,time):
+def fitcurve(data,time,initial=[],type='lgnorm'):
     #fitting curve function
-    b=np.min(data)
-    area=np.trapz(data-b,time)
-    try:
-        popt,pcov=curve_fit(logn,time,data,p0=(area,4,0.6,1,10))
-    except RuntimeError:
-        popt=[area,4,0.6,1,b]
-        print('error')
-        pass
-    #print ('area',area,'base',b)
-    
+    if type=='lgnorm':
+        b=np.min(data)
+        area=np.trapz(data-b,time)
+        try:
+            popt,pcov=curve_fit(logn,time,data,p0=(area,4,0.6,1,10))
+        except RuntimeError:
+            popt=[area,4,0.6,1,b]
+            print('error')
+            pass
+    else:
+        initial=np.array([8,1.3,8,30,2],dtype=float)
+        try:
+            popt,smth=curve_fit(gammapdf_c,time,data,p0=initial)
+        except RuntimeError:
+            print('error')
+            popt=initial
+            pass
     return popt
+
 def fitcurve_lsq(data,time,func='gamma'):
     """Fitting curves with least squares method
     """
