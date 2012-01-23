@@ -12,6 +12,9 @@ def loadnii(folder,name):
 def savenii(data,hdr,folder):
     print data.ndim
     nib.nifti1.save(nib.Nifti1Image(data, np.eye(4),hdr),folder)
+def crop(data,xc,yc,zc,size=30):
+    data = data[xc-size:xc+size,yc-size:yc+size,zc-size:zc+size]# crop data
+    return data
 
 def convert(img,folder):
 #convert 4d image
@@ -22,26 +25,22 @@ def convert(img,folder):
 def dcm_parser(folder, folder_out=None):
     """ parse DICOM in folder and copy it in folder_out
 with folder structure /PatientName-BirthDate/StudyNumber/SeriesNumber/"""
-    global out_path
     import dicom
     import shutil
-    
+
     if not folder_out:
         folder_out=folder
-    for root,dirs,file_list in os.walk(folder):
-        for file in file_list:
+    for pathfold,dirs,file_list in os.walk(folder):
+        for file_name in filter(lambda x: '.dcm' in x,file_list):
             try:
-                ds=dicom.read_file(os.path.join(root,file))
-                out_path=os.path.join(folder_out,ds.PatientsName,str(ds.StudyDate)+'_'+str(ds.StudyID),str(ds.SeriesNumber))
-                shutil.copy(os.path.join(folder,i),out_path+'/')
+                dcm=dicom.read_file( os.path.join(pathfold,file_name) )
+                out_path=os.path.join(folder_out,dcm.PatientsName,str(dcm.StudyDate)+'_'+str(dcm.StudyID),str(dcm.SeriesNumber))
+                shutil.copy(os.path.join(pathfold,file_name),out_path+'/')
             except IOError as (s):
                 os.makedirs(s.filename)
                 #noinspection PyUnboundLocalVariable
-                shutil.copy(os.path.join(folder,i),out_path+'/')
-            continue
-    print len(os.listdir(folder))
-    #noinspection PyUnboundLocalVariable
-    print len(os.listdir(out_path))
-def crop(data,xc,yc,zc,size=30):
-    data = data[xc-size:xc+size,yc-size:yc+size,zc-size:zc+size]# crop data
-    return data
+                shutil.copy(os.path.join(pathfold,file_name),out_path+'/')
+                continue
+            #except InvalidDicomError:continue
+
+
