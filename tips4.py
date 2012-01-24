@@ -12,7 +12,7 @@ def gauss_cl(x,sigma):
     return np.exp(-0.5*(euclid/sigma)*(euclid/sigma))
 def TimeProfile_cl(x,y,sigma):
     """Time profile clousness function. x and y should have shape= (1,1,1,len(time))"""
-    diff=y-x
+    diff=x-y
     SSD=np.sum(diff*diff)/len(x)
     return np.exp(-0.5*(SSD/sigma)*(SSD/sigma))
 
@@ -21,7 +21,11 @@ def convolve4d(img,size,sigG,sigT):
     """Convolve 4d array with symmetric 4d kernel with size "dim_c" through all temporal axis.
     kernel should be odd
     """
-
+    est=np.prod(np.asarray(np.shape(img[:,:,:,0]))-size+1)
+    made=0
+    print type(img)
+    sigG=float(sigG)
+    sigT=float(sigT)
     #if kernel size even break it
     if size%2 == 0:
         raise NameError('kernel should have odd size!!!')
@@ -46,14 +50,17 @@ def convolve4d(img,size,sigG,sigT):
         y=cent[1]
         z=cent[2]
         center=tuple((x+size_half,y+size_half,z+size_half))
-        endboder=size+1
+        endboder=size
         #Taking kernel of a volume
-        kernel = img[x:endboder,y:endboder,z:endboder]
+        kernel = img[x:x+endboder,y:y+endboder,z:z+endboder]
         #Calculating Time profile closeness function
         tp=TimeProfile_cl(img[center],kernel,sigT)
+
         #Calculating Gaussian closeness function
 
-        out[center]=np.sum(np.sum(np.sum(  kernel*tp*GausKern,axis=0  ),axis=0),axis=0)
+        out[center]=np.sum(np.sum(np.sum(  kernel*tp*GausKern,axis=0  ),axis=0),axis=0)/np.sum(tp*GausKern)
 
-        print it.multi_index
+        made+=1
+        print made,'из',est
         it.iternext()
+    return out

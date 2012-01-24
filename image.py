@@ -9,7 +9,7 @@ def loadnii(folder,name):
     img = nib.load(os.path.join(folder,name))
     data = img.get_data()
     hdr = img.get_header()
-    return hdr, data   
+    return data , hdr
 def savenii(data,hdr,folder):
     print data.ndim
     nib.nifti1.save(nib.Nifti1Image(data, np.eye(4),hdr),folder)
