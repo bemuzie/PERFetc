@@ -17,29 +17,43 @@ def TimeProfile_cl(x,y,sigma):
     return np.exp(-0.5*(SSD/sigma)*(SSD/sigma))
 
 
-def convolve4d(img,dim_c,sigG,sigT):
-    """Convolve 4d array with 4d kernel with symmetric Cartesian size "dim_c" thought all temporal axis
+def convolve4d(img,size,sigG,sigT):
+    """Convolve 4d array with symmetric 4d kernel with size "dim_c" through all temporal axis.
+    kernel should be odd
     """
-    #iterating to get Cartesian coordinates each pixel in 'img' of kernel center
-    it = np.nditer (img[:,:,:,0], flags=['multi_index'])
-    GausKern=np.ones((dim_c,dim_c,dim_c))
-    iterArray=np.ones((dim_c,dim_c,dim_c))
+
+    #if kernel size even break it
+    if size%2 == 0:
+        raise NameError('kernel should have odd size!!!')
+    #
+    size_3d=tuple((size,size,size))
+    size_half=int(size)/2
+    #
+    GausKern=np.ones(size_3d)
+    iterArray=GausKern.copy()
+    #
     for i,val in np.ndenumerate(iterArray):
         GausKern[i]=gauss_cl(i,sigG)
     GausKern=GausKern[:,:,:,np.newaxis]
+    #
     out=np.zeros((np.shape(img)))
+    #making iterator which don't contain borders
+    it = np.nditer (img[size_half:-size_half,size_half:-size_half,size_half:-size_half,0], flags=['multi_index'])
     while not it.finished:
-        cntr=it.multi_index
-        x=cntr[0]
-        y=cntr[1]
-        z=cntr[2]
+        #determing cordinates of central pixel
+        cent=it.multi_index
+        x=cent[0]
+        y=cent[1]
+        z=cent[2]
+        center=tuple((x+size_half,y+size_half,z+size_half))
+        endboder=size+1
         #Taking kernel of a volume
-        kernel = img[x-dim_c:x+dim_c,y-dim_c:y+dim_c,z-dim_c:z+dim_c]
+        kernel = img[x:endboder,y:endboder,z:endboder]
         #Calculating Time profile closeness function
-        tp=TimeProfile_cl(img[it.multi_index],kernel,sigT)
+        tp=TimeProfile_cl(img[center],kernel,sigT)
         #Calculating Gaussian closeness function
 
-        out[cntr]=np.sum(np.sum(np.sum(  img[cntr]*tp*GausKern,axis=0  ),axis=1),axis=2)
+        out[center]=np.sum(np.sum(np.sum(  kernel*tp*GausKern,axis=0  ),axis=0),axis=0)
 
         print it.multi_index
         it.iternext()
