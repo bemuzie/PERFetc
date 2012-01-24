@@ -33,10 +33,11 @@ with folder structure /PatientName-BirthDate/StudyNumber/SeriesNumber/"""
     if not folder_out:
         folder_out=folder
     for pathfold,dirs,file_list in os.walk(folder):
-        dcm_list=filter(lambda x: '.dcm' in x,file_list)
+        dcm_list=filter(lambda x: '' in x,file_list)
         a+=len(dcm_list)
+    print a
     for pathfold,dirs,file_list in os.walk(folder):
-        dcm_list=filter(lambda x: '.dcm' in x,file_list)
+        dcm_list=filter(lambda x: '' in x,file_list)
         for file_name in dcm_list:
             try:
                 dcm=dicom.read_file( os.path.join(pathfold,file_name) )
