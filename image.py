@@ -41,7 +41,7 @@ with folder structure /PatientName-BirthDate/StudyNumber/SeriesNumber/"""
         for file_name in dcm_list:
             try:
                 dcm=dicom.read_file( os.path.join(pathfold,file_name) )
-                out_path=os.path.join(folder_out,dcm.PatientsName,str(dcm.StudyDate)+'_'+str(dcm.StudyID),str(dcm.SeriesNumber))
+                out_path=os.path.join(folder_out,dcm.PatientsName,str(dcm.StudyDate)+'_'+str(dcm.StudyID),str(dcm.SeriesNumber)+'_'+str(dcm.ConvolutionKernel))
                 shutil.copy(os.path.join(pathfold,file_name),out_path+'/')
                 i+=1
                 os.system('clear')

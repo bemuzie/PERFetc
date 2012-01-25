@@ -15,11 +15,11 @@ def gauss_kernel(size,sigma):
         kern[i]= np.exp(-0.5*(euclid/sigma)*(euclid/sigma))
     kern=kern[:,:,:,None]
     return kern
-def TimeProfile_cl(x,y,sigma):
+def TimeProfile_cl(x,lenx,y,sigma):
     """Time profile clousness function. x and y should have shape= (1,1,1,len(time))"""
     diff=x-y
-    SSD=np.sum(diff*diff,axis=-1)/len(x)
-    kern=np.exp(-0.5*(SSD/sigma)*(SSD/sigma))
+    SSD=np.sum(diff*diff,axis=-1)/lenx
+    kern=np.exp(-0.5*(SSD/sigma)*(SSD/sigma))/lenx
     kern=kern[:,:,:,None]
     return kern
 
@@ -29,6 +29,7 @@ def convolve4d(img,size,sigG,sigT):
     """
     est=np.prod(np.asarray(np.shape(img[:,:,:,0]))-size+1)
     made=0
+    print 'во время фильтрации будет осуществлено', est, 'циклов'
     sigG=float(sigG)
     sigT=float(sigT)
 
@@ -39,11 +40,12 @@ def convolve4d(img,size,sigG,sigT):
     size_half=int(size)/2
     #Calculating Gaussian closeness function
     GausKern=gauss_kernel(size,sigG)
-    #
+    print GausKern
     out=np.zeros((np.shape(img)))
     #making iterator which don't contain borders
     it = np.nditer (img[size_half:-size_half,size_half:-size_half,size_half:-size_half,0], flags=['c_index','multi_index'   ])
     summing = np.sum
+    lenX=np.shape(img[0,0,0])
     while not it.finished:
 
         #determing cordinates of central pixel
@@ -52,7 +54,7 @@ def convolve4d(img,size,sigG,sigT):
         #Taking kernel of a volume
         kernel = img[x:x+size,y:y+size,z:z+size]
         #Calculating Time profile closeness function
-        tp=TimeProfile_cl(img[center],kernel,sigT)
+        tp=TimeProfile_cl(img[center],lenX,kernel,sigT)
         #print kernel.shape,GausKern.shape,tp.shape
         coef=tp*GausKern
         out[center]=summing(summing(summing(  coef*kernel,axis=0  ),axis=0),axis=0)/summing(coef)
