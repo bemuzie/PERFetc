@@ -13,21 +13,21 @@ def gauss_kernel(size,sigma):
         differ=np.array(i)-np.array([size/2,size/2,size/2])
         euclid=np.sqrt(np.sum(differ*differ))
         kern[i]= np.exp(-0.5*(euclid/sigma)*(euclid/sigma))
-    kern=kern[:,:,:,None]
+    kern=kern[...,None]
     return kern
 def TimeProfile_cl(x,lenx,y,sigma):
     """Time profile clousness function. x and y should have shape= (1,1,1,len(time))"""
     diff=x-y
     SSD=np.sum(diff*diff,axis=-1)/lenx
     kern=np.exp(-0.5*(SSD/sigma)*(SSD/sigma))/lenx
-    kern=kern[:,:,:,None]
+    kern=kern[...,None]
     return kern
 
 def convolve4d(img,size,sigG,sigT):
     """Convolve 4d array with symmetric 4d kernel with size "dim_c" through all temporal axis.
     kernel should be odd
     """
-    est=np.prod(np.asarray(np.shape(img[:,:,:,0]))-size+1)
+    est=np.prod(np.asarray(np.shape(img[...,0]))-size+1)
     made=0
     print 'во время фильтрации будет осуществлено', est, 'циклов'
     sigG=float(sigG)
@@ -63,3 +63,6 @@ def convolve4d(img,size,sigG,sigT):
 #        print made,'из',est
         it.iternext()
     return out
+
+def noisefnc(data):
+        return np.std(data,axis=3)
