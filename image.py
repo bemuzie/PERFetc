@@ -11,10 +11,10 @@ def loadnii(folder,name):
     img = nib.load(os.path.join(folder,name))
     data = img.get_data()
     hdr = img.get_header()
-    return data , hdr
-def savenii(data,hdr,folder):
-    print data.ndim
-    nib.nifti1.save(nib.Nifti1Image(data, np.eye(4),hdr),folder)
+    affinemrx = hdr.get_sform()
+    return data , hdr, affinemrx
+def savenii(data,matrix,folder):
+    nib.nifti1.save(nib.Nifti1Image(data, matrix),folder)
 def crop(data,xc,yc,zc,size=30):
     data = data[xc-size:xc+size,yc-size:yc+size,zc-size:zc+size]# crop data
     return data
