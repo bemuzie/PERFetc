@@ -79,7 +79,7 @@ def fitcurve(data,time,initial=[],type='lgnorm'):
         b=np.min(data)
         area=np.trapz(data-b,time)
         try:
-            popt,pcov=curve_fit(logn,time,data,p0=(area,4,0.6,1,10))
+            popt,pcov=curve_fit(logn,time,data,p0=(area,4,0.6,9,5))
         except RuntimeError:
             popt=[area,4,0.6,1,b]
             print('error')

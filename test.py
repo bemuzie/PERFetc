@@ -24,7 +24,7 @@ y_f=curves.logn(x,popt[0],popt[1],popt[2],popt[3],popt[4])
 y_f_t=curves.logn(x_t,popt[0],popt[1],popt[2],popt[3],popt[4])
 
 plt.plot(x,y_n,'o',x,y_f,'--r',x,y_in,'-o',x_t,y_f_t,'r')
-print (timeit('curves.fitcurve(y_n,x,initial=initial)', 'from __main__ import *', number = 100))
+#print (timeit('curves.fitcurve(y_n,x,initial=initial)', 'from __main__ import *', number = 100))
 #print (timeit('curves.fitcurve(y_n,x)', 'from __main__ import *', number = 100))
 #print (timeit('curve_fit(curves.gammapdf,x[:11],y_n[:11],p0=[initial])', 'from __main__ import *', number = 100))
 plt.show()
