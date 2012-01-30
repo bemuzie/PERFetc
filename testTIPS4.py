@@ -6,12 +6,12 @@ import os
 import nibabel as nib
 from timeit import timeit
 
-filelist=os.listdir("/mnt/data/_PERF/YAVNIK/NifTi4d")
-adress='/mnt/data/_PERF/YAVNIK/NifTi4d'
-adress_out='/mnt/data/_PERF/YAVNIK/filtered/'
+filelist=os.listdir("/media/63A0113C6D30EAE8/_PERF/DZEVANOVSKII S.YU. 30.12.1947/Nifti4d/")
+adress='/media/63A0113C6D30EAE8/_PERF/DZEVANOVSKII S.YU. 30.12.1947/Nifti4d/'
+adress_out='/media/63A0113C6D30EAE8/_PERF/DZEVANOVSKII S.YU. 30.12.1947/filtered/'
 fileexct='GeneralBodyPerfusionDZEVANOVSKIISI30121947_3_FC17_QDS.nii'
-croppart=8
-for file in filelist[1:2]:
+croppart=4
+for file in filelist[:]:
     print file
     img,hdr, mrx=image.loadnii(adress,file)
     shp=np.shape(img)
@@ -23,13 +23,13 @@ for file in filelist[1:2]:
     sigmaG=''
     sigmaT=''
 
-    a=[400,700,1500]
+    a=[900]
     for i in a:
         size=9
         sigmaG=1.5
         sigmaT=i
 
-        tips=tips4.convolve4d(img,size,sigmaG,sigmaT)
+        tips=filters.tips4d(img,size,sigmaG,sigmaT)
 
 #    tips=filters.std(img,13)
     image.savenii(tips,mrx,adress_out+'%s_%s_%s_%s_crp%s.nii'%(file[:-4],size,sigmaG,sigmaT,croppart))
