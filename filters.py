@@ -81,22 +81,21 @@ def bilateralFunc(data,sigISqrDouble,GausKern,ksize=None,center=None):
     """ kernel should be  """
 
     diff=data[center]-data
-    IclsKern=np.exp(-(diff*diff)/sigISqrDouble)/ksize
+    IclsKern=np.exp(-(diff*diff)/sigISqrDouble)
     return np.sum(data*IclsKern*GausKern)/np.sum(IclsKern*GausKern)
 
 def bilateralFilter(img,size,sigG,sigI):
-    """ Bilateral exponential filter.
+    """ 4d Bilateral exponential filter.
     image array, kernel size, distance SD, intensity SD
     """
-    img_filtered=np.ones(np.shape(img))
-    g_kernel=gauss_kernel(size,sigG)
-    ksize=np.power(size,3)
-    center=ksize/2+1
 
+    ksize=np.power(size,3)
+    center=ksize/2
     sigISqrDouble=float(sigI)*float(sigI)*2
-    GausKern=gauss_kernel(size,sigG)
+
+    GausKern=np.ravel(gauss_kernel(size,sigG))
 
     #Closness function
-
-    ndimage.generic_filter(img,bilateralFunc,size=[size,size,size,1],)
+    kwargs=dict(sigISqrDouble=sigISqrDouble,GausKern=GausKern,ksize=ksize,center=center)
+    img_filtered=ndimage.generic_filter(img,bilateralFunc,size=[size,size,size,1],extra_keywords=kwargs)
     return img_filtered
