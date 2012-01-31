@@ -28,10 +28,7 @@ def gauss_kernel(size,sigma):
         euclid=np.sqrt(np.sum(differ*differ))
         kern[i]= np.exp(-0.5*(euclid/sigma)*(euclid/sigma))
     return kern
-def TimeProfile_cl(x,tAxisLength,y,sigTSqrDouble):
-    """Time profile clousness function. x and y should have shape= (1,1,1,len(time))"""
 
-    return kern
 
 def tips4d(img,size,sigG,sigT):
 
@@ -79,10 +76,27 @@ def tips4d(img,size,sigG,sigT):
 
         it.iternext()
     return out
+# Bilateral filter
+def bilateralFunc(data,sigISqrDouble,GausKern,ksize=None,center=None):
+    """ kernel should be  """
 
-def bilateral(img,size,sigG,sigI):
+    diff=data[center]-data
+    IclsKern=np.exp(-(diff*diff)/sigISqrDouble)/ksize
+    return np.sum(data*IclsKern*GausKern)/np.sum(IclsKern*GausKern)
+
+def bilateralFilter(img,size,sigG,sigI):
+    """ Bilateral exponential filter.
+    image array, kernel size, distance SD, intensity SD
+    """
     img_filtered=np.ones(np.shape(img))
     g_kernel=gauss_kernel(size,sigG)
+    ksize=np.power(size,3)
+    center=ksize/2+1
 
-    ndimage.generic_filter(img,bilateralF,size=[size,size,size,1])
+    sigISqrDouble=float(sigI)*float(sigI)*2
+    GausKern=gauss_kernel(size,sigG)
+
+    #Closness function
+
+    ndimage.generic_filter(img,bilateralFunc,size=[size,size,size,1],)
     return img_filtered
