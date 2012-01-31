@@ -77,25 +77,64 @@ def tips4d(img,size,sigG,sigT):
         it.iternext()
     return out
 # Bilateral filter
-def bilateralFunc(data,sigISqrDouble,GausKern,ksize=None,center=None):
+def bilateralFunc(data,sigISqrDouble,GausKern,center=None):
     """ kernel should be  """
 
     diff=data[center]-data
-    IclsKern=np.exp(-(diff*diff)/sigISqrDouble)
-    return np.sum(data*IclsKern*GausKern)/np.sum(IclsKern*GausKern)
+    IclsKern=np.exp(-diff*diff/sigISqrDouble)
+    coef=IclsKern*GausKern
+    a = np.sum(data*coef)/np.sum(coef)
+    return a
 
 def bilateralFilter(img,size,sigG,sigI):
     """ 4d Bilateral exponential filter.
     image array, kernel size, distance SD, intensity SD
     """
-
+    #img=np.array(img,dtype=float)
     ksize=np.power(size,3)
     center=ksize/2
-    sigISqrDouble=float(sigI)*float(sigI)*2
+    sigISqrDouble=sigI*sigI*2
+    sigISqrDouble=float(sigISqrDouble)
 
     GausKern=np.ravel(gauss_kernel(size,sigG))
 
     #Closness function
-    kwargs=dict(sigISqrDouble=sigISqrDouble,GausKern=GausKern,ksize=ksize,center=center)
+    kwargs=dict(sigISqrDouble=sigISqrDouble,GausKern=GausKern,center=center)
     img_filtered=ndimage.generic_filter(img,bilateralFunc,size=[size,size,size,1],extra_keywords=kwargs)
+    return img_filtered
+
+def bilateralFilter_t(img,size,sigG,sigI):
+    """ 4d Bilateral exponential filter.
+    image array, kernel size, distance SD, intensity SD
+    """
+    #img=np.array(img,dtype=float)
+
+
+    #if kernel size even break it
+    if size%2 == 0:
+        raise NameError('kernel should have odd size!!!')
+
+    sigG=float(sigG)
+    #Calculating 2*sigT**2 out from loop to increase optimize Time closness calculations
+    sigISqrDouble=sigI*sigI*2
+    sigISqrDouble=float(sigISqrDouble)
+    GausKern=gauss_kernel(size,sigG)
+
+    #Calculating Gaussian kernel
+    img_filtered=np.zeros((np.shape(img)))
+    size_half=int(size)/2
+    #making iterator which don't contain borders
+
+    shp=np.shape(img[size:,size:,size:])
+
+    for i in np.ndindex(shp):
+        x,y,z,t =i
+        #determing cordinates of central pixel
+        kernel=img[x:x+size,y:y+size,z:z+size,t]
+        #Calculating Time profile closeness function.
+
+        img_filtered[x+size_half,y+size_half,z+size_half,t]=bilateralFunc(kernel,sigISqrDouble,GausKern,(1,1,1))
+        #print kernel.shape,GausKern.shape,tp.shape
+        #coef=coef[...,None]
+
     return img_filtered

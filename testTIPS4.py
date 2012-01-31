@@ -6,11 +6,11 @@ import os
 import nibabel as nib
 from timeit import timeit
 
-filelist=os.listdir("/media/63A0113C6D30EAE8/_PERF/DZEVANOVSKII S.YU. 30.12.1947/Nifti4d/")
-adress='/media/63A0113C6D30EAE8/_PERF/DZEVANOVSKII S.YU. 30.12.1947/Nifti4d/'
-adress_out='/media/63A0113C6D30EAE8/_PERF/DZEVANOVSKII S.YU. 30.12.1947/filtered/'
+filelist=os.listdir("/media/data/_PERF/YAVNIK_GA/Nifti4d/")
+adress='/media/data/_PERF/YAVNIK_GA/Nifti4d/'
+adress_out='/media/data/_PERF/YAVNIK_GA/filtered/'
 fileexct='GeneralBodyPerfusionDZEVANOVSKIISI30121947_3_FC17_QDS.nii'
-croppart=4
+croppart=8
 for file in filelist[:]:
     print file
     img,hdr, mrx=image.loadnii(adress,file)
@@ -23,7 +23,7 @@ for file in filelist[:]:
     sigmaG=''
     sigmaT=''
 
-    a=[900]
+    a=[90]
     for i in a:
         size=9
         sigmaG=1.5

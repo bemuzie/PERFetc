@@ -14,8 +14,8 @@ def func(data):
     print
     return data[center]
 
+sh=40
+a=np.arange(sh*sh*sh*17).reshape(sh,sh,sh,17)
 
-a=np.arange(200*200*200*10).reshape(200,200,200,10)
-print type(a)
 
-b=filters.bilateralFilter(a,3,2,2)
+print (timeit("filters.bilateralFilter_t(a,5,2,2)", 'from __main__ import *', number = 1))
