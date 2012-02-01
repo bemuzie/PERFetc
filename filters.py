@@ -76,7 +76,55 @@ def tips4d(img,size,sigG,sigT):
 
         it.iternext()
     return out
-# Bilateral filter
+
+def TimeProfile_cl(data,sigTSqrDouble,GausKern,center,lenT):
+    """Time profile clousness function. x and y should have shape= (1,1,1,len(time))"""
+
+    diff=data[center]-data
+    SSD=np.sum(diff*diff,axis=-1)/lenT
+    TclsKern=np.exp(-SSD*SSD/sigTSqrDouble)
+    print TclsKern[3,3],sigTSqrDouble,'ssd',SSD[3,3]
+    coeff=TclsKern*GausKern
+    coeff=coeff[...,None]
+    data_filtered=np.sum(np.sum(np.sum(data*coeff,0),0),0)/np.sum(coeff)
+
+    return data_filtered
+def tips4d_m(img,size,sigG,sigT):
+
+    """
+    TIPS filter described in "TIPS bilateral noise reduction
+    in 4D CT perfusion scans produces high-quality cerebral blood flow maps"
+    Convolve 4d array with 3d symmetric kernel through all temporal axis.
+    kernel should be odd
+    """
+    #if kernel size even break it
+    if size%2 == 0:
+        raise NameError('kernel should have odd size!!!')
+
+    est=np.prod(np.asarray(np.shape(img[...,0]))-size+1)
+    made=0
+    print 'во время фильтрации будет осуществлено', est, 'циклов'
+    sigG=float(sigG)
+    #Calculating 2*sigT**2 out from loop to increase optimize Time closness calculations
+    sigTSqrDouble=float(sigT)*float(sigT)*2
+
+    size_half=int(size)/2
+    #Calculating Gaussian kernel
+    GausKern=gauss_kernel(size,sigG)
+    sigTSqrDouble=sigT*sigT*2
+    sigTSqrDouble=float(sigTSqrDouble)
+    center=(size_half,size_half,size_half)
+    lenT=np.shape(img[0,0,0])
+
+    img_filtered=np.zeros((np.shape(img)))
+    #making iterator which don't contain borders
+    img_shp=np.shape(img[size:,size:,size:,0])
+
+    for x,y,z in np.ndindex(img_shp):
+        kernel=img[x:x+size,y:y+size,z:z+size]
+        img_filtered[x+size_half,y+size_half,z+size_half]=TimeProfile_cl(kernel,sigTSqrDouble,GausKern,center,lenT)
+
+    return img_filtered
 def bilateralFunc(data,sigISqrDouble,GausKern,center=None):
     """ kernel should be  """
 
