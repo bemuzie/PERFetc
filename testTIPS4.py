@@ -10,7 +10,7 @@ adress="/media/63A0113C6D30EAE8/_PERF/SZHANIKOV  O.M. 19.01.1947/4dNifTi/"
 filelist=os.listdir(adress)
 adress_out='/media/63A0113C6D30EAE8/_PERF/SZHANIKOV  O.M. 19.01.1947/filtered/'
 fileexct='GeneralBodyPerfusionDZEVANOVSKIISI30121947_3_FC17_QDS.nii'
-croppart=4
+croppart=8
 for file in filelist[:1]:
     print file
     img,hdr, mrx=image.loadnii(adress,file)

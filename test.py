@@ -9,13 +9,29 @@ import filters
 
 
 def func(data):
-    for j in np.arange(3,3*3*3+3,3):
-        print 'с ',j-3,'до',j, data[j-3:j]
-    print
-    return data[center]
+    b=np.array([])
+    shp=np.shape(data[...,0])
+    for i in np.ndindex(shp):
+        b=np.append(b,data[i])
 
-sh=40
-a=np.arange(sh*sh*sh*17).reshape(sh,sh,sh,17)
+    print 'reshape'
+    b=np.reshape(b,np.shape(data))
+    print b==data
+
+def func2(data):
+    shp=np.shape(data)
+    b=np.ones(shp)
+    shp=np.shape(data[...,0])
+    for i in np.ndindex(shp):
+        b[i]=data[i]
+
+    print b==data
+
+sh=100
+
+a=np.random.normal(50,20,size=sh*sh*sh*17).reshape(sh,sh,sh,17)
 
 
-print (timeit("filters.bilateralFilter_t(a,5,2,2)", 'from __main__ import *', number = 1))
+
+print (timeit("filters.tips4d(a,5,2,2)", 'from __main__ import *', number = 1))
+#print (timeit("func2(a)", 'from __main__ import *', number = 1))

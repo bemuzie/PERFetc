@@ -52,7 +52,6 @@ def tips4d(img,size,sigG,sigT):
     size_half=int(size)/2
     #Calculating Gaussian kernel
     GausKern=gauss_kernel(size,sigG)
-    print GausKern
     out=np.zeros((np.shape(img)))
     #making iterator which don't contain borders
     it = np.nditer (img[size_half:-size_half,size_half:-size_half,size_half:-size_half,0], flags=['c_index','multi_index'   ])
@@ -67,7 +66,7 @@ def tips4d(img,size,sigG,sigT):
         #Calculating Time profile closeness function.
         diff=img[center]-kernel
         SSD=np.sum(diff*diff,axis=-1)/tAxisLength
-        tp=np.exp(-(SSD*SSD)/sigTSqrDouble)/tAxisLength
+        tp=np.exp(-SSD*SSD/sigTSqrDouble)/tAxisLength
 
         #print kernel.shape,GausKern.shape,tp.shape
         coef=tp*GausKern
@@ -79,14 +78,13 @@ def tips4d(img,size,sigG,sigT):
 
 def TimeProfile_cl(data,sigTSqrDouble,GausKern,center,lenT):
     """Time profile clousness function. x and y should have shape= (1,1,1,len(time))"""
-
+    summ=np.sum
     diff=data[center]-data
-    SSD=np.sum(diff*diff,axis=-1)/lenT
-    TclsKern=np.exp(-SSD*SSD/sigTSqrDouble)
-    print TclsKern[3,3],sigTSqrDouble,'ssd',SSD[3,3]
+    SSD=summ(diff*diff,axis=-1)/lenT
+    TclsKern=np.exp(-SSD*SSD/sigTSqrDouble)/lenT
     coeff=TclsKern*GausKern
     coeff=coeff[...,None]
-    data_filtered=np.sum(np.sum(np.sum(data*coeff,0),0),0)/np.sum(coeff)
+    data_filtered=summ(summ(summ(data*coeff,0),0),0)/summ(coeff)
 
     return data_filtered
 def tips4d_m(img,size,sigG,sigT):
@@ -106,8 +104,6 @@ def tips4d_m(img,size,sigG,sigT):
     print 'во время фильтрации будет осуществлено', est, 'циклов'
     sigG=float(sigG)
     #Calculating 2*sigT**2 out from loop to increase optimize Time closness calculations
-    sigTSqrDouble=float(sigT)*float(sigT)*2
-
     size_half=int(size)/2
     #Calculating Gaussian kernel
     GausKern=gauss_kernel(size,sigG)
@@ -116,13 +112,24 @@ def tips4d_m(img,size,sigG,sigT):
     center=(size_half,size_half,size_half)
     lenT=np.shape(img[0,0,0])
 
-    img_filtered=np.zeros((np.shape(img)))
+    img_filtered=np.zeros(np.shape(img))
     #making iterator which don't contain borders
     img_shp=np.shape(img[size:,size:,size:,0])
 
+    summ=np.sum
     for x,y,z in np.ndindex(img_shp):
         kernel=img[x:x+size,y:y+size,z:z+size]
-        img_filtered[x+size_half,y+size_half,z+size_half]=TimeProfile_cl(kernel,sigTSqrDouble,GausKern,center,lenT)
+
+
+        diff=kernel[center]-kernel
+        SSD=summ(diff*diff,axis=-1)/lenT
+        TclsKern=np.exp(-SSD*SSD/sigTSqrDouble)/lenT
+        coeff=TclsKern*GausKern
+        coeff=coeff[...,None]
+        img_filtered[x+size_half,y+size_half,z+size_half]=summ(summ(summ(kernel*coeff,0),0),0)/summ(coeff)
+
+
+        #img_filtered[x+size_half,y+size_half,z+size_half]=TimeProfile_cl(kernel,sigTSqrDouble,GausKern,center,lenT)
 
     return img_filtered
 def bilateralFunc(data,sigISqrDouble,GausKern,center=None):
