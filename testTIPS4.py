@@ -15,22 +15,23 @@ for file in filelist[:]:
     print file
     img,hdr, mrx=image.loadnii(adress,file)
     shp=np.shape(img)
-    img=image.crop(img,-30+shp[0]/2,30+shp[1]/2,shp[2]/2,shp[2]/croppart)
+
+    img=image.crop(img,-30+shp[0]/2,100+shp[1]/2,shp[2]/2,shp[2]/croppart)
 #img=np.arange(50*50*40*17).reshape(50,50,40,17)
-    print np.shape(img)
+    print np.shape(img),shp
     tips=img
     size='crop'
     sigmaG=''
     sigmaT=''
 
-    a=[90]
+    a=[50,80,120,150,200]
     for i in a:
-        size=9
+        size=7
         sigmaG=1.5
         sigmaT=i
 
-        tips=filters.tips4d(img,size,sigmaG,sigmaT)
+        tips=filters.bilateralFilter(img,size,sigmaG,sigmaT)
 
 #    tips=filters.std(img,13)
-    image.savenii(tips,mrx,adress_out+'%s_%s_%s_%s_crp%s.nii'%(file[:-4],size,sigmaG,sigmaT,croppart))
+    image.savenii(tips,mrx,adress_out+'%s_%s_%s_%s_crp%s_bilrl.nii'%(file[:-4],size,sigmaG,sigmaT,croppart))
 #print (timeit('tips4.convolve4d(img,13,3,100)', 'from __main__ import *', number = 10))
