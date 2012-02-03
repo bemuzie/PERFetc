@@ -1,6 +1,6 @@
 __author__ = 'ct'
 import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
+import matplotlib
 import numpy as np
 import image
 import os
@@ -22,58 +22,74 @@ img=np.rot90(img)
 
 
 
-
 """
 img=np.rot90(img,3)
 img=np.swapaxes(img,2,0)
 """
-ctr=[55,129,70,9]
+ctr=[100,129,70,9]
 RoiSize=20/2
 Time,TimeC=curves.samplet()
+
+roi=np.zeros(np.shape(img),dtype='bool')
+roi=np.rot90(roi)
+
+roi[ctr[0]-RoiSize:ctr[0]+RoiSize,ctr[1]-RoiSize:ctr[1]+RoiSize,ctr[2]-RoiSize:ctr[2]+RoiSize]=True
+ImRoi=np.ma.array(img,mask=roi)
 
 bins=100
 low=-200
 high=300
 
-
-sliceA=img[...,ctr[2],ctr[3]]
-sliceS=np.swapaxes(img[:,ctr[1],:,ctr[3]],0,1)
-sliceC=np.swapaxes(img[ctr[0],:,:,ctr[3]],0,1)
-
-roi=np.zeros(np.shape(img),dtype='bool')
-roi[ctr[0]-RoiSize:ctr[0]+RoiSize,ctr[1]-RoiSize:ctr[1]+RoiSize,ctr[2]-RoiSize:ctr[2]+RoiSize]=True
-roiA=roi[...,ctr[2],ctr[3]]
-roiS=np.swapaxes(roi[:,ctr[1],:,ctr[3]],0,1)
-roiC=np.swapaxes(roi[ctr[0],:,:,ctr[3]],0,1)
-ImRoi=img[ctr[0]-RoiSize:ctr[0]+RoiSize,ctr[1]-RoiSize:ctr[1]+RoiSize,ctr[2]-RoiSize:ctr[2]+RoiSize]
-
-hist=scipy.stats.histogram(sliceA,bins,(low,high))
 TAcurve=np.apply_over_axes(np.average,ImRoi,[0,1,2])
 TAcurveSD=np.apply_over_axes(np.std,ImRoi,[0,1,2])
+
+sliceA=img[...,ctr[2],ctr[3]]
+sliceS=img[:,ctr[1],:,ctr[3]]
+sliceC=img[ctr[0],:,:,ctr[3]]
+
+sliceS=np.rot90(sliceS,3)
+sliceC=np.rot90(sliceC,3)
+
+roiA=roi[...,ctr[2],ctr[3]]
+roiS=roi[:,ctr[1],:,ctr[3]]
+roiC=roi[ctr[0],:,:,ctr[3]]
+
+roiS=np.rot90(roiS,3)
+roiC=np.rot90(roiC,3)
+
+hist=scipy.stats.histogram(sliceA,bins,(low,high))
+
+
 print np.shape(TAcurve[0,0,0])
 
-fig=plt.figure(figsize=(10,10))
-adj=plt.subplots_adjust(hspace=0.05,wspace=0.05)
 
-sp1=fig.add_subplot(3,2,(1,5))
+
+#Potting
+fig=plt.figure(figsize=(18,10))
+
+adj=plt.subplots_adjust(hspace=0.05,wspace=0.05)
+gs=matplotlib.gridspec.GridSpec(2,3,width_ratios=[1,2],height_ratios=[2,1,1])
+
+sp1=plt.subplot(gs)
 #sp1.vlines(np.linspace(low,high,bins),0,hist[0],color='k', linestyles='solid',linewidth=2)
 sp1.errorbar(Time,TAcurve[0,0,0],yerr=TAcurveSD[0,0,0],fmt='-or')
 
-sp2=fig.add_subplot(322)
-sp2.set_axis_off()
-sp2.imshow(sliceA,cmap='gray',clim=(-200,300))
-sp2.contour(roiA,[0],colors='r',alpha=0.8)
+
+spA=fig.add_subplot(322)
+spA.set_axis_off()
+spA.imshow(sliceA,cmap='gray',clim=(-200,300),origin='image', extent=(7,0,7,0))
+spA.contour(roiA,[0],colors='r',alpha=0.8,extent=(7,0,7,0))
 #sp2.contourf(sliceA,[300,2000],colors='b',alpha=0.8)
 
-sp4=fig.add_subplot(324)
-sp4.set_axis_off()
-sp4.imshow(sliceS,cmap='gray',clim=(-200,300),origin='centre',extent=(70,0,50,0),interpolation='quadric')
-sp4.contour(roiS,[0],colors='r',alpha=0.8,extent=(0,70,0,50))
+spS=fig.add_subplot(324)
+spS.set_axis_off()
+spS.imshow(sliceS,cmap='gray',clim=(-200,300),origin='centre',extent=(7,0,5,0),interpolation='quadric')
+spS.contour(roiS,[0],colors='r',alpha=0.8,extent=(7,0,5,0))
 
-sp5=fig.add_subplot(326)
-sp5.set_axis_off()
-sp5.imshow(sliceC,cmap='gray',clim=(-200,300),origin='centre',extent=(7,0,5,0), interpolation='quadric')
-sp5.contour(roiC,[0],colors='r',alpha=0.8,extent=(0,7,0,5))
+spC=fig.add_subplot(326)
+spC.set_axis_off()
+spC.imshow(sliceC,cmap='gray',clim=(-200,300),origin='bottom',extent=(7,0,5,0), interpolation='quadric')
+spC.contour(roiC,[0],colors='r',alpha=0.8,extent=(7,0,5,0))
 #imgplot=plt.imshow(slice)
 #plt.hist(slice,251,range=(-200,300),fc='k', ec='k')
 #imgplot.set_clim=(0.0,1)

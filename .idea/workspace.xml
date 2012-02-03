@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ca7396ea-78df-4e98-901e-a045ad143151" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/plotExper" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CopyFiles.py" afterPath="$PROJECT_DIR$/CopyFiles.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ploting.py" afterPath="$PROJECT_DIR$/ploting.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/testTIPS4.py" afterPath="$PROJECT_DIR$/testTIPS4.py" />
     </list>
     <ignored path="FlowPy.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,10 +28,70 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
+      <file leaf-file-name="testTIPS4.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/testTIPS4.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="25" column="9" selection-start="648" selection-end="648" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#18#36#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ploting.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/ploting.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="72" column="18" selection-start="1394" selection-end="1394" vertical-scroll-proportion="0.42211056">
+              <folding>
+                <element signature="e#18#49#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="plotExper" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/plotExper">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="13" column="19" selection-start="256" selection-end="256" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CopyFiles.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CopyFiles.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="9" column="43" selection-start="363" selection-end="363" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="filters.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/filters.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="147" column="34" selection-start="5016" selection-end="5016" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="image.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/image.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="73" column="0" selection-start="2674" selection-end="2674" vertical-scroll-proportion="0.0">
+            <state line="35" column="52" selection-start="1120" selection-end="1120" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="vitrea" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vitrea">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="10" column="42" selection-start="190" selection-end="194" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -37,78 +100,8 @@
       <file leaf-file-name="test.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="29" selection-start="653" selection-end="653" vertical-scroll-proportion="0.0">
+            <state line="12" column="9" selection-start="232" selection-end="232" vertical-scroll-proportion="0.0">
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tips4.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tips4.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="28" selection-start="600" selection-end="600" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="testTIPS4.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/testTIPS4.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="0" selection-start="130" selection-end="574" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="plots.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/plots.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="0" selection-start="40" selection-end="71" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ploting.py" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/ploting.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="70" column="54" selection-start="1901" selection-end="1901" vertical-scroll-proportion="1.5276382">
-              <folding>
-                <element signature="e#18#49#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="filters.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/filters.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="114" column="38" selection-start="3947" selection-end="3947" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="curves.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/curves.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="53" column="0" selection-start="1344" selection-end="1344" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#246#398#1" expanded="false" />
-                <element signature="e#246#556#0" expanded="false" />
-                <element signature="e#585#721#1" expanded="false" />
-                <element signature="e#585#892#0" expanded="false" />
-                <element signature="e#932#1084#1" expanded="false" />
-                <element signature="e#932#1200#0" expanded="false" />
-                <element signature="e#1249#1342#0" expanded="false" />
-                <element signature="e#1887#1917#0" expanded="false" />
-                <element signature="e#1973#2520#0" expanded="false" />
-                <element signature="e#2568#2773#0" expanded="false" />
-                <element signature="e#2798#2830#0" expanded="false" />
-                <element signature="e#2889#4016#0" expanded="false" />
-                <element signature="e#4047#4947#0" expanded="false" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -151,10 +144,12 @@
         <option value="$PROJECT_DIR$/image.py" />
         <option value="$PROJECT_DIR$/curves.py" />
         <option value="$PROJECT_DIR$/plots.py" />
-        <option value="$PROJECT_DIR$/CopyFiles.py" />
-        <option value="$PROJECT_DIR$/testTIPS4.py" />
         <option value="$PROJECT_DIR$/filters.py" />
         <option value="$PROJECT_DIR$/test.py" />
+        <option value="$PROJECT_DIR$/CopyFiles.py" />
+        <option value="$PROJECT_DIR$/vitrea" />
+        <option value="$PROJECT_DIR$/testTIPS4.py" />
+        <option value="$PROJECT_DIR$/plotExper" />
         <option value="$PROJECT_DIR$/ploting.py" />
       </list>
     </option>
@@ -214,6 +209,10 @@
         <subPane subId="All">
           <PATH>
             <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="PERFetc">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
@@ -448,7 +447,25 @@
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
-    <list size="8">
+    <configuration default="false" name="plotExper" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <module name="FlowPy" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/plotExper" />
+      <option name="PARAMETERS" value="" />
+      <option name="MULTIPROCESS" value="false" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <list size="9">
       <item index="0" class="java.lang.String" itemvalue="Python.test2" />
       <item index="1" class="java.lang.String" itemvalue="Python.tips4" />
       <item index="2" class="java.lang.String" itemvalue="Python.testTIPS4" />
@@ -457,6 +474,7 @@
       <item index="5" class="java.lang.String" itemvalue="Python.curves" />
       <item index="6" class="java.lang.String" itemvalue="Python.plots" />
       <item index="7" class="java.lang.String" itemvalue="Python.ploting" />
+      <item index="8" class="java.lang.String" itemvalue="Python.plotExper" />
     </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
@@ -504,11 +522,11 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32910156" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34974873" sideWeight="0.3120915" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33507854" sideWeight="0.6328125" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34554973" sideWeight="0.6328125" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3671875" sideWeight="0.073952876" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3671875" sideWeight="0.921466" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3671875" sideWeight="0.04450262" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3671875" sideWeight="0.95091623" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20117188" sideWeight="0.4973822" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -554,7 +572,7 @@
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
     <option name="CREATE_PATCH_EXPAND_DETAILS_DEFAULT" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="modifing TIPS" />
+    <option name="LAST_COMMIT_MESSAGE" value="add plotting feature with mpr images and time/attenuation curve" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -575,6 +593,7 @@
     <MESSAGE value="SD across time added" />
     <MESSAGE value="adding bilateral filter" />
     <MESSAGE value="modifing TIPS" />
+    <MESSAGE value="add plotting feature with mpr images and time/attenuation curve" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -590,29 +609,9 @@
         <state line="1137" column="54" selection-start="39891" selection-end="39908" vertical-scroll-proportion="0.7867299" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CopyFiles.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="28" selection-start="106" selection-end="106" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/image.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="0" selection-start="2674" selection-end="2674" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="29" selection-start="653" selection-end="653" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tips4.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="17" column="28" selection-start="600" selection-end="600" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/testTIPS4.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="0" selection-start="130" selection-end="574" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/plots.py">
@@ -620,9 +619,9 @@
         <state line="2" column="0" selection-start="40" selection-end="71" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/filters.py">
+    <entry file="file://$PROJECT_DIR$/curves.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="114" column="38" selection-start="3947" selection-end="3947" vertical-scroll-proportion="0.0" />
+        <state line="53" column="0" selection-start="1344" selection-end="1344" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MaxSlopePerfusion.py">
@@ -635,30 +634,58 @@
         <state line="17" column="14" selection-start="370" selection-end="370" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/curves.py">
+    <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="0" selection-start="1344" selection-end="1344" vertical-scroll-proportion="0.0">
+        <state line="12" column="9" selection-start="232" selection-end="232" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CopyFiles.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="43" selection-start="363" selection-end="363" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="52" selection-start="1120" selection-end="1120" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/filters.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="147" column="34" selection-start="5016" selection-end="5016" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testTIPS4.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="9" selection-start="648" selection-end="648" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#246#398#1" expanded="false" />
-            <element signature="e#246#556#0" expanded="false" />
-            <element signature="e#585#721#1" expanded="false" />
-            <element signature="e#585#892#0" expanded="false" />
-            <element signature="e#932#1084#1" expanded="false" />
-            <element signature="e#932#1200#0" expanded="false" />
-            <element signature="e#1249#1342#0" expanded="false" />
-            <element signature="e#1887#1917#0" expanded="false" />
-            <element signature="e#1973#2520#0" expanded="false" />
-            <element signature="e#2568#2773#0" expanded="false" />
-            <element signature="e#2798#2830#0" expanded="false" />
-            <element signature="e#2889#4016#0" expanded="false" />
-            <element signature="e#4047#4947#0" expanded="false" />
+            <element signature="e#18#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vitrea">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="42" selection-start="190" selection-end="194" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/plotExper">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="19" selection-start="256" selection-end="256" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ploting.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="70" column="54" selection-start="1901" selection-end="1901" vertical-scroll-proportion="1.5276382">
+        <state line="72" column="18" selection-start="1394" selection-end="1394" vertical-scroll-proportion="0.42211056">
           <folding>
             <element signature="e#18#49#0" expanded="true" />
           </folding>

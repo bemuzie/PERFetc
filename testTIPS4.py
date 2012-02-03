@@ -6,17 +6,16 @@ import os
 import nibabel as nib
 from timeit import timeit
 
-adress="/media/63A0113C6D30EAE8/_PERF/SZHANIKOV  O.M. 19.01.1947/4dNifTi/"
+adress="/media/63A0113C6D30EAE8/_PERF/CHUPROVA N.E. 13.10.1948/Nifti4d"
 filelist=os.listdir(adress)
-adress_out='/media/63A0113C6D30EAE8/_PERF/SZHANIKOV  O.M. 19.01.1947/filtered/'
-fileexct='GeneralBodyPerfusionDZEVANOVSKIISI30121947_3_FC17_QDS.nii'
+adress_out='/media/63A0113C6D30EAE8/_PERF/CHUPROVA N.E. 13.10.1948/filtered/'
 croppart=8
 for file in filelist[:1]:
     print file
     img,hdr, mrx=image.loadnii(adress,file)
     shp=np.shape(img)
 
-    img=image.crop(img,-30+shp[0]/2,60+shp[1]/2,shp[2]/2,shp[2]/croppart)
+    img=image.crop(img,shp[0]/2,60+shp[1]/2,-20+shp[2]/2,20+shp[2]/croppart)
 #img=np.arange(50*50*40*17).reshape(50,50,40,17)
     print np.shape(img),shp
     tips=img
@@ -24,14 +23,14 @@ for file in filelist[:1]:
     sigmaG=''
     sigmaT=''
 
-    a=[3000]
+    a=[100]
     for i in a:
-        size=7
-        sigmaG=1.5
+        size=3
+        sigmaG=0.8
         sigmaT=i
 
-        tips=filters.tips4d_m(img,size,sigmaG,sigmaT)
+        tips=filters.bilateralFilter(img,size,sigmaG,sigmaT)
 
 #    tips=filters.std(img,13)
-    image.savenii(tips,mrx,adress_out+'%s_%s_%s_%s_crp%s_TIPS.nii'%(file[:-4],size,sigmaG,sigmaT,croppart))
+    image.savenii(tips,mrx,adress_out+'%s_%s_%s_%s_crp%s.nii'%(file[:-4],size,sigmaG,sigmaT,shp[0]))
 #print (timeit('tips4.convolve4d(img,13,3,100)', 'from __main__ import *', number = 10))
