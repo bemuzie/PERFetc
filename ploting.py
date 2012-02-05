@@ -1,99 +1,108 @@
 __author__ = 'ct'
+# -*- coding: utf-8 -*-
 import matplotlib.pyplot as plt
 import matplotlib
 import numpy as np
-import image
-import os
-import scipy.stats
 import curves
 
-adress="/media/63A0113C6D30EAE8/_PERF/SZHANIKOV  O.M. 19.01.1947/filtered"
-filelist=os.listdir(adress)
+def PlotImg(img,matrix,RoiCentre,RoiSize,RoiArt):
+    Time,TimeC=curves.samplet()
+    x,y,z,t=np.shape(img)
+
+    Rx,Ry,Rz=np.ogrid[0:x,0:y,0:z]
+    RCx,RCy,RCz=np.array([x,y,z])-np.array(RoiCentre)
+    Roi=np.sqrt((RCx-Rx)**2+(RCy-Ry)**2+(RCz-Rz)**2)>=RoiSize
+    Roi=Roi[...,np.newaxis]*np.ones((1,1,1,t))
 
 
-for file in filelist[:1]:
-    print file
-    vol,hdr, mrx=image.loadnii(adress,file)
-    shp=np.shape(vol)
-#50,50,70
-print mrx
-img=vol
-img=np.rot90(img)
+    ImRoi=np.ma.array(img,mask=Roi)
+
+    low=-200
+    high=300
+
+    TAcurve=np.ma.average(np.ma.average(np.ma.average(ImRoi,0),0),0)
+    TAcurveSD=ImRoi.std(0).std(0).std(0)
+    CurvePar=curves.fitcurve(TAcurve,Time,initial=[3000,4,1,8,50])
+    print CurvePar
+    FittedCurve=curves.logn(TimeC,CurvePar[0],CurvePar[1],CurvePar[2],CurvePar[3],CurvePar[4])
+
+    maxgrad=np.max(np.gradient(FittedCurve))/(TimeC[4]-TimeC[3])
+
+    RACx,RACy,RACz=np.array([x,y,z])-np.array(RoiArt)
+    RoiA=np.sqrt((RACx-Rx)**2+(RACy-Ry)**2+(RACz-Rz)**2)>=RoiSize-5
+    RoiA=RoiA[...,np.newaxis]*np.ones((1,1,1,t))
+    ImRoi=np.ma.array(img,mask=RoiA)
+
+    TAcurveA=np.ma.average(np.ma.average(np.ma.average(ImRoi,0),0),0)
+    TAcurveSDA=ImRoi.std(0).std(0).std(0)
+    CurvePar=curves.fitcurve(TAcurveA[:-3],Time[:-3],initial=[5000,4,1,6,30])
+    FittedCurveA=curves.logn(TimeC,CurvePar[0],CurvePar[1],CurvePar[2],CurvePar[3],CurvePar[4])
+    print CurvePar
+    print maxgrad,6000*maxgrad/np.max(FittedCurveA)
+
+    print TAcurveA.max()
+
+    zsideRatio=matrix[2,2]/matrix[1,1]
+    ZRatio=matrix[1,1]/(2*matrix[2,2])
+
+    sliceA=img[...,RCz,t-7]
+    sliceA=np.rot90(sliceA)
+    sliceS=img[:,RCy,:,t-7]
+    sliceS=np.rot90(sliceS)
+    sliceC=img[RCx,:,:,t-7]
+    sliceC=np.rot90(sliceC)
+
+    roiA=Roi[...,RCz,t-7]
+    roiA=np.rot90(roiA)
+    roiS=(Roi[:,RCy,:,t-7])
+    roiS=np.rot90(roiS)
+    roiC=(Roi[RCx,:,:,t-7])
+    roiC=np.rot90(roiC)
 
 
+    #Potting
+    fig=plt.figure(facecolor='k')
+    plt.subplots_adjust(hspace=0.1,wspace=0)
 
-"""
-img=np.rot90(img,3)
-img=np.swapaxes(img,2,0)
-"""
-ctr=[100,129,70,9]
-RoiSize=20/2
-Time,TimeC=curves.samplet()
+    gs=matplotlib.gridspec.GridSpec(2,1,height_ratios=[3,1])
 
-roi=np.zeros(np.shape(img),dtype='bool')
-roi=np.rot90(roi)
-
-roi[ctr[0]-RoiSize:ctr[0]+RoiSize,ctr[1]-RoiSize:ctr[1]+RoiSize,ctr[2]-RoiSize:ctr[2]+RoiSize]=True
-ImRoi=np.ma.array(img,mask=roi)
-
-bins=100
-low=-200
-high=300
-
-TAcurve=np.apply_over_axes(np.average,ImRoi,[0,1,2])
-TAcurveSD=np.apply_over_axes(np.std,ImRoi,[0,1,2])
-
-sliceA=img[...,ctr[2],ctr[3]]
-sliceS=img[:,ctr[1],:,ctr[3]]
-sliceC=img[ctr[0],:,:,ctr[3]]
-
-sliceS=np.rot90(sliceS,3)
-sliceC=np.rot90(sliceC,3)
-
-roiA=roi[...,ctr[2],ctr[3]]
-roiS=roi[:,ctr[1],:,ctr[3]]
-roiC=roi[ctr[0],:,:,ctr[3]]
-
-roiS=np.rot90(roiS,3)
-roiC=np.rot90(roiC,3)
-
-hist=scipy.stats.histogram(sliceA,bins,(low,high))
+    spImg=matplotlib.gridspec.GridSpecFromSubplotSpec(2,2, subplot_spec=gs[0],width_ratios=[1,ZRatio],wspace=0.05,hspace=0)
+    spGraph=matplotlib.gridspec.GridSpecFromSubplotSpec(1,3, subplot_spec=gs[1])
 
 
-print np.shape(TAcurve[0,0,0])
+    spA=plt.subplot(spImg[:,0])
+    spA.set_axis_off()
 
 
+    spC=plt.subplot(spImg[0,1])
+    spC.set_axis_off()
 
-#Potting
-fig=plt.figure(figsize=(18,10))
+    spS=fig.add_subplot(spImg[1,1])
+    spS.set_axis_off()
 
-adj=plt.subplots_adjust(hspace=0.05,wspace=0.05)
-gs=matplotlib.gridspec.GridSpec(2,3,width_ratios=[1,2],height_ratios=[2,1,1])
+    spTCurve=plt.subplot(spGraph[1:])
+    spTCurve.errorbar(Time+12,TAcurve,yerr=TAcurveSD*2,fmt='or')
+    spTCurve.plot(TimeC+12,FittedCurve,'-b')
+    spTCurve2=spTCurve.twinx()
+    spTCurve2.errorbar(Time+12,TAcurveA,yerr=TAcurveSDA*2,fmt='om')
+    spTCurve2.plot(TimeC+12,FittedCurveA,'-k')
 
-sp1=plt.subplot(gs)
-#sp1.vlines(np.linspace(low,high,bins),0,hist[0],color='k', linestyles='solid',linewidth=2)
-sp1.errorbar(Time,TAcurve[0,0,0],yerr=TAcurveSD[0,0,0],fmt='-or')
+    spA.imshow(sliceA,cmap='gray',clim=(-200,300),aspect=1,interpolation='bicubic')
+    spA.contour(roiA,[0],colors='r',alpha=0.8)
+
+    spS.imshow(sliceS,cmap='gray',clim=(-200,300),aspect=zsideRatio,interpolation='bicubic')
+    spS.contour(roiS,[0],colors='r',alpha=0.8)
 
 
-spA=fig.add_subplot(322)
-spA.set_axis_off()
-spA.imshow(sliceA,cmap='gray',clim=(-200,300),origin='image', extent=(7,0,7,0))
-spA.contour(roiA,[0],colors='r',alpha=0.8,extent=(7,0,7,0))
-#sp2.contourf(sliceA,[300,2000],colors='b',alpha=0.8)
+    spC.imshow(sliceC,cmap='gray',clim=(-200,300),aspect=zsideRatio,interpolation='bicubic')
+    spC.contour(roiC,[0],colors='r',alpha=0.8)
 
-spS=fig.add_subplot(324)
-spS.set_axis_off()
-spS.imshow(sliceS,cmap='gray',clim=(-200,300),origin='centre',extent=(7,0,5,0),interpolation='quadric')
-spS.contour(roiS,[0],colors='r',alpha=0.8,extent=(7,0,5,0))
+    plt.savefig('/home/denis/Рабочий стол/image3.png',facecolor='b')
+    plt.show()
 
-spC=fig.add_subplot(326)
-spC.set_axis_off()
-spC.imshow(sliceC,cmap='gray',clim=(-200,300),origin='bottom',extent=(7,0,5,0), interpolation='quadric')
-spC.contour(roiC,[0],colors='r',alpha=0.8,extent=(7,0,5,0))
 #imgplot=plt.imshow(slice)
 #plt.hist(slice,251,range=(-200,300),fc='k', ec='k')
 #imgplot.set_clim=(0.0,1)
 
 
 
-plt.show()

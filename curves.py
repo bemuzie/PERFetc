@@ -73,15 +73,17 @@ def samplet(fl=11,fp=2.,sl=6,sp=4.,cont=True):
 def residuals(coeffs,data,t):
     return data-gammapdf(t,coeffs)
 
-def fitcurve(data,time,initial=[],type='lgnorm'):
+def fitcurve(data,time,initial=None,type='lgnorm'):
     #fitting curve function
     if type=='lgnorm':
-        b=np.min(data)
-        area=np.trapz(data-b,time)
+        if initial == None:
+            b=np.min(data)
+            area=np.trapz(data-b,time)
+            initial=(area,4,1,10,30)
         try:
-            popt,pcov=curve_fit(logn,time,data,p0=(area,4,0.6,9,5))
+            popt,pcov=curve_fit(logn,time,data,p0=initial)
         except RuntimeError:
-            popt=[area,4,0.6,1,b]
+            popt=initial
             print('error')
             pass
     else:

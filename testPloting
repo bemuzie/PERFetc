@@ -1,0 +1,15 @@
+import ploting
+import image
+import os
+
+adress="/media/data/_PERF/YAVNIK_GA/filtered"
+filelist=os.listdir(adress)
+adress_out='/media/63A0113C6D30EAE8/_PERF/CHUPROVA N.E. 13.10.1948/filtered/'
+croppart=8
+print filelist
+for file in filelist[-1:]:
+    print file
+    img,hdr, mrx=image.loadnii(adress,file)
+
+    ploting.PlotImg(img,mrx,[34,58,69],10,[24,68,48])
+
