@@ -16,6 +16,8 @@ def loadnii(folder,name):
 def savenii(data,matrix,folder):
     nib.nifti1.save(nib.Nifti1Image(data, matrix),folder)
 def crop(data,xc,yc,zc,size=30):
+    x,y,z,t=np.shape(data)
+    xc,yc,zc=np.array([x,y,z])-np.array([xc,yc,zc])
     data = data[xc-size:xc+size,yc-size:yc+size,zc-size:zc+size]# crop data
     return data
 

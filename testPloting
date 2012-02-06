@@ -2,14 +2,15 @@ import ploting
 import image
 import os
 
-adress="/media/data/_PERF/YAVNIK_GA/filtered"
+adress="/media/WORK/_PERF/SZHANIKOV  O.M. 19.01.1947/filtered/"
 filelist=os.listdir(adress)
-adress_out='/media/63A0113C6D30EAE8/_PERF/CHUPROVA N.E. 13.10.1948/filtered/'
+adress_out='/media/WORK/_PERF/SZHANIKOV  O.M. 19.01.1947/filtered/'
 croppart=8
 print filelist
-for file in filelist[-1:]:
+for file in filelist[-2:-1]:
     print file
     img,hdr, mrx=image.loadnii(adress,file)
 
-    ploting.PlotImg(img,mrx,[34,58,69],10,[24,68,48])
+    perfmap=ploting.PlotImg(img,mrx,[76,41,75],10,[15,80,35])
 
+    image.savenii(perfmap,mrx,adress_out+'%s_crp_map5.nii'%(file[:-4]))
