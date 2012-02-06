@@ -15,9 +15,10 @@ def loadnii(folder,name):
     return data , hdr, affinemrx
 def savenii(data,matrix,folder):
     nib.nifti1.save(nib.Nifti1Image(data, matrix),folder)
-def crop(data,xc,yc,zc,size=30):
+def crop(data,xc,yc,zc,size=30,invert=True):
     x,y,z,t=np.shape(data)
-    xc,yc,zc=np.array([x,y,z])-np.array([xc,yc,zc])
+    if invert == True:
+        xc,yc,zc=np.array([x,y,z])-np.array([xc,yc,zc])
     data = data[xc-size:xc+size,yc-size:yc+size,zc-size:zc+size]# crop data
     return data
 
