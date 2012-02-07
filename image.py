@@ -72,6 +72,8 @@ with folder structure /PatientName-BirthDate/StudyNumber/SeriesNumber/"""
                 continue
             except dicom.filereader.InvalidDicomError:
                 continue
+            except shutil.Error:
+                continue
             #except InvalidDicomError:continue
 
 
