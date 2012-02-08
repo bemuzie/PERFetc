@@ -18,6 +18,16 @@ def std(image,num):
         tips=np.append(tips,tipsplus,0)
         print it[ind+1],val
     return tips
+def gauss_kernel_new(sigma,dims):
+    dims=np.asarray(dims,dtype=float)
+    x,y,z=np.ceil(3*sigma/dims)
+    distances=np.ogrid[-x:x+1,-y:y+1,-z:z+1]
+    gauss=-0.5*np.multiply(distances,distances)/sigma**2
+    gauss3d=1
+    for i in gauss: gauss3d = gauss3d*(np.exp(i)/np.sqrt(np.pi*2*sigma**2))
+    return gauss3d
+
+
 def gauss_kernel(size,sigma):
     """Gaussian symetric 4d clousnes kernel """
     kern=np.ones((size,size,size))
