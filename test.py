@@ -6,36 +6,36 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D as axes3d
 from matplotlib import cm
 
+
 img=np.ones((50,50,50,1))
 img[10:-10,10:-10,10:-10]=5
 img[15:-15,15:-15,15:-15]=15
 img[20:-20,20:-20,20:-20]=10
 
-img_n=img+np.random.normal(0,5,(50,50,50,1))
+img_n=img+np.random.normal(0,3,(50,50,50,1))
 
 
 
-img_filtered=filters.bilateralFilter4d(img_n,(1,1,1),1,5)
-img_filtered=filters.bilateralFilter4d(img_filtered,(1,1,1),1,5)
-img_filtered=filters.bilateralFilter4d(img_filtered,(1,1,1),1,5)
+img_filtered=filters.bilateralFilter4d(img_n,(1,1,1),1,1000)
 
-img_filtered2=filters.bilateralFilter4d(img_n,(1,1,1),1,15)
+#img_filtered2=filters.bilateralFilter4d(img_n,(1,1,1),1,2000)
 
 spI=plt.subplot(331)
-spI.imshow(img[...,25,0],clim=(-5,20),interpolation='nearest')
+spI.imshow(img[...,25,0],clim=(-5,20),cmap='gray',interpolation='nearest')
 spI.set_title('image')
 spB=plt.subplot(332)
-spB.imshow(img_filtered[...,25,0],clim=(-5,20),interpolation='nearest')
+spB.imshow(img_filtered[...,25,0],clim=(-5,20),cmap='gray',interpolation='nearest')
 spB.set_title('bilateral')
 spG=plt.subplot(333)
-spG.imshow(img_filtered2[...,25,0],clim=(-5,20),interpolation='nearest')
-spG.set_title('gaussian blur')
+spG.imshow(img_n[...,25,0],clim=(-5,20),cmap='gray',interpolation='nearest')
+spG.set_title('noise')
 spP=plt.subplot(3,3,(4,6))
+
 x_axis=np.arange(len(img_filtered[25,:,25,0]))
 spP.plot(x_axis,img_filtered[25,:,25,0],'r-')
-spP.plot(x_axis,img_filtered2[25,:,25,0],'b--')
-spP.plot(x_axis,img[25,:,25,0])
-spP.plot(x_axis,img_n[25,:,25,0])
+#spP.plot(x_axis,img_filtered2[25,:,25,0],'k-')
+spP.plot(x_axis,img[25,:,25,0],'b-o')
+spP.plot(x_axis,img_n[25,:,25,0],'b--')
 
 sp3d1=plt.subplot(3,3,7,projection='3d')
 X=np.arange(50)
@@ -50,11 +50,18 @@ sp3d2.view_init(22,20)
 
 
 sp3d3=plt.subplot(3,3,9,projection='3d')
-surf3=sp3d3.plot_surface(X,Y,img_filtered2[0:25,...,25,0],shade=True, rstride=1, cstride=1, cmap=cm.jet,linewidth=0.1)
+surf3=sp3d3.plot_surface(X,Y,img_n[0:25,...,25,0],shade=True, rstride=1, cstride=1, cmap=cm.jet,linewidth=0.1)
 
 sp3d3.view_init(22,20)
-print np.std(img_n[:10,:10,:10])
-print np.std(img_filtered[:10,:10,:10])
-print np.std(img_filtered2[:10,:10,:10])
+
+x1=slice(0,10)
+x2=slice(10,15)
+x3=slice(15,20)
+for imginfo in (img_n,img_filtered,img):
+    for i in (x1,x2,x3):
+        sn=round(np.average(imginfo[i,i,i])/np.std(imginfo[i,i,i]),2)
+        av=round(np.average(imginfo[i,i,i]),2)
+        print 'SN=',sn,'av=',av,
+    print
 plt.show()
 

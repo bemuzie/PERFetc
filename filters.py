@@ -180,7 +180,6 @@ def bilateralFilter4d(img,voxel_size,sigg,sigi):
     kern_size=np.asarray(np.shape(gaus_kern))
     print kern_size
     gaus_kern=np.ravel(gaus_kern)
-    print gaus_kern
     center=len(gaus_kern)/2
     # calculate 2*sigma^2 of intensity closeness function out from loop
     sigISqrDouble=2*float(sigi)**2

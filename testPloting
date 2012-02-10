@@ -1,0 +1,16 @@
+import ploting
+import image
+import os
+
+adress="/media/WORK/_PERF/SZHANIKOV  O.M. 19.01.1947/filtered/"
+filelist=os.listdir(adress)
+adress_out='/media/WORK/_PERF/SZHANIKOV  O.M. 19.01.1947/filtered/'
+croppart=8
+print filelist
+for file in filelist[-2:-1]:
+    print file
+    img,hdr, mrx=image.loadnii(adress,file)
+
+    perfmap=ploting.PlotImg(img,mrx,[76,41,75],10,[15,80,35])
+
+    image.savenii(perfmap,mrx,adress_out+'%s_crp_map5.nii'%(file[:-4]))
