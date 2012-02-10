@@ -18,15 +18,14 @@ def std(image,num):
         tips=np.append(tips,tipsplus,0)
         print it[ind+1],val
     return tips
-def gauss_kernel_new(sigma,dims):
-    dims=np.asarray(dims,dtype=float)
-    x,y,z=np.ceil(3*sigma/dims)
+def gauss_kernel_3d(sigma,voxel_size):
+    voxel_size=np.asarray(voxel_size,dtype=float)
+    x,y,z=np.ceil(3*sigma/voxel_size)
     distances=np.ogrid[-x:x+1,-y:y+1,-z:z+1]
     gauss=-0.5*np.multiply(distances,distances)/sigma**2
     gauss3d=1
     for i in gauss: gauss3d = gauss3d*(np.exp(i)/np.sqrt(np.pi*2*sigma**2))
     return gauss3d
-
 
 def gauss_kernel(size,sigma):
     """Gaussian symetric 4d clousnes kernel """
@@ -168,38 +167,25 @@ def bilateralFilter(img,size,sigG,sigI):
     img_filtered=ndimage.generic_filter(img,bilateralFunc,size=[size,size,size,1],extra_keywords=kwargs)
     return img_filtered
 
-def bilateralFilter_t(img,size,sigG,sigI):
+def bilateralFilter4d(img,voxel_size,sigg,sigi):
     """ 4d Bilateral exponential filter.
-    image array, kernel size, distance SD, intensity SD
+    img - image array, voxel_size - array with x,y,z of voxel; sigg - distance SD; sigi - intensity SD
     """
-    #img=np.array(img,dtype=float)
+    dimensions=np.ndim(img)
+    print dimensions
+    if dimensions==3:
+        img=img[...,np.newaxis]
+    print np.ndim(img)
+    gaus_kern=gauss_kernel_3d(sigg, voxel_size)
+    kern_size=np.asarray(np.shape(gaus_kern))
+    print kern_size
+    gaus_kern=np.ravel(gaus_kern)
+    print gaus_kern
+    center=len(gaus_kern)/2
+    # calculate 2*sigma^2 of intensity closeness function out from loop
+    sigISqrDouble=2*float(sigi)**2
 
+    #Closness function
+    kwargs=dict(sigISqrDouble=sigISqrDouble,GausKern=gaus_kern,center=center)
 
-    #if kernel size even break it
-    if size%2 == 0:
-        raise NameError('kernel should have odd size!!!')
-
-    sigG=float(sigG)
-    #Calculating 2*sigT**2 out from loop to increase optimize Time closness calculations
-    sigISqrDouble=sigI*sigI*2
-    sigISqrDouble=float(sigISqrDouble)
-    GausKern=gauss_kernel(size,sigG)
-
-    #Calculating Gaussian kernel
-    img_filtered=np.zeros((np.shape(img)))
-    size_half=int(size)/2
-    #making iterator which don't contain borders
-
-    shp=np.shape(img[size:,size:,size:])
-
-    for i in np.ndindex(shp):
-        x,y,z,t =i
-        #determing cordinates of central pixel
-        kernel=img[x:x+size,y:y+size,z:z+size,t]
-        #Calculating Time profile closeness function.
-
-        img_filtered[x+size_half,y+size_half,z+size_half,t]=bilateralFunc(kernel,sigISqrDouble,GausKern,(1,1,1))
-        #print kernel.shape,GausKern.shape,tp.shape
-        #coef=coef[...,None]
-
-    return img_filtered
+    return ndimage.generic_filter(img,bilateralFunc,size=np.append(kern_size,1),extra_keywords=kwargs)
