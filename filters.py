@@ -20,6 +20,7 @@ def std(image,num):
     return tips
 def gauss_kernel_3d(sigma,voxel_size):
     voxel_size=np.asarray(voxel_size,dtype=float)
+    # calculate 3 sigma distance from centre
     x,y,z=np.ceil(3*sigma/voxel_size)
     distances=np.ogrid[-x:x+1,-y:y+1,-z:z+1]
     gauss=-0.5*np.multiply(distances,distances)/sigma**2
@@ -116,8 +117,7 @@ def tips4d_m(img,size,sigG,sigT):
     size_half=int(size)/2
     #Calculating Gaussian kernel
     GausKern=gauss_kernel(size,sigG)
-    sigTSqrDouble=sigT*sigT*2
-    sigTSqrDouble=float(sigTSqrDouble)
+    sigTSqrDouble=float(sigT*sigT*2)
     center=(size_half,size_half,size_half)
     lenT=np.shape(img[0,0,0])
 
@@ -161,32 +161,38 @@ def bilateralFilter(img,size,sigG,sigI):
     center=ksize/2
     sigISqrDouble=sigI*sigI*2
     sigISqrDouble=float(sigISqrDouble)
-
     GausKern=np.ravel(gauss_kernel(size,sigG))
-
     #Closness function
     kwargs=dict(sigISqrDouble=sigISqrDouble,GausKern=GausKern,center=center)
     img_filtered=ndimage.generic_filter(img,bilateralFunc,size=[size,size,size,1],extra_keywords=kwargs)
     return img_filtered
 
-def bilateralFilter4d(img,voxel_size,sigg,sigi):
-    """ 4d Bilateral exponential filter.
+def bilateral(img,voxel_size,sigg,sigi,mpr=None):
+    """ 3d Bilateral exponential filter for 4d volume
     img - image array, voxel_size - array with x,y,z of voxel; sigg - distance SD; sigi - intensity SD
     """
     dimensions=np.ndim(img)
-    print dimensions
     if dimensions==3:
         img=img[...,np.newaxis]
-    print np.ndim(img)
-    gaus_kern=gauss_kernel_3d(sigg, voxel_size)
-    kern_size=np.asarray(np.shape(gaus_kern))
-    print kern_size
-    gaus_kern=np.ravel(gaus_kern)
+    gaus_kern3d=gauss_kernel_3d(sigg, voxel_size)
+    kern_size=np.asarray(np.shape(gaus_kern3d))
+    gaus_kern=np.ravel(gaus_kern3d)
     center=len(gaus_kern)/2
     # calculate 2*sigma^2 of intensity closeness function out from loop
     sigISqrDouble=2*float(sigi)**2
-
     #Closness function
     kwargs=dict(sigISqrDouble=sigISqrDouble,GausKern=gaus_kern,center=center)
+    if mpr == None:
+        return ndimage.generic_filter(img,bilateralFunc,size=np.append(kern_size,1),extra_keywords=kwargs)
 
-    return ndimage.generic_filter(img,bilateralFunc,size=np.append(kern_size,1),extra_keywords=kwargs)
+    slice_iter=np.nditer(img[[slice(i[0],i[1]) for i in mpr]],flags=['c_index','multi_index'])
+    outputvol=np.zeros(np.shape(img[[slice(i[0],i[1]) for i in mpr]]))
+    while not slice_iter.finished:
+        slices=[slice(slice_iter.multi_index[i]-kern_size,slice_iter.multi_index[i]+kern_size+1) for i in [0,1,2]].append(slice(mpr[-1],mpr[-1]+1))
+        img_kernel=img[slices]
+        diff=np.asarray(slice_iter)-img_kernel
+        IclsKern=np.exp(-diff*diff/sigISqrDouble)
+        coef=IclsKern*gaus_kern
+        outputvol[slice_iter.multi_index]=np.sum(img_kernel*coef)/np.sum(coef)
+        slice_iter.iternext()
+    return outputvol

@@ -6,10 +6,10 @@ import matplotlib.pyplot as plt
 import matplotlib
 import image
 
-img,header,mrx=image.loadnii('/media/WORK/_PERF/SZHANIKOV  O.M. 19.01.1947/Nifti4d',\
+img,header,mrx=image.loadnii('/media/63A0113C6D30EAE8/_PERF/SZHANIKOV  O.M. 19.01.1947/4dNifTi',\
     'GeneralBodyPerfusionSZHANIKOVOM19011947s007a001_FC17QDS.nii')
 
-output_folder='/media/WORK/_PERF/SZHANIKOV  O.M. 19.01.1947/'
+output_folder='/media/63A0113C6D30EAE8/_PERF/SZHANIKOV  O.M. 19.01.1947/'
 
 rois=dict(
     artery=(271,298,164,10),
@@ -115,3 +115,5 @@ frame.set_facecolor('k')
 plt.savefig(output_folder+'curves.png',facecolor='k')
 print roisdata['pancreas_head'].pars
 print roisdata['pancreas_tail'].pars
+
+roisdata['pancreas_head'].filtration([.7,.7,.5],0.8,200)

@@ -24,6 +24,10 @@ class Roi:
         self.pars=fitcurve(self.tac[:stop],timepoints[:stop],initial)
         timec=np.linspace(0.0001,np.max(timepoints),100)
         self.tacfit=logn(timec,self.pars[0],self.pars[1],self.pars[2],self.pars[3],self.pars[4])
+    def filtration(self,vx_size,sigg,sigi):
+        import filters
+        self.slice_ax=filters.bilateral(self.roidata,vx_size,sigg,sigi,mpr=[[0,-1],[0,-1],[self.center['z'],self.center['z']+1],[11,12]])
+
 
 
 pipow=np.power(pi,0.5)*2
