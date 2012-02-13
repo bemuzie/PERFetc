@@ -5,6 +5,7 @@ import filters
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D as axes3d
 from matplotlib import cm
+from scipy import ndimage as ndimage
 
 
 img=np.ones((50,50,50,1))
@@ -12,17 +13,24 @@ img[10:-10,10:-10,10:-10]=5
 img[15:-15,15:-15,15:-15]=15
 img[20:-20,20:-20,20:-20]=10
 
-img_n=img+np.random.normal(0,3,(50,50,50,1))
+img_n=img+np.random.poisson(7,(50,50,50,1))
+
+ker = np.ones((3,3,3,1))*0.5
+ker[1,1,1]=10
+ker/=np.sum(ker)
 
 
-
-img_filtered=filters.bilateralFilter4d(img_n,(1,1,1),1,1000)
-
+img_filtered=filters.bilateralFilter4d(img_n,(1,1,1),1,400)
+#img_filtered=ndimage.convolve(img_filtered,ker)
+#img_filtered=filters.bilateralFilter4d(img_filtered,(1,1,1),1,1)
+#img_filtered=filters.bilateralFilter4d(img_filtered,(1,1,1),2,1)
 #img_filtered2=filters.bilateralFilter4d(img_n,(1,1,1),1,2000)
+img_dif=np.absolute(img_filtered-img_n)
+
 
 spI=plt.subplot(331)
-spI.imshow(img[...,25,0],clim=(-5,20),cmap='gray',interpolation='nearest')
-spI.set_title('image')
+spI.imshow(img_dif[...,25,0],clim=(-5,20),cmap='gray',interpolation='nearest')
+spI.set_title('difference')
 spB=plt.subplot(332)
 spB.imshow(img_filtered[...,25,0],clim=(-5,20),cmap='gray',interpolation='nearest')
 spB.set_title('bilateral')

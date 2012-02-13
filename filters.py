@@ -150,6 +150,8 @@ def bilateralFunc(data,sigISqrDouble,GausKern,center=None):
     a = np.sum(data*coef)/np.sum(coef)
     return a
 
+
+
 def bilateralFilter(img,size,sigG,sigI):
     """ 4d Bilateral exponential filter.
     image array, kernel size, distance SD, intensity SD

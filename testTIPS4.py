@@ -10,6 +10,9 @@ adress="/media/63A0113C6D30EAE8/_PERF/BOZHICH  N.I. 15.04.1950/Nifti4d/"
 filelist=os.listdir(adress)
 adress_out='/media/63A0113C6D30EAE8/_PERF/BOZHICH  N.I. 15.04.1950/filtered/'
 croppart=2
+
+
+
 for file in filelist[:]:
     print file
     img,hdr, mrx=image.loadnii(adress,file)

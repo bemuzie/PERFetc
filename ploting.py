@@ -153,11 +153,9 @@ def PlotImg(img,matrix,RoiCentre,RoiSize,RoiArt,imgName,invertcord=True,TimeSeri
         plt.show()
 
 
-def out():
-#imgplot=plt.imshow(slice)
-#plt.hist(slice,251,range=(-200,300),fc='k', ec='k')
-#imgplot.set_clim=(0.0,1)
-
+def report(data,rois,phase,output_folder,voxsize=(1,1)):
+    """rois should be dictionary of Roi instance
+    """
     matplotlib.rc('axes',edgecolor='y',labelcolor='w',labelsize='small',titlesize='medium')
     matplotlib.rc('xtick',color='y')
     matplotlib.rc('ytick',color='y')
@@ -165,74 +163,43 @@ def out():
     fig=plt.figure(facecolor='k')
     plt.subplots_adjust(hspace=0.1,wspace=0)
     fig.suptitle(imgName[48:-4])
-    gs=matplotlib.gridspec.GridSpec(2,1,height_ratios=[3,1])
+    gs=matplotlib.gridspec.GridSpec(2,len(rois),height_ratios=[3,1])
+    sideratio=voxsize[1]/voxsize[0]
 
-spImg=matplotlib.gridspec.GridSpecFromSubplotSpec(2,2, subplot_spec=gs[0],width_ratios=[1,ZRatio],wspace=0.05,hspace=0)
-spGraph=matplotlib.gridspec.GridSpecFromSubplotSpec(1,3, subplot_spec=gs[1],wspace=0.25)
+    spImg=matplotlib.gridspec.GridSpecFromSubplotSpec(3,2, subplot_spec=gs[0],width_ratios=[1,sideratio],wspace=0.05,hspace=0)
+    spGraph=matplotlib.gridspec.GridSpecFromSubplotSpec(1,3, subplot_spec=gs[1],wspace=0.25)
 
-spA=plt.subplot(spImg[:,0])
-spA.set_axis_off()
+    spA=plt.subplot(spImg[:,0])
+    spC=plt.subplot(spImg[0,1])
+    spS=plt.subplot(spImg[1,1])
+    spAny=plt.subplot(spImg[2,1])
+    spA.set_axis_off()
+    spC.set_axis_off()
+    spS.set_axis_off()
+
+    spA.imshow(data[...,rois.center['z'],phase],cmap='gray',clim=(-200,300),aspect=1,interpolation='bicubic')
+    spS.imshow(data[:,rois.center['y'],:,phase],cmap='gray',clim=(-200,300),aspect=sideratio,interpolation='bicubic')
+    spC.imshow(data[rois.center['y'],:,:,phase],cmap='gray',clim=(-200,300),aspect=sideratio,interpolation='bicubic')
+
+    spTCurve=plt.subplot(spGraph[:])
+
+    spTCurve.set_title('Arterial Blood Flow=%s (ml/min)/100ml'%(round(BF,0)))
+    spTCurve.set_xlabel('Time, s')
+    spTCurve.set_ylabel("ROI CT density, HU")
+
+    spTCurve.errorbar(rois.tpoints+12,rois.tac,yerr=rois.tacsd*2,fmt='or')
+    spTCurve.plot(TimeC+12,FittedCurve,'-b')
+    """
+    spTCurve2=spTCurve.twinx()
+    spTCurve2.errorbar(Time+12,TAcurveA,yerr=TAcurveSDA*2,fmt='om')
+    spTCurve2.plot(TimeC+12,FittedCurveA,'-k')
+    spTCurve2.set_ylabel("Aorta CT density, HU")
+    """
 
 
-spC=plt.subplot(spImg[0,1])
-spC.set_axis_off()
-
-spS=fig.add_subplot(spImg[1,1])
-spS.set_axis_off()
-
-spTCurve=plt.subplot(spGraph[:])
-"""#Perfusion map calculating
-spPerf=plt.subplot(spGraph[0])
-spPerf.set_axis_off()
-"""
-spTCurve.set_title('Arterial Blood Flow=%s (ml/min)/100ml'%(round(BF,0)))
-spTCurve.set_xlabel('Time, s')
-spTCurve.set_ylabel("ROI CT density, HU")
-
-spTCurve.errorbar(Time+12,TAcurve,yerr=TAcurveSD*2,fmt='or')
-spTCurve.plot(TimeC+12,FittedCurve,'-b')
-spTCurve2=spTCurve.twinx()
-spTCurve2.errorbar(Time+12,TAcurveA,yerr=TAcurveSDA*2,fmt='om')
-spTCurve2.plot(TimeC+12,FittedCurveA,'-k')
-spTCurve2.set_ylabel("Aorta CT density, HU")
-"""#Perfusion map calculating
-spP=spPerf.imshow(PerfMapA,clim=(0,200))
-fig.colorbar(spP)
-"""
-spA.imshow(sliceA[...,phase],cmap='gray',clim=(-200,300),aspect=1,interpolation='bicubic')
-spA.contour(roiA[...,phase],[0],colors='r',alpha=0.8)
-
-spS.imshow(sliceS[...,phase],cmap='gray',clim=(-200,300),aspect=zsideRatio,interpolation='bicubic')
-spS.contour(roiS[...,phase],[0],colors='r',alpha=0.8)
-
-spC.imshow(sliceC[...,phase],cmap='gray',clim=(-200,300),aspect=zsideRatio,interpolation='bicubic')
-spC.contour(roiC[...,phase],[0],colors='r',alpha=0.8)
-
-plt.savefig('/media/63A0113C6D30EAE8/_PERF/SZHANIKOV  O.M. 19.01.1947/filtered/Curves%s.png'%(imgName),facecolor='k')
-
-if TimeSeries == True:
-    print 'true'
-    fig2=plt.Figure(1,17)
-    gs2=matplotlib.gridspec.GridSpec(1,t)
-    for i in np.arange(t):
-        print i
-        spImg2=matplotlib.gridspec.GridSpecFromSubplotSpec(2,2, subplot_spec=gs2[i],high_ratios=[1,1],wspace=0.05,hspace=0)
-        spA2=plt.subplot(spImg2[0,:])
-        spA2.set_axis_off()
-        spC2=plt.subplot(spImg2[1,0])
-        spC2.set_axis_off()
-        spS2=fig.add_subplot(spImg2[1,1])
-        spS2.set_axis_off()
-        spA2.imshow(sliceA[...,i],cmap='gray',clim=(-200,300),aspect=1,interpolation='bicubic')
-        spA2.contour(roiA[...,i],[0],colors='r',alpha=0.8)
-
-        spS2.imshow(sliceS[...,i],cmap='gray',clim=(-200,300),aspect=zsideRatio,interpolation='bicubic')
-        spS2.contour(roiS[...,i],[0],colors='r',alpha=0.8)
-
-        spC2.imshow(sliceC[...,i],cmap='gray',clim=(-200,300),aspect=zsideRatio,interpolation='bicubic')
-        spC2.contour(roiC[...,i],[0],colors='r',alpha=0.8)
-    plt.savefig('/media/63A0113C6D30EAE8/_PERF/SZHANIKOV  O.M. 19.01.1947/filtered/Series_%s.png'%(imgName),facecolor='k')
+    plt.savefig(output_folder+'output.png',facecolor='k')
     plt.show()
+
 
 #imgplot=plt.imshow(slice)
 #plt.hist(slice,251,range=(-200,300),fc='k', ec='k')

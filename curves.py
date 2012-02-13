@@ -4,6 +4,27 @@ from scipy.optimize import curve_fit,leastsq
 from scipy import special as ssp
 import matplotlib.pyplot as plt
 from math import pi as pi
+class Roi:
+    def __init__(self,data,center,radius,shape='cube'):
+        if np.ndim(data) == 3: data=data[...,np.newaxis]
+        self.center=dict(x=center[0],y=center[1],z=center[2])
+        self.radius=radius
+        self.roicoord=dict(x=0,y=0,z=0)
+        for i in self.roicoord: self.roicoord[i]=slice(self.center[i]-radius,self.center[i]+radius+1)
+        self.roidata=data[self.roicoord['x'],self.roicoord['y'],self.roicoord['z']]
+        if shape=='sphere':
+            xm,ym,zm=np.ogrid[-self.radius:self.radius+1,-self.radius:self.radius+1,-self.radius:self.radius+1]
+            spheremask=np.sqrt(xm**2+ym**2+zm**2)>self.radius
+            spheremask=spheremask[...,np.newaxis]*np.ones((1,1,1,np.shape(data)[-1]))
+            self.roidata=np.ma.array(self.roidata,mask=spheremask)
+    def fitcurve(self,timepoints,initial=None,stop=-1):
+        self.tpoints=timepoints
+        self.tacsd=self.roidata.std(0).std(0).std(0)
+        self.tac=self.roidata.mean(0).mean(0).mean(0)
+        self.pars=fitcurve(self.tac[:stop],timepoints[:stop],initial)
+        timec=np.linspace(0.0001,np.max(timepoints),100)
+        self.tacfit=logn(timec,self.pars[0],self.pars[1],self.pars[2],self.pars[3],self.pars[4])
+
 
 pipow=np.power(pi,0.5)*2
 def logn(time,a=1,m=1,s=1,ts=1,b=1):
@@ -27,7 +48,7 @@ def gammapdf(t,coeffs):
     1=scale
     2=amplitude
     3=noise*background
-    4=time step , time when lable arrive to point
+    4=time step , time when diy arrive to point
     """
     t2=t-coeffs[4]
     t2[t2<=0]=t[0]
@@ -96,12 +117,12 @@ def fitcurve(data,time,initial=None,type='lgnorm'):
             pass
     return popt
 
-def fitcurve_lsq(data,time,func='gamma'):
+def fitcurve_lsq(data,time,initial=None):
     """Fitting curves with least squares method
     """
-    initial=np.array([8,1.3,8,30,5],dtype=float)
+    initial=np.asarray(initial,dtype=float)
     #func=gammapdf
-    popt,smth=leastsq(residuals,initial,args=(data,time),maxfev=1500)
+    popt,smth=leastsq(residuals,initial,args=(data,time),maxfev=3500)
     return popt
 
 def maxgrad(data):
