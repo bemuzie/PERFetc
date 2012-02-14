@@ -116,4 +116,3 @@ plt.savefig(output_folder+'curves.png',facecolor='k')
 print roisdata['pancreas_head'].pars
 print roisdata['pancreas_tail'].pars
 
-roisdata['pancreas_head'].filtration([.7,.7,.5],0.8,200)

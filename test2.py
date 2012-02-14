@@ -4,57 +4,22 @@ import os
 import nibabel as nib
 from scipy import ndimage as ndimage
 import numpy as np
+import curves
+import matplotlib.pyplot as plt
 
-adress='/media/WORK/_PERF/SZHANIKOV  O.M. 19.01.1947/Nifti4d/'
-volume='GeneralBodyPerfusionSZHANIKOVOM19011947s007a001_FC17QDS.nii'
+adress='/media/63A0113C6D30EAE8/_PERF/VLASYUK E.V. 07.10.1992/Nifti4d/'
+volume='GeneralBodyPerfusionVLASYUKEV07101992s004a001.nii'
 
-if volume == None:
-    imagelist=os.listdir(adress)
-    volume=imagelist[0]
-img,hdr,mrx=img,hdr,mrx=image.loadnii(adress,volume)
+img,hdr,mrx=image.loadnii(adress,volume)
+cntr=[318,255,155]
+sideratio=mrx[2,2]/mrx[1,1]
+panc=curves.Roi(img,cntr,10,filtr=True,voxsize=[0.6,0.6,.5],sigg=0.8,sigi=100,phase=6,rotation=1)
+print np.shape(panc.sliceAx)
 
-crp_x=slice(167,378)
-crp_y=slice(271 ,371)
-crp_z=slice(53,258)
-
-img_crp=img[crp_x,crp_y,crp_z]
-print mrx
-kern=np.ones((5,5,5,1))
-#filtration
-img_median=ndimage.generic_filter(img_crp,np.median,footprint=kern)
-#roi selecting
-
-# make rois with x,y,z,size
-rois=dict(
-    roiArt=(0,0,0,0),
-    roiPHead=(0,0,0,0),
-    roiPTail=(0,0,0,0),
-)
-
-class Roi:
-    def __init__(self,data,center,radius):
-        self.center=dict(x=center(0),y=center(1),z=center(2))
-        self.radius=radius
-        for i in center: roi1coord[i]=slice(roi1coord[i]-radius,roi1coord[i]+radius)
-        self.roicoord=roi1coord
-    centx,centy,centz=center
-
-data=img
-roi1coord=dict(x=11,y=11,z=11)
-coordinates=dict(x=0,y=0,z=0)
-
-roi1_rad=10
-for i in roi1coord: roi1coord[i]=slice(roi1coord[i]-roi1_rad,roi1coord[i]-roi1_rad)
-roi1_data=data[roi1coord['x'],roi1coord['y'],roi1coord['z']]
-
-for i in coordinates: coordinates[i]=np.arange(-roi1_rad,1+roi1_rad)
-
-
-x,y,z,t=np.ogrid()
-mask=x**2+y**2+z**2
-
-
-
-print 'begin saving'
-image.convert(nib.Nifti1Image(img_median,mrx),'/media/WORK/_PERF/SZHANIKOV  O.M. 19.01.1947/Nifti4d/series/')
-image.savenii(img_median,mrx,'/media/WORK/_PERF/SZHANIKOV  O.M. 19.01.1947/Nifti4d/new4d.nii')
+sp1=plt.subplot(131)
+sp1.imshow(panc.sliceAx,cmap='gray',clim=(-200,300))
+sp1=plt.subplot(132)
+sp1.imshow(panc.sliceSag,cmap='gray',clim=(-200,300),aspect=sideratio)
+sp1=plt.subplot(133)
+sp1.imshow(panc.sliceCor,cmap='gray',clim=(-200,300),aspect=sideratio)
+plt.show()

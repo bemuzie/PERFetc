@@ -73,6 +73,7 @@ with folder structure /PatientName-BirthDate/StudyNumber/SeriesNumber/"""
             except dicom.filereader.InvalidDicomError:
                 continue
             except shutil.Error:
+                print 'error moving to %s'%(out_path)
                 continue
             #except InvalidDicomError:continue
 

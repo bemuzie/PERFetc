@@ -175,7 +175,10 @@ def bilateral(img,voxel_size,sigg,sigi,mpr=None):
     if dimensions==3:
         img=img[...,np.newaxis]
     gaus_kern3d=gauss_kernel_3d(sigg, voxel_size)
-    kern_size=np.asarray(np.shape(gaus_kern3d))
+    ks_x,ks_y,ks_z=np.asarray(np.shape(gaus_kern3d))/2
+
+    print np.shape(gaus_kern3d),ks_x,ks_y,ks_z
+
     gaus_kern=np.ravel(gaus_kern3d)
     center=len(gaus_kern)/2
     # calculate 2*sigma^2 of intensity closeness function out from loop
@@ -185,14 +188,15 @@ def bilateral(img,voxel_size,sigg,sigi,mpr=None):
     if mpr == None:
         return ndimage.generic_filter(img,bilateralFunc,size=np.append(kern_size,1),extra_keywords=kwargs)
 
+    #filtration of selected vol
     slice_iter=np.nditer(img[[slice(i[0],i[1]) for i in mpr]],flags=['c_index','multi_index'])
     outputvol=np.zeros(np.shape(img[[slice(i[0],i[1]) for i in mpr]]))
+    zero_coords=[i[0] for i in mpr]
     while not slice_iter.finished:
-        slices=[slice(slice_iter.multi_index[i]-kern_size,slice_iter.multi_index[i]+kern_size+1) for i in [0,1,2]].append(slice(mpr[-1],mpr[-1]+1))
-        img_kernel=img[slices]
+        x,y,z,t=np.asarray(slice_iter.multi_index)+np.asarray(zero_coords)
+        img_kernel=img[x-ks_x:x+1+ks_x,y-ks_y:y+1+ks_y,z-ks_z:z+1+ks_z,t]
         diff=np.asarray(slice_iter)-img_kernel
-        IclsKern=np.exp(-diff*diff/sigISqrDouble)
-        coef=IclsKern*gaus_kern
+        coef=gaus_kern3d*np.exp(-diff*diff/sigISqrDouble)
         outputvol[slice_iter.multi_index]=np.sum(img_kernel*coef)/np.sum(coef)
         slice_iter.iternext()
     return outputvol

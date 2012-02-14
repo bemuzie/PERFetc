@@ -5,13 +5,37 @@ from scipy import special as ssp
 import matplotlib.pyplot as plt
 from math import pi as pi
 class Roi:
-    def __init__(self,data,center,radius,shape='cube'):
+    def __init__(self,data,center,radius,shape='cube',filtr=False,voxsize=[1,1,1],sigg=1,sigi=10,phase=9,rotation=0):
+        """Class for ROI selection, includes filter option to make bilateral filtration of axial,coronal,sagital slices and ROI volume
+        data:4d image, center([x,y,z]):list of coordinates of ROI centre
+        radius(int): ROI radius
+        shape(str):ROI shape. 'cube' or 'shpere'
+        filtr(bool):will be filtration performed
+        voxsize([x,y,z]):sizes of voxel
+        sigg(int):sigma of Gaussian kernel
+        sigi(int):sigma of intensity closeness function
+        phase:phase in wich slices will be filtered
+        rotation(bool): number of times slices will be rotated 90 deg counterclockwise
+        """
         if np.ndim(data) == 3: data=data[...,np.newaxis]
         self.center=dict(x=center[0],y=center[1],z=center[2])
         self.radius=radius
         self.roicoord=dict(x=0,y=0,z=0)
         for i in self.roicoord: self.roicoord[i]=slice(self.center[i]-radius,self.center[i]+radius+1)
         self.roidata=data[self.roicoord['x'],self.roicoord['y'],self.roicoord['z']]
+
+        if filtr==True:
+            from filters import bilateral
+            start=np.asarray(center)-radius
+            finish=np.asarray(center)+radius+1
+            self.sliceAx=bilateral(data,voxsize,sigg,sigi,[[20,-20],[20,-20],[center[2],center[2]+1],[phase,phase+1]])[...,0,0]
+            self.sliceSag=bilateral(data,voxsize,sigg,sigi,[[center[0],center[0]+1],[20,-20],[20,-20],[phase,phase+1]])[0,...,0]
+            self.sliceCor=bilateral(data,voxsize,sigg,sigi,[[20,-20],[center[1],center[1]+1],[20,-20],[phase,phase+1]])[:,0,:,0]
+            self.roidata=bilateral(data,voxsize,sigg,sigi,[[start[0],finish[0]],[start[1],finish[1]],[start[2],finish[2]],[0,None]])
+            self.filter_pars=dict(VoxelSize=voxsize,GaussSig=sigg,IntensitySig=sigi)
+            self.sliceAx=np.rot90(self.sliceAx,rotation)
+            self.sliceSag=np.rot90(self.sliceSag,rotation)
+            self.sliceCor=np.rot90(self.sliceCor,rotation)
         if shape=='sphere':
             xm,ym,zm=np.ogrid[-self.radius:self.radius+1,-self.radius:self.radius+1,-self.radius:self.radius+1]
             spheremask=np.sqrt(xm**2+ym**2+zm**2)>self.radius
@@ -24,9 +48,7 @@ class Roi:
         self.pars=fitcurve(self.tac[:stop],timepoints[:stop],initial)
         timec=np.linspace(0.0001,np.max(timepoints),100)
         self.tacfit=logn(timec,self.pars[0],self.pars[1],self.pars[2],self.pars[3],self.pars[4])
-    def filtration(self,vx_size,sigg,sigi):
-        import filters
-        self.slice_ax=filters.bilateral(self.roidata,vx_size,sigg,sigi,mpr=[[0,-1],[0,-1],[self.center['z'],self.center['z']+1],[11,12]])
+
 
 
 
