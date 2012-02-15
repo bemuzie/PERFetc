@@ -6,10 +6,10 @@ import matplotlib.pyplot as plt
 import matplotlib
 import image
 
-img,header,mrx=image.loadnii('/media/63A0113C6D30EAE8/_PERF/SZHANIKOV  O.M. 19.01.1947/4dNifTi',\
+img,header,mrx=image.loadnii('/media/WORK/_PERF/SZHANIKOV  O.M. 19.01.1947/Nifti4d',\
     'GeneralBodyPerfusionSZHANIKOVOM19011947s007a001_FC17QDS.nii')
 
-output_folder='/media/63A0113C6D30EAE8/_PERF/SZHANIKOV  O.M. 19.01.1947/'
+output_folder='/media/WORK/_PERF/SZHANIKOV  O.M. 19.01.1947/pics/'
 
 rois=dict(
     artery=(271,298,164,10),
@@ -17,7 +17,8 @@ rois=dict(
     pancreas_tail=(310,334,225,10)
 )
 
-roisdata=dict([(i,curves.Roi(img,rois[i][0:-1],rois[i][-1],shape='sphere')) for i in rois])
+roisdata=dict([(i,curves.Roi(img,rois[i][0:-1],rois[i][-1],'sphere',
+    True,[mrx[1,1],mrx[1,1],mrx[2,2]],.6,200,11,1)) for i in rois])
 time,timec=curves.samplet()
 for i in roisdata:
     if i=='pancreas_tail':
@@ -43,8 +44,7 @@ for i in roisdata:
             sp1= fig.add_subplot(111)
             sp1.set_title('unfiltered')
             sp1.set_axis_off()
-            slice=np.rot90(img[:,:,roisdata[i].center[axis],12])
-            sp1.imshow(slice,cmap='gray',clim=(-200,300),aspect=1,interpolation='bicubic')
+            sp1.imshow(roisdata[i].sliceAx,cmap='gray',clim=(-200,300),aspect=1,interpolation='bicubic')
             plt.savefig(output_folder+i+'_'+axis+'_imgonly.png',facecolor='k')
             sp1.axvline(x=roisdata[i].center['x'])
             sp1.axhline(y=512-roisdata[i].center['y'])
@@ -54,8 +54,7 @@ for i in roisdata:
             sp1= plt.subplot(111)
             sp1.set_title('unfiltered')
             sp1.set_axis_off()
-            slice=np.rot90(img[roisdata[i].center[axis],:,:,12])
-            sp1.imshow(slice,cmap='gray',clim=(-200,300),aspect=sideratio,interpolation='bicubic')
+            sp1.imshow(roisdata[i].sliceCor,cmap='gray',clim=(-200,300),aspect=sideratio,interpolation='bicubic')
             plt.savefig(output_folder+i+'_'+axis+'_imgonly.png',facecolor='k')
             sp1.axvline(x=roisdata[i].center['y'])
             sp1.axhline(y=320-roisdata[i].center['z'])
@@ -65,8 +64,7 @@ for i in roisdata:
             sp1= plt.subplot(111)
             sp1.set_title('unfiltered')
             sp1.set_axis_off()
-            slice=np.rot90(img[:,roisdata[i].center[axis],:,12])
-            sp1.imshow(slice,cmap='gray',clim=(-200,300),aspect=sideratio,interpolation='bicubic')
+            sp1.imshow(roisdata[i].sliceSag,cmap='gray',clim=(-200,300),aspect=sideratio,interpolation='bicubic')
             plt.savefig(output_folder+i+'_'+axis+'_imgonly.png',facecolor='k')
             sp1.axvline(x=roisdata[i].center['x'])
             sp1.axhline(y=320-roisdata[i].center['z'])
