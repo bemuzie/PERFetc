@@ -29,8 +29,8 @@ class Roi:
             start=np.asarray(center)-radius
             finish=np.asarray(center)+radius+1
             self.sliceAx=bilateral(data,voxsize,sigg,sigi,[[0,None],[0,None],[center[2],center[2]+1],[phase,phase+1]])[...,0,0]
-            self.sliceSag=bilateral(data,voxsize,sigg,sigi,[[center[0],center[0]+1],[20,-20],[20,-20],[phase,phase+1]])[0,...,0]
-            self.sliceCor=bilateral(data,voxsize,sigg,sigi,[[20,-20],[center[1],center[1]+1],[20,-20],[phase,phase+1]])[:,0,:,0]
+            self.sliceSag=bilateral(data,voxsize,sigg,sigi,[[center[0],center[0]+1],[0,None],[0,None],[phase,phase+1]])[0,...,0]
+            self.sliceCor=bilateral(data,voxsize,sigg,sigi,[[0,None],[center[1],center[1]+1],[0,None],[phase,phase+1]])[:,0,:,0]
             self.roidata=bilateral(data,voxsize,sigg,sigi,[[start[0],finish[0]],[start[1],finish[1]],[start[2],finish[2]],[0,None]])
             self.filter_pars=dict(VoxelSize=voxsize,GaussSig=sigg,IntensitySig=sigi)
             self.sliceAx=np.rot90(self.sliceAx,rotation)

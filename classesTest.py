@@ -13,20 +13,17 @@ output_folder='/media/WORK/_PERF/SZHANIKOV  O.M. 19.01.1947/pics/'
 
 rois=dict(
     artery=(271,298,164,10),
-    pancreas_head=(226,340,168,10),
-    pancreas_tail=(310,334,225,10)
+    pancreas_head=(226,345,173,10),
+    pancreas_tail=(315,334,217,5)
 )
 
 roisdata=dict([(i,curves.Roi(img,rois[i][0:-1],rois[i][-1],'sphere',
-    True,[mrx[1,1],mrx[1,1],mrx[2,2]],.6,200,11,1)) for i in rois])
+    True,[mrx[1,1],mrx[1,1],mrx[2,2]],2,200,5,1)) for i in rois])
 time,timec=curves.samplet()
-for i in roisdata:
-    if i=='pancreas_tail':
-        roisdata[i].fitcurve(time,[1500,3,0.6,8,40],stop=13)
-        print '11111111111'
-        continue
-    print i
-    roisdata[i].fitcurve(time,[2670,3,0.8,8,30],stop=15)
+
+roisdata['pancreas_tail'].fitcurve(time,[1500,3,0.6,8,40],stop=13)
+roisdata['pancreas_head'].fitcurve(time,[2670,3,0.8,8,30],stop=13)
+roisdata['artery'].fitcurve(time,[2670,3,0.8,8,30],stop=16)
 
 print roisdata['artery'].tac
 sideratio=mrx[2,2]/mrx[1,1]
@@ -52,21 +49,21 @@ for i in roisdata:
         if axis == 'x':
             plt.delaxes()
             sp1= plt.subplot(111)
-            sp1.set_title('unfiltered')
+            sp1.set_title('coronal')
             sp1.set_axis_off()
             sp1.imshow(roisdata[i].sliceCor,cmap='gray',clim=(-200,300),aspect=sideratio,interpolation='bicubic')
             plt.savefig(output_folder+i+'_'+axis+'_imgonly.png',facecolor='k')
-            sp1.axvline(x=roisdata[i].center['y'])
+            sp1.axvline(x=roisdata[i].center['x'])
             sp1.axhline(y=320-roisdata[i].center['z'])
             plt.savefig(output_folder+i+'_'+axis+'.png',facecolor='k')
         if axis == 'y':
             plt.delaxes()
             sp1= plt.subplot(111)
-            sp1.set_title('unfiltered')
+            sp1.set_title('sagital')
             sp1.set_axis_off()
             sp1.imshow(roisdata[i].sliceSag,cmap='gray',clim=(-200,300),aspect=sideratio,interpolation='bicubic')
             plt.savefig(output_folder+i+'_'+axis+'_imgonly.png',facecolor='k')
-            sp1.axvline(x=roisdata[i].center['x'])
+            sp1.axvline(x=roisdata[i].center['y'])
             sp1.axhline(y=320-roisdata[i].center['z'])
             plt.savefig(output_folder+i+'_'+axis+'.png',facecolor='k')
 
@@ -94,12 +91,16 @@ spTCurve2.set_ylabel("Aorta CT density, HU")
 spTCurve.set_xlabel('Time, s')
 spTCurve.set_ylabel("ROI CT density, HU")
 
-spTCurve.text(0.9,0.1,'Arterial Blood Flow=88 (ml/min)/100ml',
+
+BloodFlowHead=round(6000*np.max(np.gradient(roisdata['pancreas_head'].tacfit))/np.max(roisdata['artery'].tacfit),2)
+BloodFlowTail=round(6000*np.max(np.gradient(roisdata['pancreas_tail'].tacfit))/np.max(roisdata['artery'].tacfit),2)
+
+spTCurve.text(0.9,0.1,'Arterial Blood Flow=%s (ml/min)/100ml'%BloodFlowHead,
     horizontalalignment='right',
     verticalalignment='center',
     transform = spTCurve.transAxes,
     bbox=dict(facecolor='r', alpha=0.8))
-spTCurve.text(0.9,0.05,'Arterial Blood Flow=118 (ml/min)/100ml',
+spTCurve.text(0.9,0.05,'Arterial Blood Flow=%s (ml/min)/100ml'%BloodFlowTail,
     horizontalalignment='right',
     verticalalignment='center',
     transform = spTCurve.transAxes,

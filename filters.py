@@ -21,7 +21,7 @@ def std(image,num):
 def gauss_kernel_3d(sigma,voxel_size):
     voxel_size=np.asarray(voxel_size,dtype=float)
     # calculate 3 sigma distance from centre
-    x,y,z=np.ceil(3*sigma/voxel_size)
+    x,y,z=np.ceil(2*sigma/voxel_size)
     distances=np.ogrid[-x:x+1,-y:y+1,-z:z+1]
     gauss=-0.5*np.multiply(distances,distances)/sigma**2
     gauss3d=1
@@ -193,10 +193,18 @@ def bilateral(img,voxel_size,sigg,sigi,mpr=None):
     outputvol=np.zeros(np.shape(img[[slice(i[0],i[1]) for i in mpr]]))
     zero_coords=[i[0] for i in mpr]
     while not slice_iter.finished:
-        x,y,z,t=np.asarray(slice_iter.multi_index)+np.asarray(zero_coords)
-        img_kernel=img[x-ks_x:x+1+ks_x,y-ks_y:y+1+ks_y,z-ks_z:z+1+ks_z,t]
-        diff=np.asarray(slice_iter)-img_kernel
-        coef=gaus_kern3d*np.exp(-diff*diff/sigISqrDouble)
-        outputvol[slice_iter.multi_index]=np.sum(img_kernel*coef)/np.sum(coef)
-        slice_iter.iternext()
+        if slice_iter.value<-200:
+            outputvol[slice_iter.multi_index]=slice_iter.value
+            slice_iter.iternext()
+            continue
+        try:
+            x,y,z,t=np.asarray(slice_iter.multi_index)+np.asarray(zero_coords)
+            img_kernel=img[x-ks_x:x+1+ks_x,y-ks_y:y+1+ks_y,z-ks_z:z+1+ks_z,t]
+            diff=slice_iter.value-img_kernel
+            coef=gaus_kern3d*np.exp(-diff*diff/sigISqrDouble)
+            outputvol[slice_iter.multi_index]=np.sum(img_kernel*coef)/np.sum(coef)
+            slice_iter.iternext()
+        except ValueError:
+            slice_iter.iternext()
+            continue
     return outputvol
