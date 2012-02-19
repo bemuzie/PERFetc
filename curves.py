@@ -17,12 +17,15 @@ class Roi:
         phase:phase in wich slices will be filtered
         rotation(bool): number of times slices will be rotated 90 deg counterclockwise
         """
-        if np.ndim(data) == 3: data=data[...,np.newaxis]
+        if np.ndim(data) == 3:
+            #check the number of volume dimensions. If volume is 3d add 4th dimension with length 1.
+            data=data[...,np.newaxis]
         self.center=dict(x=center[0],y=center[1],z=center[2])
         self.radius=radius
-        self.roicoord=dict(x=0,y=0,z=0)
-        for i in self.roicoord: self.roicoord[i]=slice(self.center[i]-radius,self.center[i]+radius+1)
-        self.roidata=data[self.roicoord['x'],self.roicoord['y'],self.roicoord['z']]
+        # make dictionary of ROI coordinates key(str):axis,value(slice):coordinates
+        roicoord=dict([( i,slice(self.center[i]-radius, self.center[i]+radius+1) ) for i in self.center])
+        #slicing ROI
+        self.roidata=data[roicoord['x'],roicoord['y'],roicoord['z']]
 
         if filtr==True:
             from filters import bilateral
@@ -32,7 +35,9 @@ class Roi:
             self.sliceSag=bilateral(data,voxsize,sigg,sigi,[[center[0],center[0]+1],[0,None],[0,None],[phase,phase+1]])[0,...,0]
             self.sliceCor=bilateral(data,voxsize,sigg,sigi,[[0,None],[center[1],center[1]+1],[0,None],[phase,phase+1]])[:,0,:,0]
             self.roidata=bilateral(data,voxsize,sigg,sigi,[[start[0],finish[0]],[start[1],finish[1]],[start[2],finish[2]],[0,None]])
+
             self.filter_pars=dict(VoxelSize=voxsize,GaussSig=sigg,IntensitySig=sigi)
+
             self.sliceAx=np.rot90(self.sliceAx,rotation)
             self.sliceSag=np.rot90(self.sliceSag,rotation)
             self.sliceCor=np.rot90(self.sliceCor,rotation)

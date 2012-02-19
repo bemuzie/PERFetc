@@ -26,6 +26,7 @@ def gauss_kernel_3d(sigma,voxel_size):
     gauss=-0.5*np.multiply(distances,distances)/sigma**2
     gauss3d=1
     for i in gauss: gauss3d = gauss3d*(np.exp(i)/np.sqrt(np.pi*2*sigma**2))
+    print np.shape(gauss3d)
     return gauss3d
 
 def gauss_kernel(size,sigma):
@@ -152,19 +153,18 @@ def bilateralFunc(data,sigISqrDouble,GausKern,center=None):
 
 
 
-def bilateralFilter(img,size,sigG,sigI):
+def bilateralFilter(img,voxel_size,sigg,sigi):
     """ 4d Bilateral exponential filter.
     image array, kernel size, distance SD, intensity SD
     """
     #img=np.array(img,dtype=float)
-    ksize=np.power(size,3)
-    center=ksize/2
-    sigISqrDouble=sigI*sigI*2
-    sigISqrDouble=float(sigISqrDouble)
-    GausKern=np.ravel(gauss_kernel(size,sigG))
+    sigISqrDouble=float(sigi*sigi*2)
+    gkern=gauss_kernel_3d(sigg, voxel_size)
+    ksize=np.shape(gkern)
+    GausKern=np.ravel(gkern)
     #Closness function
-    kwargs=dict(sigISqrDouble=sigISqrDouble,GausKern=GausKern,center=center)
-    img_filtered=ndimage.generic_filter(img,bilateralFunc,size=[size,size,size,1],extra_keywords=kwargs)
+    kwargs=dict(sigISqrDouble=sigISqrDouble,GausKern=GausKern,center=len(GausKern)/2)
+    img_filtered=ndimage.generic_filter(img,bilateralFunc,size=ksize+(1,),extra_keywords=kwargs)
     return img_filtered
 
 def bilateral(img,voxel_size,sigg,sigi,mpr=None):
