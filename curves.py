@@ -27,10 +27,16 @@ class Roi:
         #slicing ROI
         self.roidata=data[roicoord['x'],roicoord['y'],roicoord['z']]
 
+        start=np.asarray(center)-radius
+        finish=np.asarray(center)+radius+1
+
+        self.sliceAx=data[:,:,center[2],phase]
+        self.sliceSag=data[center[0],...,phase]
+        self.sliceCor=data[:,center[1],:,phase]
+        self.roidata=data[start[0]:finish[0],start[1]:finish[1],start[2]:finish[2]]
+
         if filtr==True:
             from filters import bilateral
-            start=np.asarray(center)-radius
-            finish=np.asarray(center)+radius+1
             self.sliceAx=bilateral(data,voxsize,sigg,sigi,[[0,None],[0,None],[center[2],center[2]+1],[phase,phase+1]])[...,0,0]
             self.sliceSag=bilateral(data,voxsize,sigg,sigi,[[center[0],center[0]+1],[0,None],[0,None],[phase,phase+1]])[0,...,0]
             self.sliceCor=bilateral(data,voxsize,sigg,sigi,[[0,None],[center[1],center[1]+1],[0,None],[phase,phase+1]])[:,0,:,0]
@@ -38,9 +44,9 @@ class Roi:
 
             self.filter_pars=dict(VoxelSize=voxsize,GaussSig=sigg,IntensitySig=sigi)
 
-            self.sliceAx=np.rot90(self.sliceAx,rotation)
-            self.sliceSag=np.rot90(self.sliceSag,rotation)
-            self.sliceCor=np.rot90(self.sliceCor,rotation)
+        self.sliceAx=np.rot90(self.sliceAx,rotation)
+        self.sliceSag=np.rot90(self.sliceSag,rotation)
+        self.sliceCor=np.rot90(self.sliceCor,rotation)
         if shape=='sphere':
             xm,ym,zm=np.ogrid[-self.radius:self.radius+1,-self.radius:self.radius+1,-self.radius:self.radius+1]
             spheremask=np.sqrt(xm**2+ym**2+zm**2)>self.radius

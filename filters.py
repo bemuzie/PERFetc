@@ -21,7 +21,7 @@ def std(image,num):
 def gauss_kernel_3d(sigma,voxel_size):
     voxel_size=np.asarray(voxel_size,dtype=float)
     # calculate 3 sigma distance from centre
-    x,y,z=np.ceil(2*sigma/voxel_size)
+    x,y,z=np.ceil(3*sigma/voxel_size)
     distances=np.ogrid[-x:x+1,-y:y+1,-z:z+1]
     gauss=-0.5*np.multiply(distances,distances)/sigma**2
     gauss3d=1
@@ -177,7 +177,7 @@ def bilateral(img,voxel_size,sigg,sigi,mpr=None):
     gaus_kern3d=gauss_kernel_3d(sigg, voxel_size)
     ks_x,ks_y,ks_z=np.asarray(np.shape(gaus_kern3d))/2
 
-    print np.shape(gaus_kern3d),ks_x,ks_y,ks_z
+    print np.shape(img),ks_x,ks_y,ks_z
 
     gaus_kern=np.ravel(gaus_kern3d)
     center=len(gaus_kern)/2
@@ -193,7 +193,7 @@ def bilateral(img,voxel_size,sigg,sigi,mpr=None):
     outputvol=np.zeros(np.shape(img[[slice(i[0],i[1]) for i in mpr]]))
     zero_coords=[i[0] for i in mpr]
     while not slice_iter.finished:
-        if slice_iter.value<-200:
+        if slice_iter.value<-500:
             outputvol[slice_iter.multi_index]=slice_iter.value
             slice_iter.iternext()
             continue
