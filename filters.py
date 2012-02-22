@@ -3,6 +3,8 @@ __author__ = 'denis'
 
 import numpy as np
 from scipy import ndimage
+
+
 def std(image,num):
     sh=np.shape(image)[0]
     for parts in np.arange(num)[::-1]:
@@ -144,7 +146,6 @@ def tips4d_m(img,size,sigG,sigT):
     return img_filtered
 def bilateralFunc(data,sigISqrDouble,GausKern,center=None):
     """ kernel should be  """
-
     diff=data[center]-data
     IclsKern=np.exp(-diff*diff/sigISqrDouble)
     coef=IclsKern*GausKern
@@ -157,14 +158,14 @@ def bilateralFilter(img,voxel_size,sigg,sigi):
     """ 4d Bilateral exponential filter.
     image array, kernel size, distance SD, intensity SD
     """
-    #img=np.array(img,dtype=float)
+    import ndbilateral
     sigISqrDouble=float(sigi*sigi*2)
     gkern=gauss_kernel_3d(sigg, voxel_size)
     ksize=np.shape(gkern)
     GausKern=np.ravel(gkern)
     #Closness function
     kwargs=dict(sigISqrDouble=sigISqrDouble,GausKern=GausKern,center=len(GausKern)/2)
-    img_filtered=ndimage.generic_filter(img,bilateralFunc,size=ksize+(1,),extra_keywords=kwargs)
+    img_filtered=ndimage.generic_filter(img,ndbilateral.bilateralFunc,size=ksize+(1,),extra_keywords=kwargs)
     return img_filtered
 
 def bilateral(img,voxel_size,sigg,sigi,mpr=None):
@@ -177,16 +178,17 @@ def bilateral(img,voxel_size,sigg,sigi,mpr=None):
     gaus_kern3d=gauss_kernel_3d(sigg, voxel_size)
     ks_x,ks_y,ks_z=np.asarray(np.shape(gaus_kern3d))/2
 
-    print np.shape(img),ks_x,ks_y,ks_z
+    #print np.shape(img),ks_x,ks_y,ks_z
 
     gaus_kern=np.ravel(gaus_kern3d)
     center=len(gaus_kern)/2
     # calculate 2*sigma^2 of intensity closeness function out from loop
-    sigISqrDouble=2*float(sigi)**2
+    sigISqrDouble=float(2*sigi*sigi)
     #Closness function
     kwargs=dict(sigISqrDouble=sigISqrDouble,GausKern=gaus_kern,center=center)
     if mpr == None:
-        return ndimage.generic_filter(img,bilateralFunc,size=np.append(kern_size,1),extra_keywords=kwargs)
+        ksize=np.shape(gaus_kern3d)
+        return ndimage.generic_filter(img,bilateralFunc,size=ksize+(1,),extra_keywords=kwargs)
 
     #filtration of selected vol
     slice_iter=np.nditer(img[[slice(i[0],i[1]) for i in mpr]],flags=['c_index','multi_index'])
