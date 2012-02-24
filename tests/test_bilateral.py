@@ -27,7 +27,7 @@ ROI=[[0,None],[0,None],[0,None],[0,None]]
 print img_n.shape
 a=filters.bilateral(img_n,voxel_size,gauss_sigma,intensity_sigma)
 b=ndbilateral.bilateral(img_n,voxel_size,gauss_sigma,intensity_sigma)
-"""
+
 print a-b
 t = timeit.Timer("filters.bilateral(img_n,voxel_size,gauss_sigma,intensity_sigma)",
     "from __main__ import *")
@@ -35,7 +35,7 @@ t2 = timeit.Timer("ndbilateral.bilateral(img_n,voxel_size,gauss_sigma,intensity_
     "from __main__ import *")
 print "Pure python function", t.timeit(num), "sec"
 print "Cython function", t2.timeit(num), "sec"
-"""
+
 sp1=plt.subplot(311)
 sp2=plt.subplot(312)
 sp3=plt.subplot(313)

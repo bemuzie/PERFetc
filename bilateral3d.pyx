@@ -67,6 +67,7 @@ def bilateral(np.ndarray[DTYPEfloat_t, ndim=4] data,voxel_size,double sigg,doubl
     cdef int kernelSize_x=gaus_kern3d.shape[0]
     cdef int kernelSize_y=gaus_kern3d.shape[1]
     cdef int kernelSize_z=gaus_kern3d.shape[2]
+
     cdef int kside_x=kernelSize_x // 2
     cdef int kside_y=kernelSize_y // 2
     cdef int kside_z=kernelSize_z // 2
@@ -78,7 +79,6 @@ def bilateral(np.ndarray[DTYPEfloat_t, ndim=4] data,voxel_size,double sigg,doubl
     cdef double weight_i, weights
     cdef DTYPEfloat_t diff
     cdef int x,y,z,t,xk,yk,zk
-    print 'start convolution'
     for x in range(kside_x, imgSize_x - kside_x - 1):
         for y in range(kside_y, imgSize_y - kside_y - 1):
             for z in range(kside_z, imgSize_z - kside_z - 1):
@@ -88,11 +88,9 @@ def bilateral(np.ndarray[DTYPEfloat_t, ndim=4] data,voxel_size,double sigg,doubl
                     for xk in range(-kside_x,kside_x+1):
                         for yk in range(-kside_y,kside_y+1):
                             for zk in range(-kside_z,kside_z+1):
-
-                                diff=data[x+xk,y+yk,z+zk,t]-data[x,y,z,t]
                                 weight_i=gaus_kern3d[xk+kside_x,yk+kside_y,zk+kside_z]*\
-                                         exp(-diff**2/sigiSqrDouble)
-                                value+=data[x-xk,y-yk,z-zk,t]*weight_i
+                                         exp( -(data[x+xk,y+yk,z+zk,t] - data[x,y,z,t])**2 / sigiSqrDouble)
+                                value+=data[x+xk,y+yk,z+zk,t]*weight_i
                                 weights+=weight_i
                     result[x,y,z,t]= value/weights
     return result
