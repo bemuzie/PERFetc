@@ -144,7 +144,7 @@ def tips4d_m(img,size,sigG,sigT):
         #img_filtered[x+size_half,y+size_half,z+size_half]=TimeProfile_cl(kernel,sigTSqrDouble,GausKern,center,lenT)
 
     return img_filtered
-def bilateralFunc(data,sigISqrDouble,GausKern,center=None):
+def bilateralFunc(data,sigISqrDouble,GausKern,center):
     """ kernel should be  """
     diff=data[center]-data
     IclsKern=np.exp(-diff*diff/sigISqrDouble)
@@ -189,7 +189,7 @@ def bilateral(img,voxel_size,sigg,sigi,mpr=None):
     if mpr == None:
         ksize=np.shape(gaus_kern3d)
         return ndimage.generic_filter(img,bilateralFunc,size=ksize+(1,),extra_keywords=kwargs)
-
+    print 'bla bla'
     #filtration of selected vol
     slice_iter=np.nditer(img[[slice(i[0],i[1]) for i in mpr]],flags=['c_index','multi_index'])
     outputvol=np.zeros(np.shape(img[[slice(i[0],i[1]) for i in mpr]]))

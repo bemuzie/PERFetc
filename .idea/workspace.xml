@@ -2,19 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ca7396ea-78df-4e98-901e-a045ad143151" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/setup.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/cython_example.pyx" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/test_bilateral.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/plotExper" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/testPloting" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/test.py" afterPath="$PROJECT_DIR$/tests/test.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/test2.py" afterPath="$PROJECT_DIR$/tests/test2.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/testPloting.py" afterPath="$PROJECT_DIR$/tests/testPloting.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/testTIPS4.py" afterPath="$PROJECT_DIR$/tests/testTIPS4.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bilateral3d.pyx" afterPath="$PROJECT_DIR$/bilateral3d.pyx" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/filters.py" afterPath="$PROJECT_DIR$/filters.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test_bilateral.py" afterPath="$PROJECT_DIR$/tests/test_bilateral.py" />
     </list>
     <ignored path="FlowPy.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -39,7 +30,7 @@
       <file leaf-file-name="bilateral3d.pyx" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bilateral3d.pyx">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="19" selection-start="204" selection-end="204" vertical-scroll-proportion="-0.51107323">
+            <state line="52" column="54" selection-start="1487" selection-end="1487" vertical-scroll-proportion="0.08006814">
               <folding />
             </state>
           </provider>
@@ -48,7 +39,7 @@
       <file leaf-file-name="test_bilateral.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/test_bilateral.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="88" selection-start="525" selection-end="525" vertical-scroll-proportion="0.0">
+            <state line="28" column="35" selection-start="589" selection-end="589" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#18#36#0" expanded="true" />
               </folding>
@@ -59,19 +50,19 @@
       <file leaf-file-name="setup.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/setup.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="5" selection-start="453" selection-end="453" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#0#32#0" expanded="true" />
-              </folding>
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/test.py">
+      <file leaf-file-name="cython_example.pyx" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/cython_example.pyx">
           <provider selected="true" editor-type-id="text-editor">
             <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
+              <folding>
+                <element signature="e#0#31#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -97,29 +88,20 @@
       <file leaf-file-name="filters.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/filters.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="168" column="3" selection-start="5751" selection-end="5751" vertical-scroll-proportion="0.0">
+            <state line="191" column="18" selection-start="6655" selection-end="6655" vertical-scroll-proportion="0.0">
               <folding>
-                <element signature="e#46#64#0" expanded="true" />
                 <element signature="e#117#546#0" expanded="false" />
+                <element signature="e#590#957#0" expanded="false" />
                 <element signature="e#993#1324#0" expanded="false" />
                 <element signature="e#1364#1612#1" expanded="false" />
                 <element signature="e#1364#3014#0" expanded="false" />
                 <element signature="e#3081#3438#0" expanded="false" />
                 <element signature="e#3478#3726#1" expanded="false" />
                 <element signature="e#3478#4973#0" expanded="false" />
-                <element signature="e#5270#5370#1" expanded="false" />
-                <element signature="e#5270#5771#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="cython_example.pyx" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/cython_example.pyx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="81" column="12" selection-start="4148" selection-end="4148" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#0#31#0" expanded="true" />
+                <element signature="e#5265#5365#1" expanded="false" />
+                <element signature="e#5265#5766#0" expanded="false" />
+                <element signature="e#5822#5982#1" expanded="false" />
+                <element signature="e#5822#7574#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -127,6 +109,15 @@
       </file>
       <file leaf-file-name="bilateral3d.c" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bilateral3d.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="6534" column="0" selection-start="265178" selection-end="265178" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="modelling.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modelling.py">
           <provider selected="true" editor-type-id="text-editor">
             <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
@@ -158,7 +149,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/testPloting.py" />
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/ploting.py" />
         <option value="$PROJECT_DIR$/image.py" />
@@ -169,11 +159,12 @@
         <option value="$PROJECT_DIR$/curves.py" />
         <option value="$PROJECT_DIR$/classesTest.py" />
         <option value="$PROJECT_DIR$/test2.py" />
-        <option value="$PROJECT_DIR$/filters.py" />
         <option value="$PROJECT_DIR$/tests/cython_example.pyx" />
         <option value="$PROJECT_DIR$/setup.py" />
+        <option value="$PROJECT_DIR$/bilateral3d.c" />
         <option value="$PROJECT_DIR$/bilateral3d.pyx" />
         <option value="$PROJECT_DIR$/tests/test_bilateral.py" />
+        <option value="$PROJECT_DIR$/filters.py" />
       </list>
     </option>
   </component>
@@ -235,6 +226,10 @@
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="PERFetc">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
@@ -243,10 +238,10 @@
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="options.lastSelected" value="com.jetbrains.python.configuration.PythonSdkConfigurable" />
     <property name="recentsLimit" value="5" />
-    <property name="options.searchVisible" value="true" />
+    <property name="options.lastSelected" value="com.jetbrains.python.configuration.PythonSdkConfigurable" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -622,21 +617,21 @@
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.328125" sideWeight="0.486911" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34974873" sideWeight="0.3120915" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33507854" sideWeight="0.6230469" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34031415" sideWeight="0.6230469" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39869282" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39453125" sideWeight="0.78992146" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.37695312" sideWeight="0.236911" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.37695312" sideWeight="0.75850785" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.37695312" sideWeight="0.2408377" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.37695312" sideWeight="0.75458115" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20117188" sideWeight="0.4973822" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32843137" sideWeight="0.49737877" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39453125" sideWeight="0.78992146" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -673,7 +668,7 @@
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
     <option name="CREATE_PATCH_EXPAND_DETAILS_DEFAULT" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="add adaptive size 3d gaussian kernel" />
+    <option name="LAST_COMMIT_MESSAGE" value="smth" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -696,16 +691,12 @@
     <MESSAGE value="modifing TIPS" />
     <MESSAGE value="add plotting feature with mpr images and time/attenuation curve" />
     <MESSAGE value="add adaptive size 3d gaussian kernel" />
+    <MESSAGE value="smth" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/bilateral3d.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="30" selection-start="52" selection-end="52" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/CopyFiles.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="9" column="19" selection-start="291" selection-end="291" vertical-scroll-proportion="0.0" />
@@ -723,28 +714,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/curves.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="10" selection-start="189" selection-end="189" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#194#3396#0" expanded="false" />
-            <element signature="e#316#935#1" expanded="false" />
-            <element signature="e#316#2977#0" expanded="false" />
-            <element signature="e#3042#3396#0" expanded="false" />
-            <element signature="e#3467#3619#1" expanded="false" />
-            <element signature="e#3467#3777#0" expanded="false" />
-            <element signature="e#3806#3940#1" expanded="false" />
-            <element signature="e#3806#4111#0" expanded="false" />
-            <element signature="e#4151#4303#1" expanded="false" />
-            <element signature="e#4151#4419#0" expanded="false" />
-            <element signature="e#4468#4561#0" expanded="false" />
-            <element signature="e#4614#5070#0" expanded="false" />
-            <element signature="e#5106#5136#0" expanded="false" />
-            <element signature="e#5194#5796#0" expanded="false" />
-            <element signature="e#5844#6044#0" expanded="false" />
-            <element signature="e#6069#6101#0" expanded="false" />
-            <element signature="e#6160#7287#0" expanded="false" />
-            <element signature="e#7318#8218#0" expanded="false" />
-          </folding>
-        </state>
+        <state line="6" column="10" selection-start="189" selection-end="189" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/image.py">
@@ -752,18 +732,39 @@
         <state line="64" column="34" selection-start="2368" selection-end="2368" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/classesTest.py">
+    <entry file="file://$PROJECT_DIR$/modelling.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/__init__.py">
+    <entry file="file://$PROJECT_DIR$/bilateral3d.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6534" column="0" selection-start="265178" selection-end="265178" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setup.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/cython_example.pyx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/classesTest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/test2.py">
@@ -773,68 +774,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bilateral3d.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/filters.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="168" column="3" selection-start="5751" selection-end="5751" vertical-scroll-proportion="0.0">
+        <state line="191" column="18" selection-start="6655" selection-end="6655" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#46#64#0" expanded="true" />
             <element signature="e#117#546#0" expanded="false" />
+            <element signature="e#590#957#0" expanded="false" />
             <element signature="e#993#1324#0" expanded="false" />
             <element signature="e#1364#1612#1" expanded="false" />
             <element signature="e#1364#3014#0" expanded="false" />
             <element signature="e#3081#3438#0" expanded="false" />
             <element signature="e#3478#3726#1" expanded="false" />
             <element signature="e#3478#4973#0" expanded="false" />
-            <element signature="e#5270#5370#1" expanded="false" />
-            <element signature="e#5270#5771#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="5" selection-start="453" selection-end="453" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
+            <element signature="e#5265#5365#1" expanded="false" />
+            <element signature="e#5265#5766#0" expanded="false" />
+            <element signature="e#5822#5982#1" expanded="false" />
+            <element signature="e#5822#7574#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/test_bilateral.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="88" selection-start="525" selection-end="525" vertical-scroll-proportion="0.0">
+        <state line="28" column="35" selection-start="589" selection-end="589" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#18#36#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/cython_example.pyx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="81" column="12" selection-start="4148" selection-end="4148" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/bilateral3d.pyx">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="19" selection-start="204" selection-end="204" vertical-scroll-proportion="-0.51107323">
+        <state line="52" column="54" selection-start="1487" selection-end="1487" vertical-scroll-proportion="0.08006814">
           <folding />
         </state>
       </provider>
