@@ -60,7 +60,7 @@ def bilateral(np.ndarray[DTYPEfloat_t, ndim=4] data,voxel_size,double sigg,doubl
     cdef int imgSize_y=data.shape[1]
     cdef int imgSize_z=data.shape[2]
     cdef int imgSize_t=data.shape[3]
-    cdef DTYPEfloat_t value
+    cdef float value
 
 
     cdef np.ndarray[DTYPEfloat_t, ndim=3] gaus_kern3d=np.asarray(gauss_kernel_3d(sigg, voxel_size),dtype=DTYPEfloat)
@@ -75,10 +75,11 @@ def bilateral(np.ndarray[DTYPEfloat_t, ndim=4] data,voxel_size,double sigg,doubl
     cdef np.ndarray[DTYPEfloat_t, ndim=4] result=np.zeros([imgSize_x,imgSize_y,imgSize_z,imgSize_t],dtype=DTYPEfloat)
     cdef int resultSize_x = imgSize_x
     # calculate 2*sigma^2 of intensity closeness function out from loop
-    cdef double sigiSqrDouble=2*sigi**2
-    cdef double weight_i, weights
+    cdef float sigiSqrDouble=2*sigi**2
+    cdef float weight_i, weights
     cdef DTYPEfloat_t diff
     cdef int x,y,z,t,xk,yk,zk
+
     for x in range(kside_x, imgSize_x - kside_x - 1):
         for y in range(kside_y, imgSize_y - kside_y - 1):
             for z in range(kside_z, imgSize_z - kside_z - 1):
