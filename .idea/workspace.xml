@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ca7396ea-78df-4e98-901e-a045ad143151" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/transform" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/testingnet.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/transform.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bilateral3d.pyx" afterPath="$PROJECT_DIR$/bilateral3d.pyx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/filters.py" afterPath="$PROJECT_DIR$/filters.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test_bilateral.py" afterPath="$PROJECT_DIR$/tests/test_bilateral.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CopyFiles.py" afterPath="$PROJECT_DIR$/CopyFiles.py" />
     </list>
     <ignored path="FlowPy.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -31,20 +32,25 @@
         <entry file="file://$PROJECT_DIR$/setup.py">
           <provider selected="true" editor-type-id="text-editor">
             <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#0#32#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test_bilateral.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="test_bilateral.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/test_bilateral.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="21" selection-start="502" selection-end="502" vertical-scroll-proportion="0.7058824">
-              <folding>
-                <element signature="e#18#36#0" expanded="true" />
-              </folding>
+            <state line="26" column="21" selection-start="502" selection-end="502" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="testingnet.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/testingnet.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="20" column="0" selection-start="374" selection-end="374" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -58,21 +64,22 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="transform.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/transform.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="13" column="33" selection-start="343" selection-end="343" vertical-scroll-proportion="0.522293">
+              <folding>
+                <element signature="e#21#39#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="filters.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/filters.py">
           <provider selected="true" editor-type-id="text-editor">
             <state line="213" column="0" selection-start="7576" selection-end="7576" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#46#64#0" expanded="true" />
-                <element signature="e#117#546#0" expanded="false" />
-                <element signature="e#590#957#0" expanded="false" />
-                <element signature="e#993#1324#0" expanded="false" />
-                <element signature="e#1364#3014#0" expanded="false" />
-                <element signature="e#3081#3438#0" expanded="false" />
-                <element signature="e#3478#4973#0" expanded="false" />
-                <element signature="e#5265#5766#0" expanded="false" />
-                <element signature="e#5822#7574#0" expanded="false" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -92,8 +99,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/test.py" />
-        <option value="$PROJECT_DIR$/ploting.py" />
         <option value="$PROJECT_DIR$/image.py" />
         <option value="$PROJECT_DIR$/CopyFiles.py" />
         <option value="$PROJECT_DIR$/bilateral3d.py" />
@@ -108,13 +113,15 @@
         <option value="$PROJECT_DIR$/bilateral3d.pyx" />
         <option value="$PROJECT_DIR$/filters.py" />
         <option value="$PROJECT_DIR$/tests/test_bilateral.py" />
+        <option value="$PROJECT_DIR$/testingnet.py" />
+        <option value="$PROJECT_DIR$/transform.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="28" />
-    <option name="width" value="997" />
-    <option name="height" value="748" />
+    <option name="x" value="29" />
+    <option name="width" value="995" />
+    <option name="height" value="743" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -208,7 +215,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.test_bilateral">
+  <component name="RunManager" selected="Python.transform">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -502,7 +509,43 @@
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
-    <list size="13">
+    <configuration default="false" name="testingnet" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <module name="FlowPy" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/testingnet.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="MULTIPROCESS" value="false" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="transform" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <module name="FlowPy" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/transform.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="MULTIPROCESS" value="false" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <list size="15">
       <item index="0" class="java.lang.String" itemvalue="Python.test2" />
       <item index="1" class="java.lang.String" itemvalue="Python.tips4" />
       <item index="2" class="java.lang.String" itemvalue="Python.testTIPS4" />
@@ -516,6 +559,8 @@
       <item index="10" class="java.lang.String" itemvalue="Python.classesTest" />
       <item index="11" class="java.lang.String" itemvalue="Python.setup" />
       <item index="12" class="java.lang.String" itemvalue="Python.test_bilateral" />
+      <item index="13" class="java.lang.String" itemvalue="Python.testingnet" />
+      <item index="14" class="java.lang.String" itemvalue="Python.transform" />
     </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
@@ -576,23 +621,23 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="28" y="0" width="997" height="748" extended-state="6" />
+    <frame x="29" y="0" width="995" height="743" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32767403" sideWeight="0.48257655" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293718" sideWeight="0.49630412" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.4962963" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34974873" sideWeight="0.3120915" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35691658" sideWeight="0.62478775" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.38201058" sideWeight="0.625" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39728352" sideWeight="0.49630412" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.37521222" sideWeight="0.118268214" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.37521222" sideWeight="0.87434" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.375" sideWeight="0.12698413" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.375" sideWeight="0.86560845" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20117188" sideWeight="0.4973822" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32843137" sideWeight="0.49737877" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -662,16 +707,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/CopyFiles.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="19" selection-start="291" selection-end="291" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MaxSlopePerfusion.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/testTIPS4.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="31" column="10" selection-start="661" selection-end="661" vertical-scroll-proportion="0.0" />
@@ -709,9 +744,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/build/pip-delete-this-directory.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/cython_example.pyx">
@@ -721,9 +754,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/image.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="64" column="34" selection-start="2368" selection-end="2368" vertical-scroll-proportion="0.07042254">
-          <folding />
-        </state>
+        <state line="64" column="34" selection-start="2368" selection-end="2368" vertical-scroll-proportion="0.07042254" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/setup.py">
@@ -731,35 +762,31 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bilateral3d.pyx">
+    <entry file="file://$PROJECT_DIR$/tests/test_bilateral.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="26" column="21" selection-start="502" selection-end="502" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testingnet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="0" selection-start="374" selection-end="374" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/filters.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="213" column="0" selection-start="7576" selection-end="7576" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#46#64#0" expanded="true" />
-            <element signature="e#117#546#0" expanded="false" />
-            <element signature="e#590#957#0" expanded="false" />
-            <element signature="e#993#1324#0" expanded="false" />
-            <element signature="e#1364#3014#0" expanded="false" />
-            <element signature="e#3081#3438#0" expanded="false" />
-            <element signature="e#3478#4973#0" expanded="false" />
-            <element signature="e#5265#5766#0" expanded="false" />
-            <element signature="e#5822#7574#0" expanded="false" />
-          </folding>
-        </state>
+        <state line="213" column="0" selection-start="7576" selection-end="7576" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_bilateral.py">
+    <entry file="file://$PROJECT_DIR$/bilateral3d.pyx">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="21" selection-start="502" selection-end="502" vertical-scroll-proportion="0.7058824">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/transform.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="33" selection-start="343" selection-end="343" vertical-scroll-proportion="0.522293">
           <folding>
-            <element signature="e#18#36#0" expanded="true" />
+            <element signature="e#21#39#0" expanded="true" />
           </folding>
         </state>
       </provider>
