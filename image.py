@@ -78,3 +78,18 @@ with folder structure /PatientName-BirthDate/StudyNumber/SeriesNumber/"""
             #except InvalidDicomError:continue
 
 
+def transconvert(mrxfileSlicer='stack.tfm',folder='/media/63A0113C6D30EAE8/_PERF/YAVNIK/slicer/',inputim=''):
+
+    mrxfileMango="Mango"+mrxfileSlicer[:-4]+'.txt'
+    mrxfileMangoAbs=folder+mrxfileMango
+
+    os.mknod(mrxfileMangoAbs)
+    mrxSlicer=open(folder+mrxfileSlicer)
+    mrxSlicer = mrxSlicer.readlines()[3].split()[1:]
+    mrxMango=[mrxSlicer[i:i+3] for i in [0,3,6]]
+    mrxMango=[mrxMango[i-1]+[mrxSlicer[-i]] for i in [1,2,3]]
+
+    for i in mrxMango:
+        open(mrxfileMangoAbs,'a').write(' '.join(i)+'\n')
+
+    os.system('applytransform -c %s %s %s'%(mrxfileMangoAbs,inputim,inputim+'_transformed'))
