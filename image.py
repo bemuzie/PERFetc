@@ -61,14 +61,14 @@ with folder structure /PatientName-BirthDate/StudyNumber/SeriesNumber/"""
                 shutil.move(os.path.join(pathfold,file_name),out_path+'/')
                 i+=1
                 os.system('clear')
-                print 'скопировано ',i,'из',a
+                #print 'скопировано ',i,'из',a
             except IOError as (s):
                 os.makedirs(s.filename)
                 #noinspection PyUnboundLocalVariable
                 shutil.move(os.path.join(pathfold,file_name),out_path+'/')
                 i+=1
                 os.system('clear')
-                print 'скопировано ',i,'из',a
+                #print 'скопировано ',i,'из',a
                 continue
             except dicom.filereader.InvalidDicomError:
                 continue
