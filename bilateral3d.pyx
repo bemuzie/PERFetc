@@ -80,6 +80,8 @@ def bilateral(np.ndarray[DTYPEfloat_t, ndim=4] data,voxel_size,double sigg,doubl
     cdef DTYPEfloat_t diff
     cdef int x,y,z,t,xk,yk,zk
 
+    print sigiSqrDouble
+
     for x in range(kside_x, imgSize_x - kside_x - 1):
         for y in range(kside_y, imgSize_y - kside_y - 1):
             for z in range(kside_z, imgSize_z - kside_z - 1):

@@ -5,17 +5,23 @@ import filters
 import os
 import nibabel as nib
 from timeit import timeit
+import ndbilateral
 
-adress="/media/WORK/_PERF/SILAGI A.L. 23.05.1958/Nifti4d/"
+adress="/media/63A0113C6D30EAE8/_PERF/YAVNIK  G.A. 12.08.1948/20120321_509/Nifti4d/"
 filelist=os.listdir(adress)
-adress_out='/media/WORK/_PERF/SILAGI A.L. 23.05.1958/filtered/'
-croppart=8
+adress_out='/media/63A0113C6D30EAE8/_PERF/YAVNIK  G.A. 12.08.1948/20120321_509/filtered/'
+croppart=4
 
-img,hdr, mrx=image.loadnii(adress,"GeneralBodyPerfusionSILAGIAL23051958s034a010_FC70_AIRD_05s.nii")
+img,hdr, mrx=image.loadnii(adress,"GeneralBodyPerfusionYAVNIKGA12081948s005a003.nii")
 
 shp=np.shape(img)
-x,y,z=[198,319,318]
-img=image.crop(img[...,None],x,y,z,shp[2]/croppart,invert=False)
+print shp
+x,y,z=[235,309,140]
+img=image.crop(img[...,],x,y,z,100,invert=False)
+print 'crop completed'
+print np.shape(img)
+print type(img[1,1,1,0])
+img=img.astype('float64')
 """
 img=np.arange(50*50*40*17).reshape(50,50,40,17)
 
@@ -26,19 +32,20 @@ size='crop'
 sigmaG=''
 sigmaT=''
 """
+print type(img[1,1,1,0])
 
-a=[1000]
+a=[10]
 for i in a:
-    size=7
-    sigmaG=1
+    size=0.4
+    sigmaG=0.7
     sigmaT=i
 
 
         #print (timeit('tips4.convolve4d(img,13,3,100)', 'from __main__ import *', number = 10))
 
-    tips=filters.bilateralFilter(img,[0.515,.515,.25],sigmaG,i)
-    tips=filters.bilateralFilter(tips,[0.515,.515,.25],sigmaG,200)
+    tips=ndbilateral.bilateral(img[...],[0.78,.78,.5],sigmaG,i)
     image.savenii(tips,mrx,adress_out+'%s_%s_%s_%s_crp%s_x%sy%sz%s.nii'%\
-                                             ('FC70_AIRD_05s',size,sigmaG,sigmaT,shp[0],x,y,z))
+                                             ('FC17_QDS_1',size,sigmaG,sigmaT,shp[0],x,y,z))
+    image.convert(tips,adress_out+'parsed/')
 #    tips=filters.std(img,13)
 
