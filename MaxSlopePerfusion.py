@@ -1,6 +1,8 @@
+from curves import curves
+
 __author__ = 'denis'
-import curves, image
-import numpy as np
+import  image
+
 folder='/media/data/_PERF/Rogachevskiy'
 name='GeneralBodyPerfusionROGACHEVSKIJVF10031945.nii'
 header,img=image.loadnii(folder,name)

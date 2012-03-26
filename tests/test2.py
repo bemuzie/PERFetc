@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
+from curves import curves
+
 __author__ = 'denis'
 import numpy as np
-import curves
 import matplotlib.pyplot as plt
 import matplotlib
 import image
@@ -18,9 +19,9 @@ rois=dict(
     tail=(318,253,239,5)
 )
 
-roisdata=dict([(i,curves.Roi(img,rois[i][0:-1],rois[i][-1],'sphere',
+roisdata=dict([(i, curves.Roi(img,rois[i][0:-1],rois[i][-1],'sphere',
                              True,[mrx[1,1],mrx[1,1],mrx[2,2]],1,1500,11,1)) for i in rois])
-time,timec=curves.samplet()
+time,timec= curves.samplet()
 roisdata['cyst'].fitcurve(time,[1500,3,0.6,6,0],stop=16)
 roisdata['tail'].fitcurve(time,[1500,3,0.6,6,40],stop=16)
 roisdata['head'].fitcurve(time,[2670,3,0.8,6,40],stop=16)

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
+from curves import curves
+
 __author__ = 'denis'
-import numpy as np
-import curves
 import matplotlib.pyplot as plt
 import matplotlib
 import image
@@ -18,7 +18,7 @@ rois=dict(
     lesion_s3=(322,395,250,1)
 )
 
-roisdata=dict([(i,curves.Roi(img,rois[i][0:-1],rois[i][-1],'sphere',
+roisdata=dict([(i, curves.Roi(img,rois[i][0:-1],rois[i][-1],'sphere',
     True,[mrx[1,1],mrx[1,1],mrx[2,2]],1,80,0,1)) for i in rois])
 #time,timec=curves.samplet()
 """

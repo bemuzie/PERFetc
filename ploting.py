@@ -1,12 +1,13 @@
+from curves import curves
+
 __author__ = 'ct'
 # -*- coding: utf-8 -*-
 import matplotlib.pyplot as plt
 import matplotlib
 import numpy as np
-import curves
 
 def PlotImg(img,matrix,RoiCentre,RoiSize,RoiArt,imgName,invertcord=True,TimeSeries=True):
-    Time,TimeC=curves.samplet()
+    Time,TimeC= curves.samplet()
     x,y,z,t=np.shape(img)
     Rx,Ry,Rz=np.ogrid[0:x,0:y,0:z]
     if invertcord == True:
@@ -20,8 +21,8 @@ def PlotImg(img,matrix,RoiCentre,RoiSize,RoiArt,imgName,invertcord=True,TimeSeri
     ImRoi=np.ma.array(img,mask=RoiA)
     TAcurveA=np.ma.average(np.ma.average(np.ma.average(ImRoi,0),0),0)
     TAcurveSDA=ImRoi.std(0).std(0).std(0)
-    CurvePar=curves.fitcurve(TAcurveA[:-3],Time[:-3],initial=[5000,4,1,6,30])
-    FittedCurveA=curves.logn(TimeC,CurvePar[0],CurvePar[1],CurvePar[2],CurvePar[3],CurvePar[4])
+    CurvePar= curves.fitcurve(TAcurveA[:-3],Time[:-3],initial=[5000,4,1,6,30])
+    FittedCurveA= curves.logn(TimeC,CurvePar[0],CurvePar[1],CurvePar[2],CurvePar[3],CurvePar[4])
     ArtMax=np.max(FittedCurveA)
     print CurvePar
 
@@ -44,8 +45,8 @@ def PlotImg(img,matrix,RoiCentre,RoiSize,RoiArt,imgName,invertcord=True,TimeSeri
     """
     TAcurve=np.ma.average(np.ma.average(np.ma.average(ImRoi,0),0),0)
     TAcurveSD=ImRoi.std(0).std(0).std(0)
-    CurvePar=curves.fitcurve(TAcurve[:],Time[:],initial=[3100,3.7,0.75,3,25])
-    FittedCurve=curves.logn(TimeC,CurvePar[0],CurvePar[1],CurvePar[2],CurvePar[3],CurvePar[4])
+    CurvePar= curves.fitcurve(TAcurve[:],Time[:],initial=[3100,3.7,0.75,3,25])
+    FittedCurve= curves.logn(TimeC,CurvePar[0],CurvePar[1],CurvePar[2],CurvePar[3],CurvePar[4])
 
     maxgrad=np.max(np.gradient(FittedCurve))/(TimeC[4]-TimeC[3])
 

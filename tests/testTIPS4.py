@@ -1,10 +1,7 @@
 __author__ = 'ct'
-import tips4,image
+import  image
 import numpy as np
-import filters
 import os
-import nibabel as nib
-from timeit import timeit
 import ndbilateral
 
 adress="/media/63A0113C6D30EAE8/_PERF/YAVNIK  G.A. 12.08.1948/20120321_509/Nifti4d/"
