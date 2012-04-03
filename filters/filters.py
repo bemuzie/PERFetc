@@ -3,6 +3,7 @@ __author__ = 'denis'
 
 import numpy as np
 from scipy import ndimage
+from math import ceil
 
 
 def std(image,num):
@@ -20,129 +21,53 @@ def std(image,num):
         tips=np.append(tips,tipsplus,0)
         print it[ind+1],val
     return tips
-def gauss_kernel_3d(sigma,voxel_size):
-    voxel_size=np.asarray(voxel_size,dtype=float)
-    # calculate 3 sigma distance from centre
-    x,y,z=np.ceil(3*sigma/voxel_size)
-    distances=np.ogrid[-x:x+1,-y:y+1,-z:z+1]
-    gauss=-0.5*np.multiply(distances,distances)/sigma**2
-    gauss3d=1
-    for i in gauss: gauss3d = gauss3d*(np.exp(i)/np.sqrt(np.pi*2*sigma**2))
-    print np.shape(gauss3d)
-    return gauss3d
+def gauss_kernel_3d(sigma,voxel_size,distance=3):
+    # make 3d gauss kernel adaptive to voxel size
+    voxel_size=np.asarray(voxel_size, dtype=float)
+    # calculate kernel size as distance*sigma from centre
+    x,y,z=np.ceil(distance*sigma/voxel_size)
+    #make 3d grid of euclidean distances from center
+    distances=voxel_size*np.ogrid[-x:x+1,-y:y+1,-z:z+1]
+    distances*=distances
+    distances=np.sqrt(distances[0]+distances[1]+distances[2])
 
-def gauss_kernel(size,sigma):
-    """Gaussian symetric 4d clousnes kernel """
-    kern=np.ones((size,size,size))
-    iterArray=kern.copy()
+    return np.exp( distances**2/ -2*sigma**2 )/ np.sqrt( np.pi*2*sigma**2 )
 
-    for i,val in np.ndenumerate(iterArray):
-        differ=np.array(i)-np.array([size/2,size/2,size/2])
-        euclid=np.sqrt(np.sum(differ*differ))
-        kern[i]= np.exp(-0.5*(euclid/sigma)*(euclid/sigma))
-    return kern
-
-
-def tips4d(img,size,sigG,sigT):
+def tips(img,voxel_size,sigg,sigt):
 
     """
     TIPS filter described in "TIPS bilateral noise reduction
     in 4D CT perfusion scans produces high-quality cerebral blood flow maps"
-    Convolve 4d array with 3d symmetric kernel through all temporal axis.
-    kernel should be odd
+    Convolve 4d array with 3d symmetric kernel through temporal axis.
+
+    voxel_size should be list of 3
+    img should be 4d
     """
-    #if kernel size even break it
-    if size%2 == 0:
-        raise NameError('kernel should have odd size!!!')
-
-    est=np.prod(np.asarray(np.shape(img[...,0]))-size+1)
-    made=0
-    print 'во время фильтрации будет осуществлено', est, 'циклов'
-    sigG=float(sigG)
-    #Calculating 2*sigT**2 out from loop to increase optimize Time closness calculations
-    sigTSqrDouble=float(sigT)*float(sigT)*2
-
-    size_half=int(size)/2
+    if not img.ndim==4:
+        raise NameError('image should have 4 dimensions!')
+    sigg=float(sigg)
     #Calculating Gaussian kernel
-    GausKern=gauss_kernel(size,sigG)
-    out=np.zeros((np.shape(img)))
-    #making iterator which don't contain borders
-    it = np.nditer (img[size_half:-size_half,size_half:-size_half,size_half:-size_half,0], flags=['c_index','multi_index'   ])
-    summing = np.sum
-    tAxisLength=np.shape(img[0,0,0])
-    while not it.finished:
-
-        #determing cordinates of central pixel
-        x,y,z=it.multi_index
-        center=(x+size_half,y+size_half,z+size_half)
-        kernel=img[x:x+size,y:y+size,z:z+size]
-        #Calculating Time profile closeness function.
-        diff=img[center]-kernel
-        SSD=np.sum(diff*diff,axis=-1)/tAxisLength
-        tp=np.exp(-SSD*SSD/sigTSqrDouble)/tAxisLength
-
-        #print kernel.shape,GausKern.shape,tp.shape
-        coef=tp*GausKern
-        coef=coef[...,None]
-        out[center]=summing(summing(summing(  coef*kernel,axis=0  ),axis=0),axis=0)/summing(coef)
-
-        it.iternext()
-    return out
-
-def TimeProfile_cl(data,sigTSqrDouble,GausKern,center,lenT):
-    """Time profile clousness function. x and y should have shape= (1,1,1,len(time))"""
-    summ=np.sum
-    diff=data[center]-data
-    SSD=summ(diff*diff,axis=-1)/lenT
-    TclsKern=np.exp(-SSD*SSD/sigTSqrDouble)/lenT
-    coeff=TclsKern*GausKern
-    coeff=coeff[...,None]
-    data_filtered=summ(summ(summ(data*coeff,0),0),0)/summ(coeff)
-
-    return data_filtered
-def tips4d_m(img,size,sigG,sigT):
-
-    """
-    TIPS filter described in "TIPS bilateral noise reduction
-    in 4D CT perfusion scans produces high-quality cerebral blood flow maps"
-    Convolve 4d array with 3d symmetric kernel through all temporal axis.
-    kernel should be odd
-    """
-    #if kernel size even break it
-    if size%2 == 0:
-        raise NameError('kernel should have odd size!!!')
-
-    est=np.prod(np.asarray(np.shape(img[...,0]))-size+1)
-    made=0
-    print 'во время фильтрации будет осуществлено', est, 'циклов'
-    sigG=float(sigG)
-    #Calculating 2*sigT**2 out from loop to increase optimize Time closness calculations
-    size_half=int(size)/2
-    #Calculating Gaussian kernel
-    GausKern=gauss_kernel(size,sigG)
-    sigTSqrDouble=float(sigT*sigT*2)
-    center=(size_half,size_half,size_half)
-    lenT=np.shape(img[0,0,0])
-
+    GausKern=gauss_kernel_3d(sigg,voxel_size)
+    #Calculating x,y,z sizes of kernel
+    x_ks,y_ks,z_ks=np.shape(GausKern)
+    center=(np.shape(GausKern)/2)
+    lenT=np.shape(img)[-1]
     img_filtered=np.zeros(np.shape(img))
     #making iterator which don't contain borders
-    img_shp=np.shape(img[size:,size:,size:,0])
-
+    img_iter=np.ndindex(np.shape(img[size:,size:,size:,0]))
+    #Optimizations
+    # Calculating 2*sigT**2 out from loop to increase optimize Time closness calculations
+    # and making np.sum local
+    sigTSqrDouble=float(sigt*sigt*2)
     summ=np.sum
-    for x,y,z in np.ndindex(img_shp):
-        kernel=img[x:x+size,y:y+size,z:z+size]
-
-
+    for x,y,z in img_iter:
+        kernel=img[x:x+x_ks, y:y+y_ks, z:z+z_ks]
         diff=kernel[center]-kernel
         SSD=summ(diff*diff,axis=-1)/lenT
         TclsKern=np.exp(-SSD*SSD/sigTSqrDouble)/lenT
         coeff=TclsKern*GausKern
         coeff=coeff[...,None]
-        img_filtered[x+size_half,y+size_half,z+size_half]=summ(summ(summ(kernel*coeff,0),0),0)/summ(coeff)
-
-
-        #img_filtered[x+size_half,y+size_half,z+size_half]=TimeProfile_cl(kernel,sigTSqrDouble,GausKern,center,lenT)
-
+        img_filtered[x+center[0],y+center[1],z+center[2]]=summ(summ(summ(kernel*coeff,0),0),0)/summ(coeff)
     return img_filtered
 def bilateralFunc(data,sigISqrDouble,GausKern,center):
     """ kernel should be  """
@@ -152,14 +77,14 @@ def bilateralFunc(data,sigISqrDouble,GausKern,center):
     a = np.sum(data*coef)/np.sum(coef)
     return a
 
-
-
-def bilateralFilter(img,voxel_size,sigg,sigi):
+def bilateral3d(img,voxel_size,sigg,sigi):
     """ 4d Bilateral exponential filter.
     image array, kernel size, distance SD, intensity SD
     """
-    import ndbilateral
+
+    #optimisation: calculating 2*(Intensity sigma)^2 out from loop
     sigISqrDouble=float(sigi*sigi*2)
+
     gkern=gauss_kernel_3d(sigg, voxel_size)
     ksize=np.shape(gkern)
     GausKern=np.ravel(gkern)

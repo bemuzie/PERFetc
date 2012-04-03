@@ -64,5 +64,3 @@ def convolve4d(img,size,sigG,sigT):
         it.iternext()
     return out
 
-def noisefnc(data):
-        return np.std(data,axis=3)

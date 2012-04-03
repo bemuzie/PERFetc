@@ -9,7 +9,7 @@ folder_out='/media/WORK/_PERF/TIKHEEV YU.V. 19.02.1935/Nifti4d/crop/'
 xc,yc,zc=[169,291,94]
 print xc
 cropsize=60
-
+ROI
 
 for i in range(6,7):
     vol,hdr,mrx=image.loadnii(folder,str(i)+'.nii')
