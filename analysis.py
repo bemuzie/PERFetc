@@ -3,28 +3,33 @@ import numpy as np
 import matplotlib.pyplot as plt
 import image
 import matplotlib
-folder='/media/WORK/_PERF/TIKHEEV YU.V. 19.02.1935/Nifti4d/'
-output_folder='/media/WORK/virtualBox/sharefolder/'
+import scipy.stats as stats
+import curves
 
-matplotlib.rc('axes',edgecolor='y',labelcolor='w',labelsize='small',titlesize='medium')
-matplotlib.rc('xtick',color='y')
-matplotlib.rc('ytick',color='y')
-matplotlib.rc('text',color='y')
-myfig=plt.figure(facecolor='k')
-plt.subplots_adjust(hspace=0.1,wspace=0)
-fig=plt.subplot(111,axisbg='k')
-plt.subplots_adjust(left=0.1, right=0.95, top=0.9, bottom=0.1)
-volnum=15.
-for i in range(volnum):
-    vol='%s.nii'%(i)
-    img,hdr,mrx=image.loadnii(folder,vol)
-    img[img<0]=-2000
-    density=np.average(np.average(img,axis=0),axis=0)
-    part=slice(15,-15)
-    fig.plot(range(len(density))[part],density[part],color=[i*1/volnum,1-i*1/volnum,0],label=str(i))
-leg=plt.legend(loc='upper right')
-frame  = leg.get_frame()
-frame.set_facecolor('k')
+#time axis
+tr=np.linspace(0.00001,60,1000)
+#time when series are done
+ts=np.append(np.arange(1,22,2),np.arange(22,60,4))
+print ts
+tissue=100*stats.lognorm.pdf(ts,0.25,0,40)
+tumor=100*stats.lognorm.pdf(ts,.3,0,50)
+plt.plot(ts,tissue,'b',ts,np.cumsum(tissue),'b')
 
-plt.savefig(output_folder+'tikheev.png',facecolor='k')
+for i in [tissue,tumor]:
+    i+=np.random.normal(0,3,len(ts))
+plt.plot(ts,tissue,'r',ts,np.cumsum(tissue),'r')
+"""
+mrx=np.zeros((512,512,len(ts)))
+for i in np.ndindex(512,256):
+    mrx[i]=stats.lognorm.pdf(ts,.3,1,40)
+
+
+mrx+=np.random.normal(0,.01,(512,512,len(ts)))
+#tissue=np.convolve(tissue,[1,1,1,2,1,1,1],mode='same')
+
+for i in np.ndindex(512,512):
+    curves.curves.fitcurve(mrx[i],ts)
+plt.imshow(mrx[...,10])
+"""
+
 plt.show()
