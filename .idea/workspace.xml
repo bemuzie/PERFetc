@@ -2,16 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ca7396ea-78df-4e98-901e-a045ad143151" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/radon.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/filters/bilateral3d.pyx" afterPath="$PROJECT_DIR$/bilateral3d.pyx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/FlowPy.iml" afterPath="$PROJECT_DIR$/.idea/FlowPy.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/curves/ghfj.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CopyFiles.py" afterPath="$PROJECT_DIR$/CopyFiles.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/analysis.py" afterPath="$PROJECT_DIR$/analysis.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/curves/flowmodel.py" afterPath="$PROJECT_DIR$/curves/flowmodel.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modelling.py" afterPath="$PROJECT_DIR$/modelling.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/slidesmaker.py" afterPath="$PROJECT_DIR$/slidesmaker.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test.py" afterPath="$PROJECT_DIR$/tests/test.py" />
     </list>
     <ignored path="FlowPy.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,15 +26,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="slidesmaker.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/slidesmaker.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="62" column="5" selection-start="2456" selection-end="2456" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="test_bilateral.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/test_bilateral.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -63,10 +47,8 @@
       <file leaf-file-name="modelling.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/modelling.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="0" selection-start="129" selection-end="129" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#24#49#0" expanded="true" />
-              </folding>
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -80,12 +62,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="analysis.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="analysis.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/analysis.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="10" selection-start="840" selection-end="840" vertical-scroll-proportion="0.85714287">
+            <state line="34" column="10" selection-start="840" selection-end="840" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#21#39#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ghfj.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/curves/ghfj.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="4" column="18" selection-start="88" selection-end="88" vertical-scroll-proportion="0.10084034">
+              <folding>
+                <element signature="e#18#36#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -95,16 +88,7 @@
         <entry file="file://$PROJECT_DIR$/curves/curves.py">
           <provider selected="true" editor-type-id="text-editor">
             <state line="165" column="36" selection-start="6076" selection-end="6101" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#194#3396#0" expanded="false" />
-                <element signature="e#3467#3777#0" expanded="false" />
-                <element signature="e#3806#4111#0" expanded="false" />
-                <element signature="e#4151#4419#0" expanded="false" />
-                <element signature="e#4468#4561#0" expanded="false" />
-                <element signature="e#4614#5070#0" expanded="false" />
-                <element signature="e#5106#5136#0" expanded="false" />
-                <element signature="e#6160#7287#0" expanded="false" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -112,8 +96,10 @@
       <file leaf-file-name="flowmodel.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/curves/flowmodel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="16" column="4" selection-start="311" selection-end="311" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#19#37#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -152,8 +138,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/testingnet.py" />
-        <option value="$PROJECT_DIR$/transform.py" />
         <option value="$PROJECT_DIR$/ploting.py" />
         <option value="$PROJECT_DIR$/bilateral3d.pyx" />
         <option value="$PROJECT_DIR$/tests/testTIPS4.py" />
@@ -168,6 +152,8 @@
         <option value="$PROJECT_DIR$/slidesmaker.py" />
         <option value="$PROJECT_DIR$/modelling.py" />
         <option value="$PROJECT_DIR$/analysis.py" />
+        <option value="$PROJECT_DIR$/curves/flowmodel.py" />
+        <option value="$PROJECT_DIR$/curves/ghfj.py" />
       </list>
     </option>
   </component>
@@ -234,6 +220,20 @@
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="PERFetc">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="curves">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -241,10 +241,10 @@
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="recentsLimit" value="5" />
     <property name="options.lastSelected" value="preferences.lookFeel" />
-    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="recentsLimit" value="5" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -268,7 +268,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.analysis">
+  <component name="RunManager" selected="Python.ghfj">
     <configuration default="false" name="bilateral3d.pyx" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -335,6 +335,24 @@
       <module name="FlowPy" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/modelling.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="MULTIPROCESS" value="false" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="ghfj" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/curves" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <module name="FlowPy" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/curves/ghfj.py" />
       <option name="PARAMETERS" value="" />
       <option name="MULTIPROCESS" value="false" />
       <RunnerSettings RunnerId="PythonRunner" />
@@ -760,7 +778,7 @@
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
-    <list size="24">
+    <list size="25">
       <item index="0" class="java.lang.String" itemvalue="Python.bilateral3d.pyx" />
       <item index="1" class="java.lang.String" itemvalue="Python.image" />
       <item index="2" class="java.lang.String" itemvalue="Python.filters" />
@@ -785,6 +803,7 @@
       <item index="21" class="java.lang.String" itemvalue="Python.test" />
       <item index="22" class="java.lang.String" itemvalue="Python.radon" />
       <item index="23" class="java.lang.String" itemvalue="Python.modelling" />
+      <item index="24" class="java.lang.String" itemvalue="Python.ghfj" />
     </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
@@ -852,11 +871,11 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32767403" sideWeight="0.4783527" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293718" sideWeight="0.49630412" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34974873" sideWeight="0.3120915" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35078534" sideWeight="0.6308594" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35602096" sideWeight="0.6308594" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39728352" sideWeight="0.49630412" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.36914062" sideWeight="0.18193717" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.36914062" sideWeight="0.8134817" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.36914062" sideWeight="0.18979058" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.36914062" sideWeight="0.8056283" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.328125" sideWeight="0.3514398" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -938,11 +957,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/workflow_3dmodel.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="42" selection-start="1233" selection-end="1233" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/testPloting.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
@@ -960,11 +974,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="0" selection-start="470" selection-end="470" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#45#63#0" expanded="true" />
-          </folding>
-        </state>
+        <state line="16" column="0" selection-start="470" selection-end="470" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/segmentation/test.py">
@@ -972,23 +982,9 @@
         <state line="14" column="0" selection-start="390" selection-end="390" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CopyFiles.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="30" selection-start="98" selection-end="98" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/image.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/slidesmaker.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="62" column="5" selection-start="2456" selection-end="2456" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="62" column="5" selection-start="2456" selection-end="2456" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/test_bilateral.py">
@@ -1000,12 +996,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/testTIPS4.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="25" selection-start="573" selection-end="573" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="20" column="25" selection-start="573" selection-end="573" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/test2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CopyFiles.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="30" selection-start="98" selection-end="98" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modelling.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
@@ -1014,41 +1023,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/curves/flowmodel.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modelling.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="0" selection-start="129" selection-end="129" vertical-scroll-proportion="0.0">
+        <state line="16" column="4" selection-start="311" selection-end="311" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#24#49#0" expanded="true" />
+            <element signature="e#19#37#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/curves/curves.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="165" column="36" selection-start="6076" selection-end="6101" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#194#3396#0" expanded="false" />
-            <element signature="e#3467#3777#0" expanded="false" />
-            <element signature="e#3806#4111#0" expanded="false" />
-            <element signature="e#4151#4419#0" expanded="false" />
-            <element signature="e#4468#4561#0" expanded="false" />
-            <element signature="e#4614#5070#0" expanded="false" />
-            <element signature="e#5106#5136#0" expanded="false" />
-            <element signature="e#6160#7287#0" expanded="false" />
-          </folding>
-        </state>
+        <state line="165" column="36" selection-start="6076" selection-end="6101" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/analysis.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="10" selection-start="840" selection-end="840" vertical-scroll-proportion="0.85714287">
+        <state line="34" column="10" selection-start="840" selection-end="840" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#21#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/curves/ghfj.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="18" selection-start="88" selection-end="88" vertical-scroll-proportion="0.10084034">
+          <folding>
+            <element signature="e#18#36#0" expanded="true" />
           </folding>
         </state>
       </provider>
