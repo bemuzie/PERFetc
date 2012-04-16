@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ca7396ea-78df-4e98-901e-a045ad143151" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/im.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/slidesmakerKramnik.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/curves/curves.py" afterPath="$PROJECT_DIR$/curves/curves.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CopyFiles.py" afterPath="$PROJECT_DIR$/CopyFiles.py" />
     </list>
     <ignored path="FlowPy.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -26,24 +26,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="testTIPS4.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/testTIPS4.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="25" selection-start="573" selection-end="573" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="modelling.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/modelling.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="test2.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/test2.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -98,10 +80,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CopyFiles.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="CopyFiles.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CopyFiles.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="0" selection-start="309" selection-end="309" vertical-scroll-proportion="0.23156089">
+            <state line="9" column="0" selection-start="333" selection-end="333" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="slidesmakerKramnik.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/slidesmakerKramnik.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="49" column="0" selection-start="1629" selection-end="1959" vertical-scroll-proportion="0.44723618">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="slidesmaker.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/slidesmaker.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="71" column="121" selection-start="2468" selection-end="2893" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -132,7 +132,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/tests/testTIPS4.py" />
         <option value="$PROJECT_DIR$/image.py" />
         <option value="$PROJECT_DIR$/workflow_3dmodel.py" />
         <option value="$PROJECT_DIR$/filters/tips4.py" />
@@ -148,13 +147,14 @@
         <option value="$PROJECT_DIR$/curves/curves.py" />
         <option value="$PROJECT_DIR$/tests/im.py" />
         <option value="$PROJECT_DIR$/CopyFiles.py" />
+        <option value="$PROJECT_DIR$/slidesmakerKramnik.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="24" />
-    <option name="width" value="1576" />
-    <option name="height" value="1176" />
+    <option name="x" value="23" />
+    <option name="width" value="1578" />
+    <option name="height" value="1181" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -221,10 +221,10 @@
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="options.lastSelected" value="preferences.lookFeel" />
     <property name="recentsLimit" value="5" />
-    <property name="options.searchVisible" value="true" />
+    <property name="options.lastSelected" value="preferences.lookFeel" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -248,25 +248,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.CopyFiles">
-    <configuration default="false" name="image" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <module name="FlowPy" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/image.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="MULTIPROCESS" value="false" />
-      <RunnerSettings RunnerId="PythonRunner" />
-      <ConfigurationWrapper RunnerId="PythonRunner" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Python.slidesmakerKramnik">
     <configuration default="false" name="filters" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -333,6 +315,24 @@
       <module name="FlowPy" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/im.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="MULTIPROCESS" value="false" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="slidesmakerKramnik" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <module name="FlowPy" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/slidesmakerKramnik.py" />
       <option name="PARAMETERS" value="" />
       <option name="MULTIPROCESS" value="false" />
       <RunnerSettings RunnerId="PythonRunner" />
@@ -761,31 +761,31 @@
       <method />
     </configuration>
     <list size="25">
-      <item index="0" class="java.lang.String" itemvalue="Python.image" />
-      <item index="1" class="java.lang.String" itemvalue="Python.filters" />
-      <item index="2" class="java.lang.String" itemvalue="Python.modelling" />
-      <item index="3" class="java.lang.String" itemvalue="Python.ghfj" />
-      <item index="4" class="java.lang.String" itemvalue="Python.im" />
-      <item index="5" class="java.lang.String" itemvalue="Python.test2" />
-      <item index="6" class="java.lang.String" itemvalue="Python.tips4" />
-      <item index="7" class="java.lang.String" itemvalue="Python.testTIPS4" />
-      <item index="8" class="java.lang.String" itemvalue="Python.CopyFiles" />
-      <item index="9" class="java.lang.String" itemvalue="Python.curves" />
-      <item index="10" class="java.lang.String" itemvalue="Python.plots" />
-      <item index="11" class="java.lang.String" itemvalue="Python.ploting" />
-      <item index="12" class="java.lang.String" itemvalue="Python.plotExper" />
-      <item index="13" class="java.lang.String" itemvalue="Python.testPloting" />
-      <item index="14" class="java.lang.String" itemvalue="Python.classesTest" />
-      <item index="15" class="java.lang.String" itemvalue="Python.setup" />
-      <item index="16" class="java.lang.String" itemvalue="Python.test_bilateral" />
-      <item index="17" class="java.lang.String" itemvalue="Python.testingnet" />
-      <item index="18" class="java.lang.String" itemvalue="Python.transform" />
-      <item index="19" class="java.lang.String" itemvalue="Python.slidesmaker" />
-      <item index="20" class="java.lang.String" itemvalue="Python.flowmodel" />
-      <item index="21" class="java.lang.String" itemvalue="Python.analysis" />
-      <item index="22" class="java.lang.String" itemvalue="Python.workflow_3dmodel" />
-      <item index="23" class="java.lang.String" itemvalue="Python.test" />
-      <item index="24" class="java.lang.String" itemvalue="Python.radon" />
+      <item index="0" class="java.lang.String" itemvalue="Python.filters" />
+      <item index="1" class="java.lang.String" itemvalue="Python.test2" />
+      <item index="2" class="java.lang.String" itemvalue="Python.tips4" />
+      <item index="3" class="java.lang.String" itemvalue="Python.testTIPS4" />
+      <item index="4" class="java.lang.String" itemvalue="Python.CopyFiles" />
+      <item index="5" class="java.lang.String" itemvalue="Python.curves" />
+      <item index="6" class="java.lang.String" itemvalue="Python.plots" />
+      <item index="7" class="java.lang.String" itemvalue="Python.ploting" />
+      <item index="8" class="java.lang.String" itemvalue="Python.plotExper" />
+      <item index="9" class="java.lang.String" itemvalue="Python.testPloting" />
+      <item index="10" class="java.lang.String" itemvalue="Python.classesTest" />
+      <item index="11" class="java.lang.String" itemvalue="Python.setup" />
+      <item index="12" class="java.lang.String" itemvalue="Python.test_bilateral" />
+      <item index="13" class="java.lang.String" itemvalue="Python.testingnet" />
+      <item index="14" class="java.lang.String" itemvalue="Python.transform" />
+      <item index="15" class="java.lang.String" itemvalue="Python.slidesmaker" />
+      <item index="16" class="java.lang.String" itemvalue="Python.flowmodel" />
+      <item index="17" class="java.lang.String" itemvalue="Python.analysis" />
+      <item index="18" class="java.lang.String" itemvalue="Python.workflow_3dmodel" />
+      <item index="19" class="java.lang.String" itemvalue="Python.test" />
+      <item index="20" class="java.lang.String" itemvalue="Python.radon" />
+      <item index="21" class="java.lang.String" itemvalue="Python.modelling" />
+      <item index="22" class="java.lang.String" itemvalue="Python.ghfj" />
+      <item index="23" class="java.lang.String" itemvalue="Python.im" />
+      <item index="24" class="java.lang.String" itemvalue="Python.slidesmakerKramnik" />
     </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
@@ -846,18 +846,18 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="24" y="0" width="1576" height="1176" extended-state="6" />
+    <frame x="23" y="0" width="1578" height="1181" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32767403" sideWeight="0.4783527" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293718" sideWeight="0.49630412" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34974873" sideWeight="0.3120915" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34554973" sideWeight="0.63183594" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35078534" sideWeight="0.6328125" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39728352" sideWeight="0.49630412" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.36816406" sideWeight="0.20157067" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3677173" sideWeight="0.79384816" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3671875" sideWeight="0.20549738" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3671875" sideWeight="0.78992146" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.328125" sideWeight="0.3514398" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -939,11 +939,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/ploting.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="58" column="4" selection-start="2144" selection-end="2144" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/radon.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="20" column="25" selection-start="679" selection-end="679" vertical-scroll-proportion="0.0" />
@@ -957,11 +952,6 @@
     <entry file="file://$PROJECT_DIR$/segmentation/test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="14" column="0" selection-start="390" selection-end="390" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/slidesmaker.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="62" column="5" selection-start="2456" selection-end="2456" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/test_bilateral.py">
@@ -1018,7 +1008,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/CopyFiles.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="0" selection-start="309" selection-end="309" vertical-scroll-proportion="0.23156089">
+        <state line="9" column="0" selection-start="333" selection-end="333" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/slidesmaker.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="71" column="121" selection-start="2468" selection-end="2893" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/slidesmakerKramnik.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="49" column="0" selection-start="1629" selection-end="1959" vertical-scroll-proportion="0.44723618">
           <folding />
         </state>
       </provider>
