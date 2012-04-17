@@ -20,18 +20,25 @@ class Slides:
         if invert==True:
             for i in range(3):
                 coords[i]=np.shape(self.vol)[i]-coords[i]
-
         x,y,z=coords
         self.cords[name]=coords
         self.thick[name]=thick*2+1
+        if self.vol.ndim!=4:
+            self.vol=self.vol[...,np.newaxis]
+        axialim=np.zeros((self.vol.shape[:2]+(self.vol.shape[3],)))
+        coronalim=np.zeros((self.vol.shape[:2]+(self.vol.shape[3],)))
+        sagitalim=np.zeros((self.vol.shape[:2]+(self.vol.shape[3],)))
         if axial:
-            axial=np.average(self.vol[...,z-thick:z+thick+1],2)
-            axial=np.rot90(axial)
+            for sernum in range( np.shape(self.vol)[3]):
+                print np.shape(axialim)
+                print np.shape (self.vol[...,z[sernum]-thick:z[sernum]+thick+1,sernum])
+                axialim[...,sernum]=np.average(self.vol[...,z[sernum]-thick:z[sernum]+thick+1,sernum],2)
+            axialim=np.rot90(axialim)
         if coronal:
-            coronal=np.rot90(np.average(self.vol[x-thick:x+thick+1,:,:],0))
+            coronalim=np.rot90(np.average(self.vol[x-thick:x+thick+1,:,:],0))
         if sagital:
-            sagital=np.rot90(np.average(self.vol[:,y-thick:y+thick+1,:],1))
-        self.rois[name]=[i for i in [axial,coronal,sagital]]
+            sagitalim=np.rot90(np.average(self.vol[:,y-thick:y+thick+1,:],1))
+        self.rois[name]=[i for i in [axialim,coronalim,sagitalim]]
 
 
 folder='/media/63A0113C6D30EAE8/_PERF/KRAMNIK D.D. 02.01.1937/Nifti/parsed/'
@@ -42,16 +49,19 @@ arterial1=Slides(folder+'0.nii','Артериальная')
 portal1=Slides(folder+'1.nii','Портальная')
 delay1=Slides(folder+'2.nii','Венозная')
 #adding perfusion volume
-perf=slides(folder[:-7]+'20120412_121054GeneralBodyPerfusionKRAMNIKDD02011997s005a003.nii','Перфузия')
-
-
+perf=Slides(folder[:-7]+'20120412_121054GeneralBodyPerfusionKRAMNIKDD02011997s005a003.nii','Перфузия')
+perf.addroi([
+    [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
+    [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
+    [209,212,215,220,220,220,220,220,220,220,220,220,220,220,220,220,220]],
+    'tumor',2,invert=False,sagital=False,coronal=False)
 
 
 for i in range(2,15):
-    native1.addroi([0,0,64+i*3],'tumor%s'%(i),3,sagital=False,coronal=False)
-    arterial1.addroi([0,0,70+i*3],'tumor%s'%(i),3,sagital=False,coronal=False)
-    portal1.addroi([0,0,65+i*3],'tumor%s'%(i),3,sagital=False,coronal=False)
-    delay1.addroi([0,0,71+i*3],'tumor%s'%(i),3,sagital=False,coronal=False)
+    native1.addroi([0,0,64+i*3],'tumor%s'%(i),2,sagital=False,coronal=False)
+    arterial1.addroi([0,0,70+i*3],'tumor%s'%(i),2,sagital=False,coronal=False)
+    portal1.addroi([0,0,65+i*3],'tumor%s'%(i),2,sagital=False,coronal=False)
+    delay1.addroi([0,0,71+i*3],'tumor%s'%(i),2,sagital=False,coronal=False)
 
 
 low=-75
@@ -64,3 +74,11 @@ for vol in [native1,arterial1,portal1,delay1]:
             aspect=vol.sratio[0],
             interpolation='bicubic')
         plt.savefig(folderout+'%s%s%s_win(%s_%s)_th%s.png'%(name,vol.phase,i,low,high,vol.thick[name]),facecolor='k')
+
+for vol in [perf]:
+    for name,roi in vol.rois.items():
+        for timeser in np.shape(roi[0][-1]):
+            plt.imshow(roi[0],cmap='gray',clim=(low,high),
+            aspect=vol.sratio[0],
+            interpolation='bicubic')
+            plt.savefig(folderout+'%s%s%s_win(%s_%s)_th%s_time%s.png'%(name,vol.phase,i,low,high,vol.thick[name],timeser),facecolor='k')
