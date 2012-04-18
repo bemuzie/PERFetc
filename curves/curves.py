@@ -73,7 +73,7 @@ def logn(time,a=1,m=1,s=1,ts=1,b=1):
     4 ts - arrival time
     5 b=base level
     """
-    t2=time-ts
+    t2=np.array(time)-ts
     t2[t2<=0]=time[0]+0.0000001
     lognPdf=b+a*np.exp(-(np.log(t2)-m)*(np.log(t2)-m)/(2*s*s))/(t2 *s*pipow)
     #print('t1',time[0])

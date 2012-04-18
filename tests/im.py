@@ -33,43 +33,62 @@ class Compartment:
         self.outflow=np.convolve(inflow,self.concentration)
         self.visibleconc=[ self.outflow[:len(time)] [time.index(i)] for i in sertime]
     def addnoise(self,sd):
-        self.visibleconc+=np.random.normal(scale=sd,size=len(self.visibleconc))
+        self.visibleconc+=np.random.normal(scale=sd,size=np.shape(self.visibleconc))
 
 #injection
-signal=np.zeros(len(tc))
-signal[10:100]=4
+signal=np.zeros(len(tc))+20
+signal[10:100]=400
 #Concentration in aorta and recirculation
 aorta=Compartment(stats.gamma,[3,2,2],1,signal)
-recirculation=Compartment(stats.gamma,[3,10,8],1,aorta.outflow)
-recirculation2=Compartment(stats.gamma,[3,10,20],1,recirculation.outflow)
+recirculation=Compartment(stats.gamma,[3,10,5],1,aorta.outflow)
+recirculation2=Compartment(stats.gamma,[3,10,10],1,recirculation.outflow)
 arterialconc=aorta.outflow[:len(tc)]+recirculation.outflow[:len(tc)]+recirculation2.outflow[:len(tc)]
 #Concentration in tissue
 tissue=Compartment(stats.norm,[5,4],0.1,arterialconc)
 #Concentration in tumor
 tumor=Compartment(stats.norm,[6,4],0.1,arterialconc)
-
+#making ROI
+ROIsize=(1000)
+ROI=np.ones(ROIsize)[...,None]
+tissue.visibleconc=tissue.visibleconc*ROI
+print np.shape(tissue.visibleconc)
 #adding noise
-level=.01
+level=10
 tumor.addnoise(level)
 tissue.addnoise(level)
 arterialconc+=np.random.normal(scale=level,size=len(arterialconc))
 
 #Estimation of blood flow
-popt=curves.fitcurve(tissue.visibleconc[:-4],ts[:-4],initial=(1,6,3,1,0))
+popt=curves.fitcurve(np.average(tissue.visibleconc[...,:-4],0),ts[:-4],initial=(1,6,3,1,0))
 fited=curves.logn(tc,popt[0],popt[1],popt[2],popt[3],popt[4])
 
 #Making graphs
+zoom=5
+
+
 plt.subplot(211)
 
-plt.plot(tc,arterialconc,'b',ts,[ arterialconc[tc.index(i)] for i in ts],'bo-',
-    tc,10*tissue.outflow[:len(tc)],'k',ts,10*tissue.visibleconc,'ko-',
-    tc,10*tumor.outflow[:len(tc)],'r',ts,10*tumor.visibleconc,'ro-',
-    tc,10*fited,'--k')
+plt.plot(tc,arterialconc,'b',
+         ts,[ arterialconc[tc.index(i)] for i in ts],'bo-')
+for i in range(ROIsize):
+    plt.plot(tc,zoom*tissue.outflow[:len(tc)],'k',
+             ts,zoom*tissue.visibleconc[i],'ko',
+             )
+plt.plot(tc,zoom*tumor.outflow[:len(tc)],'r',
+         ts,zoom*tumor.visibleconc,'ro-')
+plt.plot(tc,zoom*fited,'--k')
+
 plt.subplot(212)
+"""
 plt.plot(aorta.pdf)
 plt.plot(recirculation.pdf)
 plt.plot(tissue.pdf)
 plt.plot(tumor.pdf)
+"""
+plt.plot(
+    tc,np.cumsum(tissue.outflow[:len(tc)])/np.sum(tissue.outflow[:len(tc)]),'k-',
+    ts,np.cumsum(np.average(tissue.visibleconc,0))/np.sum(np.average(tissue.visibleconc,0))
+)
 print tc[0:1]
 plt.show()
 
