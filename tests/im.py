@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy import ndimage
 from scipy import stats
+from scipy import optimize as spopt
 from curves import curves
 from scipy.optimize import curve_fit,leastsq
 
@@ -35,6 +36,10 @@ class Compartment:
     def addnoise(self,sd):
         self.visibleconc+=np.random.normal(scale=sd,size=np.shape(self.visibleconc))
 
+def throughnormal(time,mean,sigma,vol):
+    curve=stats.norm.pdf(time,sigma,mean)
+    return np.convolve(inflow, vol*curve/np.trapz(curve))
+
 #injection
 signal=np.zeros(len(tc))+20
 signal[10:100]=400
@@ -53,15 +58,13 @@ ROI=np.ones(ROIsize)[...,None]
 tissue.visibleconc=tissue.visibleconc*ROI
 print np.shape(tissue.visibleconc)
 #adding noise
-level=10
+level=1
 tumor.addnoise(level)
 tissue.addnoise(level)
 arterialconc+=np.random.normal(scale=level,size=len(arterialconc))
 
 #Estimation of blood flow
-popt=curves.fitcurve(np.average(tissue.visibleconc[...,:-4],0),ts[:-4],initial=(1,6,3,1,0))
-fited=curves.logn(tc,popt[0],popt[1],popt[2],popt[3],popt[4])
-
+            #spopt.curve_fit(throughnormal,ts,tumor.visibleconc,)
 #Making graphs
 zoom=5
 

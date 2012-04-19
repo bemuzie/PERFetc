@@ -109,6 +109,8 @@ def passcurve_l(t,n,m,s,ts,tc,b,cont=True):
         return logn(t,n,m,s,ts,b), logn(tc,n,m,s,ts,b)
     return logn(t,n,m,s,ts,b)
 
+
+
 def samplet(fl=11,fp=2.,sl=6,sp=4.,cont=True):
     #fl= lenth of first series fp - period of scans
     #sl - length of second series sp - period of sl scans
