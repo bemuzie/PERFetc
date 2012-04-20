@@ -56,7 +56,6 @@ with folder structure /PatientName-BirthDate/StudyNumber/SeriesNumber/"""
                 sfolder1=sfolder['PatientsName']
                 sfolder2=sfolder['StudyDate']+'_'+sfolder['StudyID']
                 sfolder3=sfolder['SeriesNumber']+'_'+sfolder['ConvolutionKernel']+'_'+sfolder['FilterType']
-
                 out_path=os.path.join(folder_out,sfolder1,sfolder2,sfolder3)
                 shutil.move(os.path.join(pathfold,file_name),out_path+'/')
                 i+=1

@@ -29,8 +29,8 @@ class Compartment:
         self.pdf=disttype.pdf(time,*distpars)
         self.cdf=disttype.cdf
         self.vol=vol
-        self.concentration=vol*disttype.pdf(time,*distpars)/np.trapz(disttype.pdf(time,*distpars))
         self.inflow=inflow
+        self.concentration=vol*disttype.pdf(time,*distpars)/np.trapz(disttype.pdf(time,*distpars))
         self.outflow=np.convolve(inflow,self.concentration)
         self.visibleconc=[ self.outflow[:len(time)] [time.index(i)] for i in sertime]
     def addnoise(self,sd):
@@ -79,7 +79,7 @@ for i in range(ROIsize):
              )
 plt.plot(tc,zoom*tumor.outflow[:len(tc)],'r',
          ts,zoom*tumor.visibleconc,'ro-')
-plt.plot(tc,zoom*fited,'--k')
+#plt.plot(tc,zoom*fited,'--k')
 
 plt.subplot(212)
 """

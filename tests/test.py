@@ -8,33 +8,48 @@ from matplotlib import cm
 from scipy import ndimage
 from scipy import stats
 from scipy import fftpack
+ts=90 #time step
 
-tc=np.arange(0,60,0.1)
-ts=tc[::20]
+time=np.arange(0,80,0.1)
+time_d=time[::ts]
 
-distribution=stats.norm.pdf(tc,10,1)
-distribution2=stats.norm.pdf(ts,10,1)
+aif=stats.gamma.pdf(time,2.2,10,7)
+aif+=stats.gamma.pdf(time,8,20,7)*.5
+aif*=1
+aif_d=aif[::ts]
 
-inflow=stats.gamma.pdf(tc,10,3,3)
-inflow2=stats.gamma.pdf(ts,10,3,3)
+Ak=aif_d[None,::-1]*np.ones(len(aif_d))[:,None]
+Ak=np.triu(Ak)
 
-conc=np.convolve(distribution,inflow)
-conc2=np.convolve(distribution2,inflow2)
+
+rf=1-stats.gamma.cdf(time,6,10,7)
+rf_d=rf[::ts]
+
+conc=np.convolve(rf,aif)
+conc_d=np.convolve(rf_d,aif_d)
 conc/=np.trapz(conc)
-conc2/=np.trapz(conc2)
-a=fftpack.fft(inflow)
+conc_d/=np.trapz(conc_d)
+
+
+cj=np.zeros(len(time_d))
+j=range(len(time_d))
+K=aif_d
+
+for i in j:
+    cjK[]
+
+
+print Ak
 plt.subplot(211)
-plt.plot(tc,distribution,
-        ts,distribution2,'o-k'
-)
-plt.plot(tc,inflow,'r',
-    ts,inflow2,'ok'
-)
-plt.plot(tc,conc[:len(tc)],'b',
-    ts,conc2[:len(ts)],'ob')
+plt.plot(time,aif,'r',
+         time_d,aif_d,'ro')
+
+plt.plot(time,conc[:len(time)]*20,'b')
+plt.plot(time_d,conc_d[:len(time_d)],'go',
+        time_d,np.dot(Ak,rf_d),'ko')
 
 plt.subplot(212)
-plt.plot(range(len(a)),a.imag)
+plt.imshow(Ak)
 plt.show()
 
 
