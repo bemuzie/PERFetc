@@ -28,7 +28,7 @@ class Slides:
         coronalim=np.array
         sagitalim=np.array
         if axial:
-            axialim=np.median(self.vol[...,z-thick:z+thick+1],2)
+            axialim=np.average(self.vol[...,z-thick:z+thick+1],2)
             axialim=np.rot90(axialim)
         if coronal:
             coronalim=np.rot90(np.average(self.vol[x-thick:x+thick+1,:,:],0))
@@ -36,9 +36,10 @@ class Slides:
             sagitalim=np.rot90(np.average(self.vol[:,y-thick:y+thick+1,:],1))
         self.rois[name]=[i for i in [axialim,coronalim,sagitalim]]
 
-
-folder='/media/63A0113C6D30EAE8/_PERF/KRAMNIK D.D. 02.01.1937/Nifti/parsed/'
-folderout='/media/63A0113C6D30EAE8/_PERF/KRAMNIK D.D. 02.01.1937/pics/'
+recon='AIRD13'
+folder='/media/WORK/_PERF/KRAMNIK D.D. 02.01.1937/Nifti/parsed%s/'%recon
+folder2='/media/WORK/_PERF/KRAMNIK D.D. 02.01.1937/Nifti/'
+folderout='/media/WORK/_PERF/KRAMNIK D.D. 02.01.1937/pics/'
 """
 native1=Slides(folder[:-7]+'20120314_10332562AbdomenPelvisKRAMNIKDDs003a001.nii','Нативная')
 arterial1=Slides(folder+'0.nii','Артериальная')
@@ -47,10 +48,17 @@ delay1=Slides(folder+'2.nii','Венозная')
 """
 #adding perfusion volume
 perf=dict()
+"""
 for sernum in range(3,20):
     perf[sernum]=Slides(folder+'20120412_121054GeneralBodyPerfusionKRAMNIKDD02011997s005a0%02d.nii'%sernum,
                         'Перфузия%s'%sernum)
     print sernum
+"""
+for sernum in range(0,17):
+    perf[sernum]=Slides(folder+'%s.nii'%sernum,
+        'Перфузия%s'%sernum)
+    print sernum
+
 slidecords={
     3:[0,0,209],
     4:[0,0,211],
@@ -70,21 +78,17 @@ slidecords={
     18:[0,0,210],
     19:[0,0,208]
 }
-num=range(-5,6)
+num=range(-8,5)
+"""
 for i in num:
     for ser,cord in slidecords.items()[7:8]:
         x,y,z=cord
-        perf[ser].addroi([x,y,z+3*i],'perf%02d_%s'%(ser,len(num)/2-i),5,invert=False,sagital=False,coronal=False)
-
+        perf[ser].addroi([x,y,z+6*i],'perf%02d_%s'%(ser,i-num[0]),2,invert=False,sagital=False,coronal=False)
 """
-perf=Slides(folder[:-7]+'20120412_121054GeneralBodyPerfusionKRAMNIKDD02011997s005a003.nii','Перфузия')
-perf.addroi([
-    [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
-    [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
-    [209,212,215,220,220,220,220,220,220,220,220,220,220,220,220,220,220]],
-    'tumor',2,invert=False,sagital=False,coronal=False)
-"""
-
+for i in num:
+    for ser,cord in slidecords.items()[7:8]:
+        x,y,z=cord
+        perf[ser].addroi([x,y,z+7*i],'%s'%(13-i+num[0]),7,invert=False,sagital=False,coronal=False)
 
 """
 for i in range(2,4):
@@ -92,8 +96,8 @@ for i in range(2,4):
     arterial1.addroi([0,0,70+i*3],'tumor%s'%(i),2,sagital=False,coronal=False)
     portal1.addroi([0,0,65+i*3],'tumor%s'%(i),2,sagital=False,coronal=False)
     delay1.addroi([0,0,71+i*3],'tumor%s'%(i),2,sagital=False,coronal=False)
-
 """
+
 low=-100
 high=200
 
@@ -105,10 +109,19 @@ for vol in [native1,arterial1,portal1,delay1]:
                     interpolation='bicubic')
         plt.savefig(folderout+'%s%s%s_win(%s_%s)_th%s.png'%(name,vol.phase,i,low,high,vol.thick[name]),facecolor='k')
 """
+
+"""
 for ser,vol in perf.items():
     for name,roi in vol.rois.items():
         plt.imshow(roi[0],cmap='gray',clim=(low,high),
                     aspect=vol.sratio[0],
                     interpolation='bicubic')
-        plt.savefig(folderout+'%s%s%s_win(%s_%s)_th%s.png'%(name,vol.phase,i,low,high,vol.thick[name]),facecolor='k')
+        plt.savefig(folderout+'%s%s_win(%s_%s)_th%s_%s.png'%(name,vol.phase,low,high,vol.thick[name],recon),facecolor='k')
 
+"""
+for ser,vol in perf.items():
+    for name,roi in vol.rois.items():
+        plt.imshow(roi[0],cmap='gray',clim=(low,high),
+            aspect=vol.sratio[0],
+            interpolation='bicubic')
+        plt.savefig(folderout+'image%s_.png'%(name),facecolor='k')
