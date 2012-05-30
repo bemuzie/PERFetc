@@ -3,7 +3,7 @@ __author__ = 'ct'
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.stats as stat
-import networkx as nx
+
 from scipy import ndimage
 
 

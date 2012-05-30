@@ -36,9 +36,8 @@ class Compartment:
         self.outflow=np.convolve(inflow,self.concentration)
         #estimating visible concentration
         if not type(time) == list:
-            print 'a'
             time=time.tolist()
-        self.visibleconc=[ self.outflow[:len(time)] [time.index(i)] for i in sertime]
+        self.visibleconc=np.array([ self.concentration [:len(time)][time.index(i)] for i in sertime ])
 
     def addnoise(self,sd):
         self.visibleconc+=np.random.normal(scale=sd,size=np.shape(self.visibleconc))
@@ -52,29 +51,34 @@ signal=np.zeros(len(tc))+20
 signal[10:10/timestep]=400
 #Concentration in aorta and recirculation
 aorta=np.exp(-tc/1.5)*tc**3
-arterialconc=aorta
+recirculation=Compartment(stats.norm,[40,5],1,aorta)
+aif=recirculation.concentration[:len(tc)]+aorta
 #Concentration in tissue
-tissue=Compartment(stats.norm,[20,4],0.1,arterialconc)
+tissue=Compartment(stats.norm,[20,4],0.1,aif)
 #Concentration in tumor
-tumor=Compartment(stats.norm,[20,8],0.1,arterialconc)
+tumor=Compartment(stats.norm,[20,8],0.1,aif)
 #making ROI
-ROIsize=(1000)
-ROI=np.ones(ROIsize)[...,None]
-tissue.visibleconc=tissue.visibleconc*ROI
-print np.shape(tissue.visibleconc)
+
 #adding noise
 
-#Estimation of blood flow
-            #spopt.curve_fit(throughnormal,ts,tumor.visibleconc,)
+"""Estimation of blood flow"""
+# Maximum slope
+def maxslope_direct(aif,tissue):
+    print ('maxgrad=',np.max(np.gradient(tissue)),'AIFmax=',np.max(aif))
+    return  np.max( np.gradient(tissue) ) / np.max(aif)
+
+print maxslope_direct(aif,tissue.concentration), maxslope_direct(aif,tumor.concentration)
+print maxslope_direct(aif,tissue.visibleconc), maxslope_direct(aif,tumor.visibleconc)
 #Making graphs
 zoom=5
 
-
 plt.subplot(211)
 
-plt.plot(tc,arterialconc,'k')
+plt.plot(tc,aif,'k')
 plt.plot(tc,tissue.concentration[:len(tc)],'r',
         tc,tumor.concentration[:len(tc)],'b')
+plt.plot(ts,tissue.visibleconc,'r',
+        ts,tumor.visibleconc,'b')
 #plt.plot(tc,zoom*fited,'--k')
 
 plt.subplot(212)
@@ -86,7 +90,8 @@ plt.plot(tumor.pdf)
 """
 plt.plot(
     tc,tissue.rf[:len(tc)],'r-',
-    tc,tumor.rf[:len(tc)],'b-'
+    tc,tumor.rf[:len(tc)],'b-',
+    tc,aorta/np.sum(aorta),'k',tc,recirculation.rf[:len(tc)],'k'
         )
 
 plt.show()

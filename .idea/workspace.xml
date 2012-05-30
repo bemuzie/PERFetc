@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ca7396ea-78df-4e98-901e-a045ad143151" name="Default" comment="smth">
+    <list default="true" id="ca7396ea-78df-4e98-901e-a045ad143151" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/testdistribution.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/FlowPy.iml" afterPath="$PROJECT_DIR$/.idea/FlowPy.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CopyFiles.py" afterPath="$PROJECT_DIR$/CopyFiles.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/curves/flowmodel.py" afterPath="$PROJECT_DIR$/curves/flowmodel.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/im.py" afterPath="$PROJECT_DIR$/tests/im.py" />
     </list>
     <ignored path="FlowPy.iws" />
@@ -55,19 +56,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="im.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="im.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tests/im.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="84" selection-start="737" selection-end="737" vertical-scroll-proportion="0.0">
+            <state line="76" column="20" selection-start="2632" selection-end="2632" vertical-scroll-proportion="0.7432432">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CopyFiles.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="CopyFiles.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CopyFiles.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="0" selection-start="330" selection-end="330" vertical-scroll-proportion="0.28066528">
+            <state line="9" column="0" selection-start="330" selection-end="330" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -147,15 +148,15 @@
         <option value="$PROJECT_DIR$/slidesmakerKramnik.py" />
         <option value="$PROJECT_DIR$/cropcalc.py" />
         <option value="$PROJECT_DIR$/xmlparser.py" />
-        <option value="$PROJECT_DIR$/tests/im.py" />
         <option value="$PROJECT_DIR$/CopyFiles.py" />
+        <option value="$PROJECT_DIR$/tests/im.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="23" />
-    <option name="width" value="1578" />
-    <option name="height" value="1181" />
+    <option name="y" value="24" />
+    <option name="width" value="1024" />
+    <option name="height" value="744" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -183,17 +184,15 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="ProjectPane">
-        <subPane>
+      <pane id="Scope">
+        <subPane subId="Project Files">
           <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FlowPy" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
-      </pane>
-      <pane id="Scope">
         <subPane subId="All">
           <PATH>
             <PATH_ELEMENT USER_OBJECT="Root">
@@ -207,15 +206,25 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FlowPy" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="options.lastSelected" value="com.jetbrains.python.configuration.PythonSdkConfigurable" />
     <property name="recentsLimit" value="5" />
-    <property name="options.searchVisible" value="true" />
+    <property name="options.lastSelected" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -239,7 +248,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.CopyFiles">
+  <component name="RunManager" selected="Python.im">
     <configuration default="false" name="test" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -820,18 +829,18 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="23" y="0" width="1578" height="1181" extended-state="6" />
+    <frame x="0" y="24" width="1024" height="744" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32767403" sideWeight="0.4783527" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293718" sideWeight="0.49630412" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34974873" sideWeight="0.3120915" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13219896" sideWeight="0.49804306" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13477366" sideWeight="0.846678" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39728352" sideWeight="0.49630412" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.50195694" sideWeight="0.18455498" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.50195694" sideWeight="0.81086385" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15332198" sideWeight="0.18827161" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35434413" sideWeight="0.80452675" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.328125" sideWeight="0.3514398" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -956,6 +965,11 @@
         <state line="6" column="9" selection-start="70" selection-end="70" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/xmlparser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="0" selection-start="134" selection-end="134" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/vol4dto3d.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="5" column="67" selection-start="228" selection-end="228" vertical-scroll-proportion="0.0" />
@@ -981,23 +995,16 @@
         <state line="58" column="0" selection-start="2079" selection-end="2079" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/xmlparser.py">
+    <entry file="file://$PROJECT_DIR$/CopyFiles.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="0" selection-start="134" selection-end="134" vertical-scroll-proportion="0.0">
+        <state line="9" column="0" selection-start="330" selection-end="330" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/im.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="84" selection-start="737" selection-end="737" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CopyFiles.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="0" selection-start="330" selection-end="330" vertical-scroll-proportion="0.28066528">
+        <state line="76" column="20" selection-start="2632" selection-end="2632" vertical-scroll-proportion="0.7432432">
           <folding />
         </state>
       </provider>
