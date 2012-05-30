@@ -32,7 +32,7 @@ class Compartment:
         self.rf=(1-disttype.cdf(time,*distpars)) / np.sum(1-disttype.cdf(time,*distpars))
         self.vol=vol
         self.inflow=inflow
-        self.concentration=np.convolve(inflow,self.rf)
+        self.concentration=np.convolve(inflow,self.rf)[:len(tc)]
         self.outflow=np.convolve(inflow,self.concentration)
         #estimating visible concentration
         if not type(time) == list:
@@ -50,13 +50,14 @@ def throughnormal(time,mean,sigma,vol):
 signal=np.zeros(len(tc))+20
 signal[10:10/timestep]=400
 #Concentration in aorta and recirculation
-aorta=np.exp(-tc/1.5)*tc**3
-recirculation=Compartment(stats.norm,[40,5],1,aorta)
-aif=recirculation.concentration[:len(tc)]+aorta
+#aorta=np.exp(-tc/1.5)*tc**3
+aorta=Compartment(stats.gamma,[20,5,1],1,signal)
+recirculation=Compartment(stats.norm,[40,5],1,aorta.concentration)
+aif=recirculation.concentration[:len(tc)]+aorta.concentration
 #Concentration in tissue
 tissue=Compartment(stats.norm,[20,4],0.1,aif)
 #Concentration in tumor
-tumor=Compartment(stats.norm,[20,8],0.1,aif)
+tumor=Compartment(stats.norm,[20,9],0.1,aif)
 #making ROI
 
 #adding noise
@@ -79,6 +80,7 @@ plt.plot(tc,tissue.concentration[:len(tc)],'r',
         tc,tumor.concentration[:len(tc)],'b')
 plt.plot(ts,tissue.visibleconc,'r',
         ts,tumor.visibleconc,'b')
+plt.plot(tc,signal)
 #plt.plot(tc,zoom*fited,'--k')
 
 plt.subplot(212)
@@ -91,7 +93,7 @@ plt.plot(tumor.pdf)
 plt.plot(
     tc,tissue.rf[:len(tc)],'r-',
     tc,tumor.rf[:len(tc)],'b-',
-    tc,aorta/np.sum(aorta),'k',tc,recirculation.rf[:len(tc)],'k'
+    tc,aorta.pdf/np.sum(aorta.pdf),'k',tc,recirculation.rf[:len(tc)],'k'
         )
 
 plt.show()
