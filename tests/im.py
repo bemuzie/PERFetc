@@ -17,6 +17,7 @@ ts=np.append(np.arange(0,22,2), np.arange(30,54,4)).tolist()
 
 # modeling concentrarion changing in aorta with gamma distribution pdf
 class Compartment:
+
     def __init__(self,disttype,distpars,vol,inflow,time=tc,sertime=ts):
         """
         disttype - function of dynamic volumes distribution or vascular distribution
@@ -27,12 +28,12 @@ class Compartment:
         inflow - input flow concentration
         """
         self.time=time
-        self.pdf=disttype.pdf(time,*distpars)
-        self.cdf=disttype.cdf
+        self.pdf=disttype.pdf(time,*distpars)/np.sum(disttype.pdf(time,*distpars))
+        self.cdf=disttype.cdf(time,*distpars)
         self.rf=(1-disttype.cdf(time,*distpars)) / np.sum(1-disttype.cdf(time,*distpars))
         self.vol=vol
         self.inflow=inflow
-        self.concentration=np.convolve(inflow,self.rf)[:len(tc)]
+        self.concentration=vol*np.convolve(inflow,self.rf)[:len(tc)]
         self.outflow=np.convolve(inflow,self.concentration)
         #estimating visible concentration
         if not type(time) == list:
@@ -93,7 +94,7 @@ plt.plot(tumor.pdf)
 plt.plot(
     tc,tissue.rf[:len(tc)],'r-',
     tc,tumor.rf[:len(tc)],'b-',
-    tc,aorta.pdf/np.sum(aorta.pdf),'k',tc,recirculation.rf[:len(tc)],'k'
+    tc,aorta.pdf,'k',tc,recirculation.rf[:len(tc)],'k'
         )
 
 plt.show()
