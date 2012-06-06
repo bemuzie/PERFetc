@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ca7396ea-78df-4e98-901e-a045ad143151" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CopyFiles.py" afterPath="$PROJECT_DIR$/CopyFiles.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image.py" afterPath="$PROJECT_DIR$/image.py" />
     </list>
     <ignored path="FlowPy.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -92,7 +90,7 @@
       <file leaf-file-name="image.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/image.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="65" column="79" selection-start="2000" selection-end="2000" vertical-scroll-proportion="0.73472667">
+            <state line="29" column="0" selection-start="897" selection-end="897" vertical-scroll-proportion="0.22829582">
               <folding>
                 <element signature="e#52#70#0" expanded="true" />
               </folding>
@@ -791,7 +789,11 @@
       <created>1338970056002</created>
       <updated>1338970056002</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="smth">
+      <created>1338982784332</created>
+      <updated>1338982784332</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1004,7 +1006,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/image.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="79" selection-start="2000" selection-end="2000" vertical-scroll-proportion="0.73472667">
+        <state line="29" column="0" selection-start="897" selection-end="897" vertical-scroll-proportion="0.22829582">
           <folding>
             <element signature="e#52#70#0" expanded="true" />
           </folding>
