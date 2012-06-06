@@ -67,7 +67,7 @@ with folder structure /PatientName-BirthDate/StudyNumber/SeriesNumber/"""
                 out_path=os.path.join(folder_out,
                                         tname(dcm,"PatientsName"),
                                         tname(dcm,"StudyDate")+'_'+tname(dcm,"StudyID"),
-                                        tname(dcm,"SeriesNumber")+'_'+tname(dcm,"ConvolutionKernel")+'_'+tnum(dcm,0x7005101b))
+                                        tname(dcm,"SeriesNumber")+'_'+'_'+tnum(dcm,0x7005101b)+'_'+tnum(dcm,0x7005100b))
 
                 shutil.move(os.path.join(pathfold,file_name),out_path+'/')
 
