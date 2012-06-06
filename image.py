@@ -33,48 +33,57 @@ def dcm_parser(folder, folder_out=None,subfolders=None):
 with folder structure /PatientName-BirthDate/StudyNumber/SeriesNumber/"""
     a=0
     i=0
+
     if not folder_out:
         folder_out=folder
     for pathfold,dirs,file_list in os.walk(folder):
         dcm_list=filter(lambda x: '' in x,file_list)
         a+=len(dcm_list)
     print a
+
     for pathfold,dirs,file_list in os.walk(folder):
-        dcm_list=filter(lambda x: '' in x,file_list)
-        for file_name in dcm_list:
+
+        for file_name in file_list:
+
             try:
-                dcm=dicom.read_file( os.path.join(pathfold,file_name) )
+                dcm=dicom.read_file( os.path.join(pathfold,file_name),force=True )
+                out_path=os.path.join(folder_out,
+                                    dcm.PatientsName,
+                                    dcm.StudyDate+'_'+dcm.StudyID,
+                                    str(dcm.SeriesNumber)+'_'+dcm.ConvolutionKernel+'_'+dcm.FilterType)
 
-                ''' will optimize it or rewrite with gdcm as soon as possible'''
-                sfolder=dict.copy(subfolders)
-                for key,val in subfolders.iteritems():
-                    if val in dcm:
-                        sfolder[key]=str(dcm[val].value)
+            except dicom.filereader.InvalidDicomError as (s):
+                print "Can't read file in %s : "%pathfold + str(s)
+                continue
+            except AttributeError as (s):
+                print s
+                def sf(attrib):
+                    if attrib in dcm:
+                        print attrib + " is OK"
+                        sfolder=str(dcm.data_element(attrib)._value)
                     else:
-                        sfolder[key]=('None')
+                        print attrib + " is NOT"
+                        sfolder='None'
+                    return sfolder
+                out_path=os.path.join(folder_out,
+                    sf("PatientsName"),
+                    sf("StudyDate")+'_'+sf("StudyID"),
+                    sf("SeriesNumber")+'_'+sf("ConvolutionKernel")+'_'+sf("FilterType"))
+                pass
 
-                sfolder1=sfolder['PatientsName']
-                sfolder2=sfolder['StudyDate']+'_'+sfolder['StudyID']
-                sfolder3=sfolder['SeriesNumber']+'_'+sfolder['ConvolutionKernel']+'_'+sfolder['FilterType']
-                out_path=os.path.join(folder_out,sfolder1,sfolder2,sfolder3)
+            try:
+
                 shutil.move(os.path.join(pathfold,file_name),out_path+'/')
-                i+=1
-                #os.system('clear')
-                #print 'скопировано ',i,'из',a
+
             except IOError as (s):
                 os.makedirs(s.filename)
                 #noinspection PyUnboundLocalVariable
                 shutil.move(os.path.join(pathfold,file_name),out_path+'/')
-                i+=1
-                #os.system('clear')
-                #print 'скопировано ',i,'из',a
                 continue
-            except dicom.filereader.InvalidDicomError:
-                continue
+
             except shutil.Error:
-                print 'error moving to %s'%(out_path)
+                print 'Error moving to %s'%(out_path)
                 continue
-            #except InvalidDicomError:continue
 
 
 def transconvert(mrxfileSlicer='stack.tfm',folder='/media/63A0113C6D30EAE8/_PERF/YAVNIK/slicer/',inputim=''):
