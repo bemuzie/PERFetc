@@ -5,7 +5,7 @@ import nibabel as nib
 import os
 import dicom
 import shutil
-import timeit
+from datetime import datetime
 def loadnii(folder,name):
     """ Load Nifti file and parse it to image and header """
     img = nib.load(os.path.join(folder,name))
@@ -28,11 +28,28 @@ def convert(img,folder):
     for i in range(len(a)):
         nib.nifti1.save(a[i],folder+'%s'% i)
 
-def dcm_parser(folder, folder_out=None,subfolders=None):
+def dcm_parser(folder, folder_out=None,force=False,):
     """ parse DICOM in folder and copy it in folder_out
 with folder structure /PatientName-BirthDate/StudyNumber/SeriesNumber/"""
     a=0
     i=0
+    curtime=datetime.now()
+    log = open( folder_out+'/log_'+str(curtime.month)+str(curtime.day)+'_'+str(curtime.hour)+str(curtime.minute)+str(curtime.second)+'.txt' , 'w')
+    def tname(img,tagname):
+        try:
+            sfolder=str(img.data_element(tagname)._value)
+        except:
+            sfolder='None'
+            pass
+        return sfolder
+
+    def tnum(img,tagnum):
+        try:
+            sfolder=str(img[tagnum]._value)
+        except:
+            sfolder='None'
+            pass
+        return sfolder
 
     if not folder_out:
         folder_out=folder
@@ -46,44 +63,26 @@ with folder structure /PatientName-BirthDate/StudyNumber/SeriesNumber/"""
         for file_name in file_list:
 
             try:
-                dcm=dicom.read_file( os.path.join(pathfold,file_name),force=True )
+                dcm=dicom.read_file( os.path.join(pathfold,file_name),force=force )
                 out_path=os.path.join(folder_out,
-                                    dcm.PatientsName,
-                                    dcm.StudyDate+'_'+dcm.StudyID,
-                                    str(dcm.SeriesNumber)+'_'+dcm.ConvolutionKernel+'_'+dcm.FilterType)
-
-            except dicom.filereader.InvalidDicomError as (s):
-                print "Can't read file in %s : "%pathfold + str(s)
-                continue
-            except AttributeError as (s):
-                print s
-                def sf(attrib):
-                    if attrib in dcm:
-                        print attrib + " is OK"
-                        sfolder=str(dcm.data_element(attrib)._value)
-                    else:
-                        print attrib + " is NOT"
-                        sfolder='None'
-                    return sfolder
-                out_path=os.path.join(folder_out,
-                    sf("PatientsName"),
-                    sf("StudyDate")+'_'+sf("StudyID"),
-                    sf("SeriesNumber")+'_'+sf("ConvolutionKernel")+'_'+sf("FilterType"))
-                pass
-
-            try:
+                                        tname(dcm,"PatientsName"),
+                                        tname(dcm,"StudyDate")+'_'+tname(dcm,"StudyID"),
+                                        tname(dcm,"SeriesNumber")+'_'+tname(dcm,"ConvolutionKernel")+'_'+tnum(dcm,0x7005101b))
 
                 shutil.move(os.path.join(pathfold,file_name),out_path+'/')
 
+            except dicom.filereader.InvalidDicomError as (s):
+                log.write ("Can't read file %s in %s : "%(file_name,pathfold) + str(s)+'\n')
+                continue
             except IOError as (s):
                 os.makedirs(s.filename)
                 #noinspection PyUnboundLocalVariable
                 shutil.move(os.path.join(pathfold,file_name),out_path+'/')
                 continue
-
             except shutil.Error:
-                print 'Error moving to %s'%(out_path)
+                log.write ('Error moving %s to %s'%(file_name,out_path)+'\n')
                 continue
+    log.close()
 
 
 def transconvert(mrxfileSlicer='stack.tfm',folder='/media/63A0113C6D30EAE8/_PERF/YAVNIK/slicer/',inputim=''):
