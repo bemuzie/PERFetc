@@ -57,30 +57,39 @@ with folder structure /PatientName-BirthDate/StudyNumber/SeriesNumber/"""
         dcm_list=filter(lambda x: '' in x,file_list)
         a+=len(dcm_list)
     print a
-
+    moved=0
+    unmoved=0
+    notread=0
     for pathfold,dirs,file_list in os.walk(folder):
 
         for file_name in file_list:
 
             try:
-                dcm=dicom.read_file( os.path.join(pathfold,file_name),force=force )
+                fpath=os.path.join(pathfold,file_name)
+                dcm=dicom.read_file( fpath,force=force )
                 out_path=os.path.join(folder_out,
                                         tname(dcm,"PatientsName"),
                                         tname(dcm,"StudyDate")+'_'+tname(dcm,"StudyID"),
-                                        tname(dcm,"SeriesNumber")+'_'+'_'+tnum(dcm,0x7005101b)+'_'+tnum(dcm,0x7005100b))
+                                        tname(dcm,"SeriesNumber")+'_'+tnum(dcm,0x7005101b)+'_'+tnum(dcm,0x7005100b))
 
-                shutil.move(os.path.join(pathfold,file_name),out_path+'/')
-
+                shutil.move(fpath,out_path+'/')
+                moved+=1
             except dicom.filereader.InvalidDicomError as (s):
                 log.write ("Can't read file %s in %s : "%(file_name,pathfold) + str(s)+'\n')
+                notread+=1
                 continue
             except IOError as (s):
                 os.makedirs(s.filename)
-                shutil.move(os.path.join(pathfold,file_name),out_path+'/')
+                shutil.move(fpath,out_path+'/')
+                moved+=1
                 continue
             except shutil.Error:
                 log.write ('Error moving %s to %s'%(file_name,out_path)+'\n')
+                unmoved+=1
                 continue
+    log.write('%s where succesfully moved'%moved + '\n')
+    log.write('%s are already exist'%unmoved + '\n')
+    log.write('%s where not read'%notread + '\n')
     log.close()
 
 
