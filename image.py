@@ -76,7 +76,6 @@ with folder structure /PatientName-BirthDate/StudyNumber/SeriesNumber/"""
                 continue
             except IOError as (s):
                 os.makedirs(s.filename)
-                #noinspection PyUnboundLocalVariable
                 shutil.move(os.path.join(pathfold,file_name),out_path+'/')
                 continue
             except shutil.Error:

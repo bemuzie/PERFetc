@@ -34,7 +34,7 @@ class Compartment:
         self.vol=vol
         self.inflow=inflow
         self.concentration=vol*np.convolve(inflow,self.rf)[:len(tc)]
-        self.outflow=np.convolve(inflow,self.concentration)
+        self.outflow=np.convolve(inflow,self.pdf)[:len(tc)]
         #estimating visible concentration
         if not type(time) == list:
             time=time.tolist()
@@ -42,19 +42,28 @@ class Compartment:
 
     def addnoise(self,sd):
         self.visibleconc+=np.random.normal(scale=sd,size=np.shape(self.visibleconc))
+    def excretion(self,coeff):
+        return None
+
 
 def throughnormal(time,mean,sigma,vol):
     curve=stats.norm.pdf(time,sigma,mean)
     return np.convolve(inflow, vol*curve/np.trapz(curve))
 
 #injection
-signal=np.zeros(len(tc))+20
+signal=np.zeros(len(tc))
 signal[10:10/timestep]=400
+#heart beating
+hrate=60
+
+
 #Concentration in aorta and recirculation
 #aorta=np.exp(-tc/1.5)*tc**3
-aorta=Compartment(stats.gamma,[20,5,1],1,signal)
-recirculation=Compartment(stats.norm,[40,5],1,aorta.concentration)
-aif=recirculation.concentration[:len(tc)]+aorta.concentration
+aorta=Compartment(stats.gamma,[2,5,1],1,signal)
+recirculation=Compartment(stats.norm,[10,10],1,aorta.outflow)
+aif=recirculation.outflow[:len(tc)]+aorta.outflow
+recirculation2=Compartment(stats.norm,[10,10],1,aif)
+aif2=recirculation2.outflow[:len(tc)]+aif
 #Concentration in tissue
 tissue=Compartment(stats.norm,[20,4],0.1,aif)
 #Concentration in tumor
@@ -76,7 +85,7 @@ zoom=5
 
 plt.subplot(211)
 
-plt.plot(tc,aif,'k')
+plt.plot(tc,aif,'k',tc,aif2,'k--')
 plt.plot(tc,tissue.concentration[:len(tc)],'r',
         tc,tumor.concentration[:len(tc)],'b')
 plt.plot(ts,tissue.visibleconc,'r',

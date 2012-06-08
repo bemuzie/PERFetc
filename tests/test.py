@@ -35,9 +35,9 @@ def concest(pars,tc):
     print pars
     signal=np.zeros(len(tc))
     signal[: pars[0]/timestep]=pars[1]
-    rf=1-stats.gamma.cdf(tc,*pars[2:])
-    r=np.convolve(signal,rf/np.sum(rf))[:scantime]
-    plt.plot(tc,r)
+    pdf=stats.gamma.pdf(tc,*pars[2:])
+    r=np.convolve(signal,pdf/np.sum(pdf))[:scantime]
+    #plt.plot(tc,r)
     return r
 
 errfunc = lambda p,t,y:concest(p,t)-y
@@ -52,7 +52,7 @@ AIF2=concest(p1,tc)
 
 
 plt.plot(tc,AIF,
-        tc,AIF2,'--')
+        tc,AIF2,'o--')
 plt.subplot(212)
 plt.plot(tc,stats.gamma.pdf(tc,*p1[:2]))
 plt.show()
