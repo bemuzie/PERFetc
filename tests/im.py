@@ -29,7 +29,7 @@ class Compartment:
         """
         self.time=time
         self.pdf=disttype.pdf(time,*distpars)/np.sum(disttype.pdf(time,*distpars))
-        self.cdf=disttype.cdf(time,*distpars)
+        self.cdf=disttype.cdf(time,*distpars)/np.sum(disttype.cdf(time,*distpars))
         self.rf=(1-disttype.cdf(time,*distpars)) / np.sum(1-disttype.cdf(time,*distpars))
         self.vol=vol
         self.inflow=inflow
@@ -60,10 +60,11 @@ hrate=60
 #Concentration in aorta and recirculation
 #aorta=np.exp(-tc/1.5)*tc**3
 aorta=Compartment(stats.gamma,[2,5,1],1,signal)
-recirculation=Compartment(stats.norm,[10,10],1,aorta.outflow)
-aif=recirculation.outflow[:len(tc)]+aorta.outflow
-recirculation2=Compartment(stats.norm,[10,10],1,aif)
-aif2=recirculation2.outflow[:len(tc)]+aif
+recirculation=Compartment(stats.gamma,[2,1,7],1,aorta.outflow)
+
+recirculation2=Compartment(stats.gamma,[2,5,1],1,recirculation.outflow)
+aif=recirculation2.outflow[:len(tc)]+aorta.outflow
+
 #Concentration in tissue
 tissue=Compartment(stats.norm,[20,4],0.1,aif)
 #Concentration in tumor
@@ -85,7 +86,7 @@ zoom=5
 
 plt.subplot(211)
 
-plt.plot(tc,aif,'k',tc,aif2,'k--')
+plt.plot(tc,aif,'k',tc,recirculation.outflow,'r--')
 plt.plot(tc,tissue.concentration[:len(tc)],'r',
         tc,tumor.concentration[:len(tc)],'b')
 plt.plot(ts,tissue.visibleconc,'r',
