@@ -1,17 +1,64 @@
-__author__ = 'ct'
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 
+"""
+ZetCode PySide tutorial 
+
+In this example, we connect a signal
+of a QtGui.QSlider to a slot 
+of a QtGui.QLCDNumber. 
+
+author: Jan Bodnar
+website: zetcode.com 
+last edited: August 2011
+"""
 
 import sys
-from PySide.QtCore import *
-from PySide.QtGui import *
+from PySide import QtGui, QtCore
+
+def funclist(funclist,argum):
+    ret=[]
+    for i in funclist:
+        ret.append(i(argum))
+    return ret
+print funclist((sum,max,min),(1,2,3))
+class Example(QtGui.QMainWindow):
+
+    def __init__(self):
+        super(Example, self).__init__()
+
+        self.initUI()
+
+    def initUI(self):
+
+        btn1=QtGui.QPushButton("Button 1", self)
+        btn1.move(30,50)
+
+        btn2=QtGui.QPushButton("Button 2", self)
+        btn2.move(150,50)
+
+        btn1.clicked.connect(self.buttonClicked)
+        btn2.clicked.connect(self.buttonClicked)
+
+        self.statusBar()
+
+        self.setGeometry(300, 300, 290, 150)
+        self.setWindowTitle('Event sender')
+        self.show()
+
+    def buttonClicked(self):
+
+        sender = self.sender()
+        self.statusBar().showMessage(sender.text() + ' was pressed')
+
+def main():
+
+    app = QtGui.QApplication(sys.argv)
+    ex = Example()
+    sys.exit(app.exec_())
 
 
-# Create a Qt application
-app = QApplication(sys.argv)
-# Create a Label and show it
-label = QLabel("<font background-color=rgb(204, 204, 204) color=red size=40 >Hello World</font>")
-label.show()
-# Enter Qt application main loop
-app.exec_()
-sys.exit()
+if __name__ == '__main__':
+    main()
+
 

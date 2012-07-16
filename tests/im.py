@@ -52,7 +52,7 @@ def throughnormal(time,mean,sigma,vol):
 
 #injection
 signal=np.zeros(len(tc))
-signal[10:10/timestep]=400
+signal[10:2/timestep]=400
 #heart beating
 hrate=60
 

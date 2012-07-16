@@ -59,8 +59,6 @@ def convolve4d(img,size,sigG,sigT):
         coef=tp*GausKern
         out[center]=summing(summing(summing(  coef*kernel,axis=0  ),axis=0),axis=0)/summing(coef)
 
-#        made+=1
-#        print made,'из',est
         it.iternext()
     return out
 

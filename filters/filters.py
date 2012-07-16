@@ -54,7 +54,7 @@ def tips(img,voxel_size,sigg,sigt):
     lenT=np.shape(img)[-1]
     img_filtered=np.zeros(np.shape(img))
     #making iterator which don't contain borders
-    img_iter=np.ndindex(np.shape(img[size:,size:,size:,0]))
+    img_iter=np.ndindex(np.shape(img[x_ks:,y_ks:,z_ks:,0]))
     #Optimizations
     # Calculating 2*sigT**2 out from loop to increase optimize Time closness calculations
     # and making np.sum local
