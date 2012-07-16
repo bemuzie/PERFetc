@@ -108,3 +108,21 @@ def transconvert(mrxfileSlicer='stack.tfm',folder='/media/63A0113C6D30EAE8/_PERF
         open(mrxfileMangoAbs,'a').write(' '.join(i)+'\n')
 
     os.system('applytransform -c %s %s %s'%(mrxfileMangoAbs,inputim,inputim+'_transformed'))
+
+def testimg(size,pattern):
+    """
+    pattern is a dictionary with keys from 0 to 1 which mean distance from border (1 is a distance from border to center)
+    """
+    if not type(pattern).__name__=='dict':
+        raise ValueError('pattern should be dictionary')
+    if max(pattern) > 1 or min(pattern) < 0:
+        raise ValueError('pattern should have keys from 0 to 1')
+
+    mrx=np.zeros(size)
+    semisize=np.array(size)/2
+    dims=len(size)
+    patboders= sorted(pattern.keys())
+    for i in patboders:
+        roi=[slice( round(i*br/2),-round(i*br/2) ) for br in size]
+        mrx[roi]=pattern[i]
+    return  mrx

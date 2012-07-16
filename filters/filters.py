@@ -90,16 +90,21 @@ def bilateral3d(img,voxel_size,sigg,sigi):
     GausKern=np.ravel(gkern)
     #Closness function
     kwargs=dict(sigISqrDouble=sigISqrDouble,GausKern=GausKern,center=len(GausKern)/2)
-    img_filtered=ndimage.generic_filter(img,ndbilateral.bilateralFunc,size=ksize+(1,),extra_keywords=kwargs)
+    img_filtered=ndimage.generic_filter(img,bilateralFunc,size=ksize+(1,),extra_keywords=kwargs)
     return img_filtered
 
 def bilateral(img,voxel_size,sigg,sigi,mpr=None):
     """ 3d Bilateral exponential filter for 4d volume
     img - image array, voxel_size - array with x,y,z of voxel; sigg - distance SD; sigi - intensity SD
     """
-    dimensions=np.ndim(img)
-    if dimensions==3:
+    if not len(voxel_size)==3 and not len(voxel_size)==1:
+        raise ValueError("voxel size should be a list of 3 or 1")
+    if len(voxel_size)==1:
+        voxel_size=np.ones(3)*voxel_size
+
+    if img.ndim==3:
         img=img[...,np.newaxis]
+
     gaus_kern3d=gauss_kernel_3d(sigg, voxel_size)
     ks_x,ks_y,ks_z=np.asarray(np.shape(gaus_kern3d))/2
 

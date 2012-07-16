@@ -1,4 +1,4 @@
- #   Copyright 2012 Denis Nesterov
+#   Copyright 2012 Denis Nesterov
 #   cireto@gmail.com
 #
 #   The software is licenced under BSD licence.
@@ -26,8 +26,8 @@ def gauss_kernel_3d(sigma,voxel_size):
     distances=np.ogrid[-x:x+1,-y:y+1,-z:z+1]
     gauss=-0.5*np.multiply(distances,distances)/sigma**2
     gauss3d=1
+
     for i in gauss: gauss3d = gauss3d*(np.exp(i)/np.sqrt(np.pi*2*sigma**2))
-    print np.shape(gauss3d)
     return gauss3d
 
 """
@@ -79,8 +79,6 @@ def bilateral(np.ndarray[DTYPEfloat_t, ndim=4] data,voxel_size,double sigg,doubl
     cdef float weight_i, weights
     cdef DTYPEfloat_t diff
     cdef int x,y,z,t,xk,yk,zk
-
-    print sigiSqrDouble
 
     for x in range(kside_x, imgSize_x - kside_x - 1):
         for y in range(kside_y, imgSize_y - kside_y - 1):

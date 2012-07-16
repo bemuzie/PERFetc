@@ -10,7 +10,7 @@ setup(
     author = "Denis Nesterov",
     cmdclass = {'build_ext': build_ext},
     ext_modules = [Extension("ndbilateral",
-        ["bilateral3d.pyx"],
+        ["./filters/bilateral3d.pyx"],
         include_dirs = [numpy.get_include()],
         extra_compile_args=['-O3'])
     ]
