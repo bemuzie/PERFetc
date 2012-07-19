@@ -7,8 +7,8 @@
 """
 
 
-import numpy as np
 cimport numpy as np
+import numpy as np
 DTYPE= np.int
 DTYPEfloat = np.float64
 ctypedef np.int_t DTYPE_t
@@ -30,26 +30,14 @@ def gauss_kernel_3d(sigma,voxel_size):
     for i in gauss: gauss3d = gauss3d*(np.exp(i)/np.sqrt(np.pi*2*sigma**2))
     return gauss3d
 
-"""
-def bilateralFunc(np.ndarray data,double sigISqrDouble,np.ndarray GausKern,int center):
-    cdef int length = data.shape
-    cdef double result, weights, weight_i
-    cdef double *pdata=<double *>data.data
-    cdef double *kdata=<double *>GausKern.data
 
+def bilateralFunc(data,sigISqrDouble,GausKern,centralpx):
 
-    diff=data[center]-data
+    diff=data[centralpx]-data
     IclsKern=np.exp(-diff*diff/sigISqrDouble)
     coef=IclsKern*GausKern
-
-    for i in range(length):
-        data_i=data[i]
-        weight_i=GausKern[i]*exp((-data[center]-data_i**2)/sigISqrDouble)
-        weights+=weight_i
-        result+=data_i*weight_i
-
     return np.sum(data*coef)/np.sum(coef)
-"""
+
 def bilateral(np.ndarray[DTYPEfloat_t, ndim=4] data,voxel_size,double sigg,double sigi):
     if data.ndim<3:
         raise ValueError("Input image should have 4 dimensions")

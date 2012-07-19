@@ -4,6 +4,7 @@ __author__ = 'denis'
 import numpy as np
 from scipy import ndimage
 from math import ceil
+import ndbilateral
 
 
 def std(image,num):
@@ -74,8 +75,13 @@ def bilateralFunc(data,sigISqrDouble,GausKern,center):
     diff=data[center]-data
     IclsKern=np.exp(-diff*diff/sigISqrDouble)
     coef=IclsKern*GausKern
-    a = np.sum(data*coef)/np.sum(coef)
-    return a
+    return np.sum(data*coef)/np.sum(coef)
+
+def testfunc(data,sigISqrDouble,GausKern,center):
+    #delete it after experiment
+    print data
+    print GausKern
+    return 1
 
 def bilateral3d(img,voxel_size,sigg,sigi):
     """ 4d Bilateral exponential filter.
@@ -89,13 +95,18 @@ def bilateral3d(img,voxel_size,sigg,sigi):
     ksize=np.shape(gkern)
     GausKern=np.ravel(gkern)
     #Closness function
-    kwargs=dict(sigISqrDouble=sigISqrDouble,GausKern=GausKern,center=len(GausKern)/2)
-    img_filtered=ndimage.generic_filter(img,bilateralFunc,size=ksize+(1,),extra_keywords=kwargs)
+    kwargs=dict(sigISqrDouble= sigISqrDouble, GausKern= GausKern, centralpx= len(GausKern)/2 )
+    img_filtered=ndimage.generic_filter(img,ndbilateral.bilateralFunc,size=ksize+(1,),extra_keywords=kwargs)
     return img_filtered
 
 def bilateral(img,voxel_size,sigg,sigi,mpr=None):
-    """ 3d Bilateral exponential filter for 4d volume
-    img - image array, voxel_size - array with x,y,z of voxel; sigg - distance SD; sigi - intensity SD
+    """
+    3d Bilateral exponential filter for 4d volume
+
+    img - image array
+    voxel_size - array with x,y,z of voxel
+    sigg - distance SD
+    sigi - intensity SD
     """
     if not len(voxel_size)==3 and not len(voxel_size)==1:
         raise ValueError("voxel size should be a list of 3 or 1")
@@ -114,12 +125,12 @@ def bilateral(img,voxel_size,sigg,sigi,mpr=None):
     center=len(gaus_kern)/2
     # calculate 2*sigma^2 of intensity closeness function out from loop
     sigISqrDouble=float(2*sigi*sigi)
-    #Closness function
-    kwargs=dict(sigISqrDouble=sigISqrDouble,GausKern=gaus_kern,center=center)
+
     if mpr == None:
+        kwargs=dict(sigISqrDouble=sigISqrDouble,GausKern=gaus_kern,center=center)
         ksize=np.shape(gaus_kern3d)
         return ndimage.generic_filter(img,bilateralFunc,size=ksize+(1,),extra_keywords=kwargs)
-    print 'bla bla'
+
     #filtration of selected vol
     slice_iter=np.nditer(img[[slice(i[0],i[1]) for i in mpr]],flags=['c_index','multi_index'])
     outputvol=np.zeros(np.shape(img[[slice(i[0],i[1]) for i in mpr]]))
