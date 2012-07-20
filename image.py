@@ -125,4 +125,4 @@ def testimg(size,pattern):
     for i in patboders:
         roi=[slice( round(i*br/2),-round(i*br/2) ) for br in size]
         mrx[roi]=pattern[i]
-    return  mrx
+    return  mrx.astype(float)

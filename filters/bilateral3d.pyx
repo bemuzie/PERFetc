@@ -6,16 +6,14 @@
   A cython implementation of bilateral filtering.
 """
 
-
+cimport cython
 cimport numpy as np
 import numpy as np
-DTYPE= np.int
 DTYPEfloat = np.float64
-ctypedef np.int_t DTYPE_t
 ctypedef np.float64_t DTYPEfloat_t
 
 cdef extern from "math.h":
-     double exp(double x)
+    double exp(double x)
 
 
 def gauss_kernel_3d(sigma,voxel_size):
@@ -30,16 +28,62 @@ def gauss_kernel_3d(sigma,voxel_size):
     for i in gauss: gauss3d = gauss3d*(np.exp(i)/np.sqrt(np.pi*2*sigma**2))
     return gauss3d
 
+@cython.boundscheck(False)
+def bilateralFunc(np.ndarray [DTYPEfloat_t, ndim=1] data,DTYPEfloat_t sigISqrDouble,np.ndarray [DTYPEfloat_t, ndim=1] GausKern,int centralpx, int kernel_len):
 
-def bilateralFunc(data,sigISqrDouble,GausKern,centralpx):
+    cdef DTYPEfloat_t coefsum
+    cdef DTYPEfloat_t result
+    cdef unsigned int pxnum
+    cdef DTYPEfloat_t coef,cpx,px
+    cdef DTYPEfloat_t *pdata=<DTYPEfloat_t *>data.data, *pGausKern=<DTYPEfloat_t *>GausKern.data
 
-    diff=data[centralpx]-data
-    IclsKern=np.exp(-diff*diff/sigISqrDouble)
-    coef=IclsKern*GausKern
-    return np.sum(data*coef)/np.sum(coef)
+    coefsum=0
+    result=0
+    cpx=pdata[centralpx]
+    for pxnum in range(kernel_len):
+        px=pdata[pxnum]
+        coef=exp(-(px-cpx)**2/sigISqrDouble) * pGausKern[pxnum]
+        coefsum+=coef
+        result+=px * coef
+    return result/coefsum
 
+@cython.boundscheck(False)
+def bilatfunc_opt(np.ndarray data,double sigISqrDouble,np.ndarray GausKern,int centralpx, int kernel_len):
+
+    cdef double coefsum
+    cdef double result
+    cdef unsigned int pxnum
+    cdef double coef,cpx,px
+    cdef double *pdata=<double *>data.data, *pGausKern=<double *>GausKern.data
+
+    coefsum=0
+    result=0
+    cpx=pdata[centralpx]
+    for pxnum in range(kernel_len):
+        px=pdata[pxnum]
+        coef=exp(-(px-cpx)**2 / sigISqrDouble) * pGausKern[pxnum]
+        coefsum+=coef
+        result+=px * coef
+    return result/coefsum
+
+cdef bilatfunc(np.ndarray [DTYPEfloat_t, ndim=3] datakern,double *gauskern, double dsquaredIntensitySigma,int kernel_size,int cindex):
+    cdef double *pdatakern=<double *>datakern.data
+    cdef double cpx=pdatakern[cindex]
+    cdef unsigned int i
+    cdef double coef,result,coefsum
+    result=0.0
+    coefsum=0.0
+
+    for i in range(kernel_size):
+        px=pdatakern[i]
+        coef=exp(-(px-cpx)**2/dsquaredIntensitySigma) * gauskern[i]
+        coefsum+=coef
+        result+= px * coef
+    return result/coefsum
+
+@cython.boundscheck(False)
 def bilateral(np.ndarray[DTYPEfloat_t, ndim=4] data,voxel_size,double sigg,double sigi):
-    if data.ndim<3:
+    if not data.ndim == 4:
         raise ValueError("Input image should have 4 dimensions")
 
     assert data.dtype == DTYPEfloat
@@ -48,8 +92,44 @@ def bilateral(np.ndarray[DTYPEfloat_t, ndim=4] data,voxel_size,double sigg,doubl
     cdef int imgSize_y=data.shape[1]
     cdef int imgSize_z=data.shape[2]
     cdef int imgSize_t=data.shape[3]
-    cdef float value
 
+    cdef np.ndarray[DTYPEfloat_t, ndim=3] gaus_kern3d=np.asarray(gauss_kernel_3d(sigg, voxel_size),dtype=DTYPEfloat)
+    cdef int kernelSize_x=gaus_kern3d.shape[0]
+    cdef int kernelSize_y=gaus_kern3d.shape[1]
+    cdef int kernelSize_z=gaus_kern3d.shape[2]
+    cdef int kernelSize=gaus_kern3d.size
+    cdef double *gauskern = <double *>gaus_kern3d.data
+    cdef int kernelCenter=kernelSize//2
+
+    cdef int kside_x=kernelSize_x // 2
+    cdef int kside_y=kernelSize_y // 2
+    cdef int kside_z=kernelSize_z // 2
+
+    cdef np.ndarray[DTYPEfloat_t, ndim=4] result=np.zeros([imgSize_x,imgSize_y,imgSize_z,imgSize_t],dtype=DTYPEfloat)
+    # calculate 2*sigma^2 of intensity closeness function out from loop
+    cdef float sigiSqrDouble=2*sigi**2
+    cdef unsigned int x,y,z,t
+
+
+    for x in range(<unsigned int> kside_x, <unsigned int>(imgSize_x - kside_x - 1) ):
+        for y in range(<unsigned int> kside_y, <unsigned int>(imgSize_y - kside_y - 1) ):
+            for z in range(<unsigned int> kside_z, <unsigned int>(imgSize_z - kside_z - 1) ):
+                for t in range(<unsigned int>imgSize_t):
+                    result[x,y,z,t]=bilatfunc(data[x:kernelSize_x,y:kernelSize_x,z:kernelSize_x,t],gauskern,sigiSqrDouble,kernelSize,kernelCenter)
+    return result
+
+@cython.boundscheck(False)
+def bilateral_optimized(np.ndarray[DTYPEfloat_t, ndim=4] data,voxel_size,double sigg,double sigi):
+    if not data.ndim == 4:
+        raise ValueError("Input image should have 4 dimensions")
+
+    assert data.dtype == DTYPEfloat
+
+    cdef int imgSize_x=data.shape[0]
+    cdef int imgSize_y=data.shape[1]
+    cdef int imgSize_z=data.shape[2]
+    cdef int imgSize_t=data.shape[3]
+    cdef double value
 
     cdef np.ndarray[DTYPEfloat_t, ndim=3] gaus_kern3d=np.asarray(gauss_kernel_3d(sigg, voxel_size),dtype=DTYPEfloat)
     cdef int kernelSize_x=gaus_kern3d.shape[0]
@@ -60,26 +140,27 @@ def bilateral(np.ndarray[DTYPEfloat_t, ndim=4] data,voxel_size,double sigg,doubl
     cdef int kside_y=kernelSize_y // 2
     cdef int kside_z=kernelSize_z // 2
 
-    cdef np.ndarray[DTYPEfloat_t, ndim=4] result=np.zeros([imgSize_x,imgSize_y,imgSize_z,imgSize_t],dtype=DTYPEfloat)
-    cdef int resultSize_x = imgSize_x
     # calculate 2*sigma^2 of intensity closeness function out from loop
-    cdef float sigiSqrDouble=2*sigi**2
-    cdef float weight_i, weights
-    cdef DTYPEfloat_t diff
-    cdef int x,y,z,t,xk,yk,zk
+    cdef DTYPEfloat_t sigiSqrDouble=2*sigi**2
+    cdef double weight_i, weights
+    cdef DTYPEfloat_t px
+    cdef unsigned int x,y,z,t
+    cdef int xk,yk,zk
 
-    for x in range(kside_x, imgSize_x - kside_x - 1):
-        for y in range(kside_y, imgSize_y - kside_y - 1):
-            for z in range(kside_z, imgSize_z - kside_z - 1):
-                for t in range(imgSize_t):
+    for x in range(<unsigned int> kside_x, <unsigned int>(imgSize_x - kside_x - 1) ):
+        for y in range(<unsigned int> kside_y, <unsigned int>(imgSize_y - kside_y - 1) ):
+            for z in range(<unsigned int> kside_z, <unsigned int>(imgSize_z - kside_z - 1) ):
+                for t in range(<unsigned int>imgSize_t):
                     value = 0.0
-                    weights=0
-                    for xk in range(-kside_x,kside_x+1):
-                        for yk in range(-kside_y,kside_y+1):
-                            for zk in range(-kside_z,kside_z+1):
-                                weight_i=gaus_kern3d[xk+kside_x,yk+kside_y,zk+kside_z]*\
-                                         exp( -(data[x+xk,y+yk,z+zk,t] - data[x,y,z,t])**2 / sigiSqrDouble)
-                                value+=data[x+xk,y+yk,z+zk,t]*weight_i
+                    weights=0.0
+
+                    for xk in range(-kside_x, kside_x+1):
+                        for yk in range(-kside_y, kside_y+1):
+                            for zk in range(-kside_z, kside_z+1):
+                                px=data[<unsigned int>(x+xk), <unsigned int>(y+yk), <unsigned int>(z+zk), t]
+                                weight_i=gaus_kern3d[<unsigned int> (xk+kside_x), <unsigned int>(yk+kside_y), <unsigned int>(zk+kside_z)]*\
+                                         exp( -(px - data[x, y, z, t])**2 / sigiSqrDouble)
+                                value+=px * weight_i
                                 weights+=weight_i
-                    result[x,y,z,t]= value/weights
-    return result
+                    data[x,y,z,t]= value/weights
+    return data

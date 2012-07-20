@@ -13,3 +13,5 @@ def bilateralFilter(img,voxel_size,sigg,sigi):
     kwargs=dict(sigISqrDouble=sigISqrDouble,GausKern=GausKern,center=len(GausKern)/2)
     img_filtered=ndimage.generic_filter(img,bilateralFunc,size=ksize+(1,),extra_keywords=kwargs)
     return img_filtered
+
+def tips(img,vox)

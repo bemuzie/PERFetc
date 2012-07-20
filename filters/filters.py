@@ -72,6 +72,7 @@ def tips(img,voxel_size,sigg,sigt):
     return img_filtered
 def bilateralFunc(data,sigISqrDouble,GausKern,center):
     """ kernel should be  """
+
     diff=data[center]-data
     IclsKern=np.exp(-diff*diff/sigISqrDouble)
     coef=IclsKern*GausKern
@@ -83,7 +84,7 @@ def testfunc(data,sigISqrDouble,GausKern,center):
     print GausKern
     return 1
 
-def bilateral3d(img,voxel_size,sigg,sigi):
+def bilateral3d(img,voxel_size,sigg,sigi,filter=ndbilateral.bilateralFunc):
     """ 4d Bilateral exponential filter.
     image array, kernel size, distance SD, intensity SD
     """
@@ -95,8 +96,8 @@ def bilateral3d(img,voxel_size,sigg,sigi):
     ksize=np.shape(gkern)
     GausKern=np.ravel(gkern)
     #Closness function
-    kwargs=dict(sigISqrDouble= sigISqrDouble, GausKern= GausKern, centralpx= len(GausKern)/2 )
-    img_filtered=ndimage.generic_filter(img,ndbilateral.bilateralFunc,size=ksize+(1,),extra_keywords=kwargs)
+    kwargs=dict(sigISqrDouble= sigISqrDouble, GausKern= GausKern, centralpx= len(GausKern)/2,kernel_len=len(GausKern))
+    img_filtered=ndimage.generic_filter(img,filter,size=ksize+(1,),extra_keywords=kwargs)
     return img_filtered
 
 def bilateral(img,voxel_size,sigg,sigi,mpr=None):
