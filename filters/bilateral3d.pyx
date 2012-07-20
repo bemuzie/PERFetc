@@ -66,13 +66,14 @@ def bilatfunc_opt(np.ndarray data,double sigISqrDouble,np.ndarray GausKern,int c
         result+=px * coef
     return result/coefsum
 
+@cython.cdivision(True)
 cdef bilatfunc(np.ndarray [DTYPEfloat_t, ndim=3] datakern,double *gauskern, double dsquaredIntensitySigma,int kernel_size,int cindex):
     cdef double *pdatakern=<double *>datakern.data
     cdef double cpx=pdatakern[cindex]
     cdef unsigned int i
-    cdef double coef,result,coefsum
-    result=0.0
-    coefsum=0.0
+    cdef double coef
+    cdef double result=0.0
+    cdef double coefsum=0.0
 
     for i in range(kernel_size):
         px=pdatakern[i]
@@ -107,7 +108,7 @@ def bilateral(np.ndarray[DTYPEfloat_t, ndim=4] data,voxel_size,double sigg,doubl
 
     cdef np.ndarray[DTYPEfloat_t, ndim=4] result=np.zeros([imgSize_x,imgSize_y,imgSize_z,imgSize_t],dtype=DTYPEfloat)
     # calculate 2*sigma^2 of intensity closeness function out from loop
-    cdef float sigiSqrDouble=2*sigi**2
+    cdef double sigiSqrDouble=2*sigi**2
     cdef unsigned int x,y,z,t
 
 
@@ -119,6 +120,7 @@ def bilateral(np.ndarray[DTYPEfloat_t, ndim=4] data,voxel_size,double sigg,doubl
     return result
 
 @cython.boundscheck(False)
+@cython.cdivision(True)
 def bilateral_optimized(np.ndarray[DTYPEfloat_t, ndim=4] data,voxel_size,double sigg,double sigi):
     if not data.ndim == 4:
         raise ValueError("Input image should have 4 dimensions")
@@ -147,6 +149,8 @@ def bilateral_optimized(np.ndarray[DTYPEfloat_t, ndim=4] data,voxel_size,double 
     cdef unsigned int x,y,z,t
     cdef int xk,yk,zk
 
+    cdef np.ndarray[DTYPEfloat_t, ndim=4] result=np.zeros([imgSize_x,imgSize_y,imgSize_z,imgSize_t],dtype=DTYPEfloat)
+
     for x in range(<unsigned int> kside_x, <unsigned int>(imgSize_x - kside_x - 1) ):
         for y in range(<unsigned int> kside_y, <unsigned int>(imgSize_y - kside_y - 1) ):
             for z in range(<unsigned int> kside_z, <unsigned int>(imgSize_z - kside_z - 1) ):
@@ -162,5 +166,5 @@ def bilateral_optimized(np.ndarray[DTYPEfloat_t, ndim=4] data,voxel_size,double 
                                          exp( -(px - data[x, y, z, t])**2 / sigiSqrDouble)
                                 value+=px * weight_i
                                 weights+=weight_i
-                    data[x,y,z,t]= value/weights
+                    result[x,y,z,t]= value/weights
     return data
