@@ -145,14 +145,17 @@ def bilateral_optimized(np.ndarray[DTYPEfloat_t, ndim=4] data,voxel_size,double 
     cdef DTYPEfloat_t sigiSqrDouble=2*sigi**2
     cdef double weight_i, weights
     cdef DTYPEfloat_t px
-    cdef unsigned int x,y,z,t
+    cdef unsigned int x,y,z,t,central_x,central_y,central_z
     cdef unsigned int xk,yk,zk
 
     cdef np.ndarray[DTYPEfloat_t, ndim=4] result=np.zeros([imgSize_x,imgSize_y,imgSize_z,imgSize_t],dtype=DTYPEfloat)
 
     for x from kside_x <= x <  <unsigned int>(imgSize_x - kside_x):
+        central_x=x+kside_x_half
         for y from kside_y <= y <  <unsigned int>(imgSize_y - kside_y):
+            central_y=y+kside_y_half
             for z from kside_z <= z <  <unsigned int>(imgSize_z - kside_z):
+                central_z=z+kside_z_half
                 for t in range(imgSize_t):
                     value = 0.0
                     weights=0.0
@@ -162,8 +165,8 @@ def bilateral_optimized(np.ndarray[DTYPEfloat_t, ndim=4] data,voxel_size,double 
                             for zk in range(kside_z):
                                 px=data[xk,yk,zk,t]
                                 weight_i=gaus_kern3d[xk,yk,zk]*\
-                                         exp( -(px - data[x+kside_x_half, y+kside_y_half, z+kside_z_half, t])**2 / sigiSqrDouble)
+                                         exp( -(px - data[central_x,central_y,central_z, t])**2 / sigiSqrDouble)
                                 value+=px * weight_i
                                 weights+=weight_i
-                    result[x+kside_x_half, y+kside_y_half, z+kside_z_half, t]= value/weights
+                    result[central_x,central_y,central_z, t]= value/weights
     return data

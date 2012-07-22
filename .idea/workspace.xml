@@ -2,14 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ca7396ea-78df-4e98-901e-a045ad143151" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/profile.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/FlowPy.iml" afterPath="$PROJECT_DIR$/.idea/FlowPy.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cythontest.py" afterPath="$PROJECT_DIR$/cythontest.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/filters/bilateral3d.pyx" afterPath="$PROJECT_DIR$/filters/bilateral3d.pyx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/filters/filters.py" afterPath="$PROJECT_DIR$/filters/filters.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/filters/setup.py" afterPath="$PROJECT_DIR$/filters/setup.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/somecode.pyx" afterPath="$PROJECT_DIR$/somecode.pyx" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test_filters.py" afterPath="$PROJECT_DIR$/tests/test_filters.py" />
     </list>
     <ignored path="FlowPy.iws" />
@@ -35,7 +29,7 @@
       <file leaf-file-name="bilateral3d.pyx" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/filters/bilateral3d.pyx">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="116" column="35" selection-start="3883" selection-end="3883" vertical-scroll-proportion="-0.40699524">
+            <state line="168" column="47" selection-start="6365" selection-end="6365" vertical-scroll-proportion="0.7615262">
               <folding />
             </state>
           </provider>
@@ -73,7 +67,7 @@
       <file leaf-file-name="test_filters.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/test_filters.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="33" selection-start="371" selection-end="504" vertical-scroll-proportion="0.0">
+            <state line="14" column="12" selection-start="321" selection-end="321" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#22#49#0" expanded="true" />
               </folding>
@@ -941,7 +935,11 @@
       <created>1342453564949</created>
       <updated>1342453564949</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="smth">
+      <created>1342915204005</created>
+      <updated>1342915204005</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -978,8 +976,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="24" width="1920" height="1176" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32843137" sideWeight="0.49737877" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32761905" sideWeight="0.47433156" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293718" sideWeight="0.49630412" order="6" side_tool="false" content_ui="tabs" />
@@ -994,7 +993,6 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3274648" sideWeight="0.48376623" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32843137" sideWeight="0.49737877" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39453125" sideWeight="0.78992146" order="5" side_tool="false" content_ui="tabs" />
@@ -1168,7 +1166,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/test_filters.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="33" selection-start="371" selection-end="504" vertical-scroll-proportion="0.0">
+        <state line="14" column="12" selection-start="321" selection-end="321" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#22#49#0" expanded="true" />
           </folding>
@@ -1177,7 +1175,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/filters/bilateral3d.pyx">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="116" column="35" selection-start="3883" selection-end="3883" vertical-scroll-proportion="-0.40699524">
+        <state line="168" column="47" selection-start="6365" selection-end="6365" vertical-scroll-proportion="0.7615262">
           <folding />
         </state>
       </provider>
