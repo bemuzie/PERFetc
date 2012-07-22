@@ -22,17 +22,15 @@ def std(image,num):
         tips=np.append(tips,tipsplus,0)
         print it[ind+1],val
     return tips
-def gauss_kernel_3d(sigma,voxel_size,distance=3):
-    # make 3d gauss kernel adaptive to voxel size
-    voxel_size=np.asarray(voxel_size, dtype=float)
-    # calculate kernel size as distance*sigma from centre
-    x,y,z=np.ceil(distance*sigma/voxel_size)
-    #make 3d grid of euclidean distances from center
-    distances=voxel_size*np.ogrid[-x:x+1,-y:y+1,-z:z+1]
-    distances*=distances
-    distances=np.sqrt(distances[0]+distances[1]+distances[2])
 
-    return np.exp( distances**2/ -2*sigma**2 )/ np.sqrt( np.pi*2*sigma**2 )
+def gauss_kernel_3d(sigma,pxsize,sigmarule=3):
+    pxsize=np.asarray(pxsize)
+    fsize=sigmarule*sigma//pxsize
+    grid_slices=[slice( -fsize[i]*pxsize[i], fsize[i]*pxsize[i]+pxsize[i], pxsize[i] ) for i in range(3)]
+    kernel_grid=np.ogrid[grid_slices[0],grid_slices[1],grid_slices[2]]
+    kernel_euclid= np.sum( np.power(kernel_grid,2) )
+
+    return np.exp(kernel_euclid/-2/sigma**2) / (np.sqrt(np.pi*2)*sigma)**3
 
 def tips(img,voxel_size,sigg,sigt):
 
@@ -70,19 +68,12 @@ def tips(img,voxel_size,sigg,sigt):
         coeff=coeff[...,None]
         img_filtered[x+center[0],y+center[1],z+center[2]]=summ(summ(summ(kernel*coeff,0),0),0)/summ(coeff)
     return img_filtered
-def bilateralFunc(data,sigISqrDouble,GausKern,center):
+def bilateralFunc(data,sigISqrDouble,GausKern,centralpx,kernel_len):
     """ kernel should be  """
-
-    diff=data[center]-data
-    IclsKern=np.exp(-diff*diff/sigISqrDouble)
-    coef=IclsKern*GausKern
+    diff=data[centralpx]-data
+    coef=np.exp(-diff*diff/sigISqrDouble)*GausKern
     return np.sum(data*coef)/np.sum(coef)
 
-def testfunc(data,sigISqrDouble,GausKern,center):
-    #delete it after experiment
-    print data
-    print GausKern
-    return 1
 
 def bilateral3d(img,voxel_size,sigg,sigi,filter=ndbilateral.bilateralFunc):
     """ 4d Bilateral exponential filter.
