@@ -119,10 +119,13 @@ def testimg(size,pattern):
         raise ValueError('pattern should have keys from 0 to 1')
 
     mrx=np.zeros(size)
-    semisize=np.array(size)/2
-    dims=len(size)
     patboders= sorted(pattern.keys())
+
+    patsize=size
+    if len(size) > 3:
+        patsize=size[:3]
+
     for i in patboders:
-        roi=[slice( round(i*br/2),-round(i*br/2) ) for br in size]
+        roi=[slice( round(i*br/2),-1-round(i*br/2) ) for br in patsize]
         mrx[roi]=pattern[i]
     return  mrx.astype(float)

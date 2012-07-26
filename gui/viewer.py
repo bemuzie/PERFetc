@@ -1,64 +1,40 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-
-"""
-ZetCode PySide tutorial 
-
-In this example, we connect a signal
-of a QtGui.QSlider to a slot 
-of a QtGui.QLCDNumber. 
-
-author: Jan Bodnar
-website: zetcode.com 
-last edited: August 2011
-"""
-
+#!/usr/bin/env python
+#-*-coding: utf-8 -*-
 import sys
-from PySide import QtGui, QtCore
+import matplotlib
+matplotlib.use('Qt4Agg')
+matplotlib.rcParams["backend.qt4"]="PySide"
+import pylab
 
-def funclist(funclist,argum):
-    ret=[]
-    for i in funclist:
-        ret.append(i(argum))
-    return ret
-print funclist((sum,max,min),(1,2,3))
-class Example(QtGui.QMainWindow):
+from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
 
-    def __init__(self):
-        super(Example, self).__init__()
+from PySide import QtCore, QtGui
+from PySide.QtCore import SIGNAL,SLOT
 
-        self.initUI()
+class NumSelector(QtGui.QWidget):
+    def __init__(self,*args):
+        QtGui.QWidget.__init__(self,*args)
+        self.setWindowTitle(u"Введите число")
+        spinbox=QtGui.QSpinBox()
+        slider=QtGui.QSlider(QtCore.Qt.Horizontal)
+        spinbox.setRange(0,138)
+        slider.setRange(0,138)
+        self.connect(spinbox,SIGNAL("valueChanged(int)"),slider,SLOT("setValue(int)"))
+        self.connect(slider,SIGNAL("valueChanged(int)"),spinbox,SLOT("setValue(int)"))
+        self.connect(slider,SIGNAL("valueChanged(int)"),self.console_log)
+        spinbox.setValue(27)
+        layout=QtGui.QHBoxLayout()
+        layout.addWidget(spinbox)
+        layout.addWidget(slider)
+        self.setLayout(layout)
+    def console_log(self,i):
+        print i
 
-    def initUI(self):
-
-        btn1=QtGui.QPushButton("Button 1", self)
-        btn1.move(30,50)
-
-        btn2=QtGui.QPushButton("Button 2", self)
-        btn2.move(150,50)
-
-        btn1.clicked.connect(self.buttonClicked)
-        btn2.clicked.connect(self.buttonClicked)
-
-        self.statusBar()
-
-        self.setGeometry(300, 300, 290, 150)
-        self.setWindowTitle('Event sender')
-        self.show()
-
-    def buttonClicked(self):
-
-        sender = self.sender()
-        self.statusBar().showMessage(sender.text() + ' was pressed')
-
-def main():
-
-    app = QtGui.QApplication(sys.argv)
-    ex = Example()
-    sys.exit(app.exec_())
 
 
 if __name__ == '__main__':
-    main()
-
-
+    app=QtGui.QApplication(sys.argv)
+    ns=NumSelector()
+    ns.show()
+    sys.exit(app.exec_())

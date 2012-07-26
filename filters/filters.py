@@ -23,14 +23,19 @@ def std(image,num):
         print it[ind+1],val
     return tips
 
-def gauss_kernel_3d(sigma,pxsize,sigmarule=3):
-    pxsize=np.asarray(pxsize)
-    fsize=sigmarule*sigma//pxsize
-    grid_slices=[slice( -fsize[i]*pxsize[i], fsize[i]*pxsize[i]+pxsize[i], pxsize[i] ) for i in range(3)]
-    kernel_grid=np.ogrid[grid_slices[0],grid_slices[1],grid_slices[2]]
-    kernel_euclid= np.sum( np.power(kernel_grid,2) )
+def gauss_kernel_3d(sigma,pxsize=None,flsize=None,sigmarule=3):
 
-    return np.exp(kernel_euclid/-2/sigma**2) / (np.sqrt(np.pi*2)*sigma)**3
+    if flsize==None:
+        pxsize=np.asarray(pxsize)
+        fsize=sigmarule*sigma//pxsize
+        grid_slices= [slice( -fsize[i]*pxsize[i], fsize[i]*pxsize[i]+pxsize[i], pxsize[i] ) for i in range(3)]
+    else:
+        flsize=np.asarray(flsize)
+        grid_slices= [slice(-i,1+i) for i in flsize//2]
+    kernel_grid=np.ogrid[grid_slices]
+    kernel_euclid= np.sum( np.power(kernel_grid,2) )
+    gauss_kernel=np.exp(kernel_euclid/-(2*sigma**2)) / (np.sqrt(np.pi*2)*sigma)**3
+    return gauss_kernel/np.sum(gauss_kernel)
 
 def tips(img,voxel_size,sigg,sigt):
 
@@ -86,8 +91,8 @@ def bilateral3d(img,voxel_size,sigg,sigi,filter=ndbilateral.bilateralFunc):
     gkern=gauss_kernel_3d(sigg, voxel_size)
     ksize=np.shape(gkern)
     GausKern=np.ravel(gkern)
-    #Closness function
     kwargs=dict(sigISqrDouble= sigISqrDouble, GausKern= GausKern, centralpx= len(GausKern)/2,kernel_len=len(GausKern))
+
     img_filtered=ndimage.generic_filter(img,filter,size=ksize+(1,),extra_keywords=kwargs)
     return img_filtered
 
@@ -144,3 +149,8 @@ def bilateral(img,voxel_size,sigg,sigi,mpr=None):
             continue
     return outputvol
 
+def weightedaverage(data,fsize,sigmadif,dSqrSigma,gaussian):
+    diff=np.std(data)-sigmadif
+    gc=np.exp(-diff*diff/dSqrSigma)
+    coeff=np.ravel(gauss_kernel_3d(gaussian*gc,flsize=fsize))
+    return np.sum(data*coeff)/np.sum(coeff)
