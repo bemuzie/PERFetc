@@ -40,15 +40,22 @@ class Compartment:
             time=time.tolist()
         self.visibleconc=np.array([ self.concentration [:len(time)][time.index(i)] for i in sertime ])
 
-    def addnoise(self,sd):
-        self.visibleconc+=np.random.normal(scale=sd,size=np.shape(self.visibleconc))
-    def excretion(self,coeff):
+        self.connected_inflow={}
+        self.connected_outflow={}
+    def add_outflow(self,compartment,flowratio):
+        maxflowratio=1-sum(self.connected_outflow.values())
+        if flowratio>maxflowratio:
+            print "flow ratio of all connected compartments can't exceed 1. Maximum flowratio you can add is %s"%maxflowratio
+            pass
+        self.connected_outflow[compartment]=flowratio
+    def add_inflow(self,compartment):
         pass
+    def flow(self,totime):
 
 
-def throughnormal(time,mean,sigma,vol):
-    curve=stats.norm.pdf(time,sigma,mean)
-    return np.convolve(inflow, vol*curve/np.trapz(curve))
+
+
+
 
 #injection
 signal=np.zeros(len(tc))
@@ -59,8 +66,8 @@ hrate=60
 
 #Concentration in aorta and recirculation
 #aorta=np.exp(-tc/1.5)*tc**3
-aorta=Compartment(stats.gamma,[2,5,1],1,signal)
-recirculation=Compartment(stats.gamma,[2,1,7],1,aorta.outflow)
+bottle1=Compartment(stats.gamma,[2,5,1],1,signal)
+bottle2=Compartment(stats.gamma,[2,1,7],1,aorta.outflow)
 
 recirculation2=Compartment(stats.gamma,[2,5,1],1,recirculation.outflow)
 aif=recirculation2.outflow[:len(tc)]+aorta.outflow
