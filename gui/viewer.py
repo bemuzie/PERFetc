@@ -37,7 +37,6 @@ class MyGraf(FigureCanvas):
         x=np.arange(0.0001,ox,0.1)
         y=function(x,f,s,t)
         y/=np.sum(y)
-        print np.sum(y)
         self.axes.plot(x,y)
         self.draw()
 
@@ -85,38 +84,6 @@ class MyApp(QtGui.QWidget):
         self.pdfwidget.compute_graph(gammapdf,x,f,s,t)
         self.cdfwidget.compute_graph(gammacdf,x,f,s,t)
 
-class NumSelector(QtGui.QWidget):
-
-    def __init__(self,*args):
-        QtGui.QWidget.__init__(self,*args)
-        self.setWindowTitle(u"Гамма распределение")
-
-
-
-        spinbox=QtGui.QSpinBox()
-        self.slider=QtGui.QSlider(QtCore.Qt.Horizontal)
-        self.dlable=QtGui.QLabel()
-
-        spinbox.setRange(0,138)
-        self.slider.setRange(0,138)
-        self.connect(spinbox,SIGNAL("valueChanged(int)"),self.slider,SLOT("setValue(int)"))
-        self.connect(self.slider,SIGNAL("valueChanged(int)"),spinbox,SLOT("setValue(int)"))
-        self.connect(self.slider,SIGNAL("valueChanged()"),self.console_log)
-
-        spinbox.setValue(27)
-        #self.dlable.setText(dobleit(27))
-
-        layout=QtGui.QHBoxLayout()
-        layout.addWidget(spinbox)
-        layout.addWidget(self.slider)
-        layout.addWidget(self.dlable)
-        self.setLayout(layout)
-    def console_log(self,i):
-        print i
-    @QtCore.pyqtSlot(int)
-    def lableslot(self,someint):
-        #self.dlable.setText(QtCore.QString( dobleit(someint) ))
-        print self.slider.value()
 
 
 if __name__ == '__main__':

@@ -41,26 +41,31 @@ class bottle():
         self.outf/=np.sum(self.outf)
 
     def outflow(self):
-        self.outconcnew=np.convolve(self.outf,np.sum([btl.outconc
-                             for btl in self.inflow_bottles]))[:self.t.size]
-        diff=(self.outconcnew-self.outconc)*(self.outconcnew-self.outconc)
-        self.outconc=self.outconcnew
-        print diff
-        while np.sum(diff)>0.1:
-            for btl in self.inflow_bottles:
-                btl.outflow()
+        if self.inflow_bottles=={}:
+            pass
+        else:
+            self.outconcnew=np.convolve(self.outf,np.sum([btl.outconc
+                                 for btl in self.inflow_bottles], axis=0))[:self.t.size]
+            diff=(self.outconcnew-self.outconc)*(self.outconcnew-self.outconc)
+            plt.plot(self.t,self.outconcnew)
+            print self.name,np.sum(diff),np.sum(self.outconcnew),np.sum(self.outconc)
+            self.outconc=self.outconcnew
+            if np.sum(diff)>0.001:
+                for btl in self.inflow_bottles:
+                    btl.outflow()
 
 
-a=bottle(10,'a')
+
+a=bottle(10,'a',distargs=[5,1])
 b=bottle(10,'b')
 s=bottle(10,'signal')
 
 
-a.addout(b,.1)
+a.addout(b,1)
 a.addin(b,.5)
 a.addin(s,1)
-timea=100
-timer=100
+timea=1000
+timer=1000
 
 a.setoutconc(timea,timer,np.zeros(timer))
 b.setoutconc(timea,timer,np.zeros(timer))
@@ -68,3 +73,5 @@ s.setoutconc(timea,timer,np.zeros(timer))
 s.outconc[10:20]=100
 
 a.outflow()
+
+plt.show()
