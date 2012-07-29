@@ -2,10 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ca7396ea-78df-4e98-901e-a045ad143151" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/test_model.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/testgraph.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/analysis.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bilateral.pyx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/radon.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/somecode.pyx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/testingnet.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/vol4dto3d.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/xmlparser.py" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/transform" afterPath="$PROJECT_DIR$/graphs/mygraph.gexf" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/viewer.py" afterPath="$PROJECT_DIR$/gui/viewer.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/__init__.py" afterPath="$PROJECT_DIR$/model/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/__init__.py" afterPath="$PROJECT_DIR$/tests/__init__.py" />
     </list>
     <ignored path="FlowPy.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -22,31 +31,28 @@
   <component name="DaemonCodeAnalyzer">
     <disable_hints />
   </component>
+  <component name="DatabaseView">
+    <flatten value="false" />
+    <groupTables value="false" />
+  </component>
   <component name="FavoritesManager">
     <favorites_list name="FlowPy" />
   </component>
   <component name="FileEditorManager">
     <leaf>
+      <file leaf-file-name="testgraph.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/tests/testgraph.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="274" column="77" selection-start="9383" selection-end="9383" vertical-scroll-proportion="-0.8292683">
+              <folding>
+                <element signature="e#223#1555#1" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="viewer.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gui/viewer.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="86" column="0" selection-start="2481" selection-end="2481" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="im.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model/im.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="im2.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model/im2.py">
           <provider selected="true" editor-type-id="text-editor">
             <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
@@ -57,22 +63,17 @@
       <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="5" selection-start="419" selection-end="419" vertical-scroll-proportion="0.0">
+            <state line="50" column="47" selection-start="1638" selection-end="1638" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="__init__.py" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/tests/__init__.py">
+      <file leaf-file-name="digraph.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file:///usr/local/lib/python2.7/dist-packages/networkx/classes/digraph.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="54" column="4" selection-start="1994" selection-end="1994" vertical-scroll-proportion="0.6097561">
-              <folding>
-                <element signature="e#198#398#0" expanded="false" />
-                <element signature="e#442#557#0" expanded="false" />
-                <element signature="e#599#715#0" expanded="false" />
-                <element signature="e#751#1168#0" expanded="false" />
-              </folding>
+            <state line="574" column="38" selection-start="13467" selection-end="18552" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -92,10 +93,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/bilateral.py" />
-        <option value="$PROJECT_DIR$/bilateral.pyx" />
-        <option value="$PROJECT_DIR$/cropcalc.py" />
-        <option value="$PROJECT_DIR$/smth.pyx" />
         <option value="$PROJECT_DIR$/compilesmth.py" />
         <option value="$PROJECT_DIR$/filters/setup.py" />
         <option value="$PROJECT_DIR$/tests/profile.py" />
@@ -105,17 +102,21 @@
         <option value="$PROJECT_DIR$/image.py" />
         <option value="$PROJECT_DIR$/filters/filters.py" />
         <option value="$PROJECT_DIR$/tests/test_filters.py" />
-        <option value="$PROJECT_DIR$/gui/viewer.py" />
-        <option value="$PROJECT_DIR$/model/__init__.py" />
         <option value="$PROJECT_DIR$/tests/__init__.py" />
+        <option value="$PROJECT_DIR$/tests/test_model.py" />
+        <option value="$PROJECT_DIR$/model/__init__.py" />
+        <option value="$PROJECT_DIR$/gui/viewer.py" />
+        <option value="$PROJECT_DIR$/graphs/mygraph.gexf" />
+        <option value="$PROJECT_DIR$/graphs/newgraph.gml" />
+        <option value="$PROJECT_DIR$/tests/testgraph.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="2" />
-    <option name="y" value="24" />
-    <option name="width" value="992" />
-    <option name="height" value="1177" />
+    <option name="y" value="80" />
+    <option name="width" value="1438" />
+    <option name="height" value="1147" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -234,21 +235,7 @@
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="tests">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="PERFetc">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="model">
+            <PATH_ELEMENT USER_OBJECT="gui">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
@@ -291,57 +278,81 @@
       <recent name="$PROJECT_DIR$/filters" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.__init__">
-    <configuration default="false" name="filters" type="PythonConfigurationType" factoryName="Python" temporary="true">
+  <component name="RunManager" selected="Python's test.Doctests in Compartment">
+    <configuration default="false" name="__init__" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/filters" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
       <option name="IS_MODULE_SDK" value="true" />
       <module name="FlowPy" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/filters/filters.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/__init__.py" />
       <option name="PARAMETERS" value="" />
       <option name="MULTIPROCESS" value="false" />
       <RunnerSettings RunnerId="PythonRunner" />
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
-    <configuration default="false" name="image" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration default="false" name="testgraph" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
       <option name="IS_MODULE_SDK" value="true" />
       <module name="FlowPy" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/image.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/testgraph.py" />
       <option name="PARAMETERS" value="" />
       <option name="MULTIPROCESS" value="false" />
+      <RunnerSettings RunnerId="PyDebugRunner" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PyDebugRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Doctests in Compartment" type="tests" factoryName="Doctests" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <module name="FlowPy" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/testgraph.py" />
+      <option name="CLASS_NAME" value="Compartment" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_CLASS" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
       <RunnerSettings RunnerId="PythonRunner" />
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
-    <configuration default="false" name="im" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration default="false" name="Doctests in Compartment.add_node" type="tests" factoryName="Doctests" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
+      <envs />
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/model" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
       <option name="IS_MODULE_SDK" value="true" />
       <module name="FlowPy" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/model/im.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="MULTIPROCESS" value="false" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/testgraph.py" />
+      <option name="CLASS_NAME" value="Compartment" />
+      <option name="METHOD_NAME" value="add_node" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_METHOD" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
       <RunnerSettings RunnerId="PythonRunner" />
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
@@ -358,24 +369,6 @@
       <module name="FlowPy" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/gui/viewer.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="MULTIPROCESS" value="false" />
-      <RunnerSettings RunnerId="PythonRunner" />
-      <ConfigurationWrapper RunnerId="PythonRunner" />
-      <method />
-    </configuration>
-    <configuration default="false" name="__init__" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <module name="FlowPy" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/__init__.py" />
       <option name="PARAMETERS" value="" />
       <option name="MULTIPROCESS" value="false" />
       <RunnerSettings RunnerId="PythonRunner" />
@@ -804,31 +797,31 @@
       <method />
     </configuration>
     <list size="25">
-      <item index="0" class="java.lang.String" itemvalue="Python.filters" />
-      <item index="1" class="java.lang.String" itemvalue="Python.image" />
-      <item index="2" class="java.lang.String" itemvalue="Python.im" />
-      <item index="3" class="java.lang.String" itemvalue="Python.viewer" />
-      <item index="4" class="java.lang.String" itemvalue="Python.test2" />
-      <item index="5" class="java.lang.String" itemvalue="Python.tips4" />
-      <item index="6" class="java.lang.String" itemvalue="Python.testTIPS4" />
-      <item index="7" class="java.lang.String" itemvalue="Python.CopyFiles" />
-      <item index="8" class="java.lang.String" itemvalue="Python.curves" />
-      <item index="9" class="java.lang.String" itemvalue="Python.plots" />
-      <item index="10" class="java.lang.String" itemvalue="Python.ploting" />
-      <item index="11" class="java.lang.String" itemvalue="Python.plotExper" />
-      <item index="12" class="java.lang.String" itemvalue="Python.testPloting" />
-      <item index="13" class="java.lang.String" itemvalue="Python.classesTest" />
-      <item index="14" class="java.lang.String" itemvalue="Python.setup" />
-      <item index="15" class="java.lang.String" itemvalue="Python.test_bilateral" />
-      <item index="16" class="java.lang.String" itemvalue="Python.testingnet" />
-      <item index="17" class="java.lang.String" itemvalue="Python.transform" />
-      <item index="18" class="java.lang.String" itemvalue="Python.slidesmaker" />
-      <item index="19" class="java.lang.String" itemvalue="Python.flowmodel" />
-      <item index="20" class="java.lang.String" itemvalue="Python.analysis" />
-      <item index="21" class="java.lang.String" itemvalue="Python.workflow_3dmodel" />
-      <item index="22" class="java.lang.String" itemvalue="Python.radon" />
-      <item index="23" class="java.lang.String" itemvalue="Python.compilesmth" />
-      <item index="24" class="java.lang.String" itemvalue="Python.__init__" />
+      <item index="0" class="java.lang.String" itemvalue="Python.test2" />
+      <item index="1" class="java.lang.String" itemvalue="Python.tips4" />
+      <item index="2" class="java.lang.String" itemvalue="Python.testTIPS4" />
+      <item index="3" class="java.lang.String" itemvalue="Python.CopyFiles" />
+      <item index="4" class="java.lang.String" itemvalue="Python.curves" />
+      <item index="5" class="java.lang.String" itemvalue="Python.plots" />
+      <item index="6" class="java.lang.String" itemvalue="Python.ploting" />
+      <item index="7" class="java.lang.String" itemvalue="Python.plotExper" />
+      <item index="8" class="java.lang.String" itemvalue="Python.testPloting" />
+      <item index="9" class="java.lang.String" itemvalue="Python.classesTest" />
+      <item index="10" class="java.lang.String" itemvalue="Python.setup" />
+      <item index="11" class="java.lang.String" itemvalue="Python.test_bilateral" />
+      <item index="12" class="java.lang.String" itemvalue="Python.testingnet" />
+      <item index="13" class="java.lang.String" itemvalue="Python.transform" />
+      <item index="14" class="java.lang.String" itemvalue="Python.slidesmaker" />
+      <item index="15" class="java.lang.String" itemvalue="Python.flowmodel" />
+      <item index="16" class="java.lang.String" itemvalue="Python.analysis" />
+      <item index="17" class="java.lang.String" itemvalue="Python.workflow_3dmodel" />
+      <item index="18" class="java.lang.String" itemvalue="Python.radon" />
+      <item index="19" class="java.lang.String" itemvalue="Python.compilesmth" />
+      <item index="20" class="java.lang.String" itemvalue="Python.__init__" />
+      <item index="21" class="java.lang.String" itemvalue="Python.testgraph" />
+      <item index="22" class="java.lang.String" itemvalue="Python's test.Doctests in Compartment" />
+      <item index="23" class="java.lang.String" itemvalue="Python's test.Doctests in Compartment.add_node" />
+      <item index="24" class="java.lang.String" itemvalue="Python.viewer" />
     </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
@@ -913,7 +906,11 @@
       <created>1343297334018</created>
       <updated>1343297334018</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="smth">
+      <created>1343385295897</created>
+      <updated>1343385295897</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers>
       <GitHub shared="false">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -949,23 +946,23 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="2" y="24" width="992" height="1177" extended-state="0" />
+    <frame x="2" y="80" width="1438" height="1147" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32936507" sideWeight="0.63199216" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32761905" sideWeight="0.47433156" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293718" sideWeight="0.49630412" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16898395" sideWeight="0.6278626" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19893616" sideWeight="0.6313726" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39503816" sideWeight="0.8919786" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2744957" sideWeight="0.63199216" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39450443" sideWeight="0.8857404" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.36862746" sideWeight="0.12978724" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.36862746" sideWeight="0.86276597" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36800784" sideWeight="0.13015874" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.36800784" sideWeight="0.8642857" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.328125" sideWeight="0.3514398" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3274648" sideWeight="0.48376623" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32679096" sideWeight="0.515873" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32843137" sideWeight="0.49737877" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -1038,68 +1035,19 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/filters/setup.py">
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/networkx/drawing/nx_pylab.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="1" selection-start="466" selection-end="466" vertical-scroll-proportion="0.0" />
+        <state line="597" column="38" selection-start="18607" selection-end="18607" vertical-scroll-proportion="-1.3875432" />
       </provider>
     </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/matplotlib/collections.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1054" column="0" selection-start="44922" selection-end="44922" vertical-scroll-proportion="0.0" />
+        <state line="882" column="8" selection-start="29648" selection-end="29648" vertical-scroll-proportion="0.31229237" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/image.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="95" column="109" selection-start="3299" selection-end="3299" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="34" selection-start="321" selection-end="325" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/analysis.py">
+    <entry file="file://$PROJECT_DIR$/model/im2.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/testdistribution.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/filters/filters.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="22" selection-start="1018" selection-end="1018" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_bilateral.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/somecode.pyx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="24" selection-start="205" selection-end="205" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cythontest.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="40" selection-start="305" selection-end="305" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_filters.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="0" selection-start="544" selection-end="544" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/viewer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="86" column="0" selection-start="2481" selection-end="2481" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/model/im.py">
@@ -1107,28 +1055,70 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model/im2.py">
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/networkx/classes/graph.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="769" column="7" selection-start="22802" selection-end="22802" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/cython_example.pyx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/workflow_3dmodel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/transform.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/graphs/mygraph.gexf">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/graphs/tgraph.gexf">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/graphs/newgraph.pickle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/graphs/newgraph.gml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-28.707317" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="50" column="47" selection-start="1638" selection-end="1638" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/networkx/classes/digraph.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="574" column="38" selection-start="13467" selection-end="18552" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gui/viewer.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model/__init__.py">
+    <entry file="file://$PROJECT_DIR$/tests/testgraph.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="5" selection-start="419" selection-end="419" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="4" selection-start="1994" selection-end="1994" vertical-scroll-proportion="0.6097561">
+        <state line="274" column="77" selection-start="9383" selection-end="9383" vertical-scroll-proportion="-0.8292683">
           <folding>
-            <element signature="e#198#398#0" expanded="false" />
-            <element signature="e#442#557#0" expanded="false" />
-            <element signature="e#599#715#0" expanded="false" />
-            <element signature="e#751#1168#0" expanded="false" />
+            <element signature="e#223#1555#1" expanded="false" />
           </folding>
         </state>
       </provider>

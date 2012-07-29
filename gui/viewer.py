@@ -39,6 +39,9 @@ class MyGraf(FigureCanvas):
         y/=np.sum(y)
         self.axes.plot(x,y)
         self.draw()
+    def draw_graf(self,xarr,yarr):
+        self.axes.plot(xarr,yarr)
+        self.draw()
 
 
 
@@ -51,16 +54,16 @@ class MyApp(QtGui.QWidget):
         self.firstp=QtGui.QDoubleSpinBox()
         self.secondp=QtGui.QDoubleSpinBox()
         self.thirdp=QtGui.QDoubleSpinBox()
-        startbutton=QtGui.QPushButton(u'Построить график')
+        startbutton=QtGui.QPushButton(u'Поехали!')
 
         self.xaxis.setValue(10)
 
         for sb in [self.firstp,self.secondp,self.thirdp]:
             sb.setValue(1)
             sb.setSingleStep(0.1)
-            self.connect(sb,SIGNAL("valueChanged(double)"),self.drawgraph)
+            self.connect(sb,SIGNAL("valueChanged(double)"),self.drawgraph1)
 
-        self.connect(startbutton,SIGNAL("clicked()"),self.drawgraph)
+        self.connect(startbutton,SIGNAL("clicked()"),self.drawgraph1)
         self.pdfwidget=MyGraf()
         self.cdfwidget=MyGraf()
 
@@ -74,17 +77,20 @@ class MyApp(QtGui.QWidget):
         layout.addWidget(startbutton)
         self.setLayout(layout)
 
-    def drawgraph(self):
+    def drawgraph1(self):
         x=self.xaxis.value()
         f=self.firstp.value()
         s=self.secondp.value()
         t=self.thirdp.value()
-
-
         self.pdfwidget.compute_graph(gammapdf,x,f,s,t)
         self.cdfwidget.compute_graph(gammacdf,x,f,s,t)
-
-
+    def drawgraph2(self):
+        timelength=self.xaxis.value()
+        x=self.firstp.value()
+        s=self.secondp.value()
+        t=self.thirdp.value()
+        self.pdfwidget.draw_graph(x,y)
+        self.cdfwidget.draw_graph(x,y)
 
 if __name__ == '__main__':
     app=QtGui.QApplication(sys.argv)
