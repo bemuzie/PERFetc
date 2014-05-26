@@ -32,14 +32,34 @@ class Roi():
 		self.__read_info(rois_info)
 		self.__get_concentrations()
 
-		self.mean_concentrations = [np.average(i) for i in self.concentrations]
+		self.mean_densities = [np.average(i) for i in self.concentrations]
 		self.sd_concentrations = [np.std(i) for i in self.concentrations]
-		self.max_hu = np.max(self.mean_concentrations)
-		self.max_t = self.times[self.mean_concentrations.index(self.max_hu)]
+		self.
+
 		self.rois = {'aorta':{'series':{},'sum':{}}}
 
 
-	def save(self,path):
+	def save_txt(self,fname,data_folder=None):
+		"""
+		Save ROIs data in txt
+		
+		txt column names are:
+			roi: name of ROI
+			times : array of times of series included in any roi of Roi.object, separated with ';'
+			data x : path to data file of serie with time x, wich was saved with np.savetxt
+			series mean_density x :  mean density of ROI in time x
+			series median_density x :  median density of ROI in time x
+			series sd x :  mean SD of ROI in time x
+
+	    Args:
+	      fname (str): filename
+	      data_folder (str): folder roi np.arrays be saved. If None they will be saved in the same folder as file.
+
+	    Returns:
+	      
+    
+    
+		"""
 		headers = ['roi name','data_path','max_hu','max_t']
 		times = self.get_time_list()
 		#write headers summary data
@@ -65,7 +85,11 @@ class Roi():
 			for ts in self.rois[r_name]['series']:
 				times[ts]=0
 		return sorted([i for i in times])
-			
+	def update_summary(self):
+		for i in self.roi:
+			self.roi[i]['sum']['max_d'] = max([[v['mean_d'],t] for t,v in self.roi[i]['series'].items()])
+			self.roi[i]['sum']['max_t'] = 
+
 
 
 	def load(self,path):
