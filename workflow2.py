@@ -1,5 +1,5 @@
 #-*- coding: utf-8-*-
-
+import os
 #The workflow for recieved DICOM in some TEMP folder
 
 #Parse DICOM and move them to DATA_STORAGE folder with generated subfolder structure /Patient_name/DCM/Examination_date/Series_Kernel_Filter
@@ -20,44 +20,59 @@
 #Create ROIs for aorta,IVC
 #Choose target phase and make registration
 #Create ROIs for pancreas,tumor,tumor1
-ANTs_PATH = '/home/denest/ANTs-1.9.v4-Linux/bin/'
+ANTs_PATH = '/home/denest/ANTs-1.9.x-Linux/bin/'
 TARGET_PHASE =8
 MASK = ''
 #registration
 import subprocess
-working_folder = '/home/denest/temnosagatij/croped/'
-fixed_im='20140508_100402GeneralBodyPerfusionCopiedTEMNOSAGATYIAV02041973s004a001_8_I40_G1.5-subvolume-scale_1.nii.gz'
-moved_im='20140508_100402GeneralBodyPerfusionCopiedTEMNOSAGATYIAV02041973s004a001_20_I40_G1.5-subvolume-scale_1.nii.gz'
-prefix='trans20to8'
-registration_parametrs=['-d', '3',
-						'--transform', 'Affine[0.75]',
-						'--metric',  'MI[%s,%s,0.5,32]'%(fixed_im,moved_im),
-						'--convergence', '[100x100x100x100,1e-6,5]',
-						'--shrink-factors', '8x5x3x1',
-						'--smoothing-sigmas', '6x2x1x1vox',
-						'--use-estimate-learning-rate-once',
-						'-x %s'%MASK,
+WORKING_FOLDER = '/home/denest/PERF_volumes/TEMNOSAGATYI  A.V. 02.04.1973/'
+images_folder = '/home/denest/PERF_volumes/TEMNOSAGATYI  A.V. 02.04.1973/NII/20140508_100402GeneralBodyPerfusionCopiedTEMNOSAGATYIAV02041973s004a001_filtered/croped/short/'
+fixed_im='/home/denest/PERF_volumes/TEMNOSAGATYI  A.V. 02.04.1973/NII/20140508_100402GeneralBodyPerfusionCopiedTEMNOSAGATYIAV02041973s004a001_filtered/croped/short/8.nii'
+#moved_im='20140508_100402GeneralBodyPerfusionCopiedTEMNOSAGATYIAV02041973s004a001_20_I40_G1.5-subvolume-scale_1.nii.gz'
+mask = '/home/denest/PERF_volumes/TEMNOSAGATYI  A.V. 02.04.1973//ROI/8_roi.nii.gz'
+output_folder = '/home/denest/PERF_volumes/TEMNOSAGATYI  A.V. 02.04.1973/NII/registered/'
 
-						'--transform', 'SyN[0.75]',
-						'--metric',  'MI[%s,%s,0.5,32]'%(fixed_im,moved_im),
-						'--convergence', '[100x100x10,1e-6,5]',
-						'--shrink-factors', '6x4x1',
-						'--smoothing-sigmas', '8x5x1vox',
-						'--use-estimate-learning-rate-once'
-						'-x %s'%MASK,
-						'-o',prefix
-						]
+def registration(moved_image,fixed_image,mask,output_folder):
+	
+	prefix='%s_to_%s'%(os.path.basename(moved_image).split('.')[0],os.path.basename(fixed_image).split('.')[0])
+	print prefix
+	registration_parametrs=['-d', '3',
+							'--transform', 'Affine[0.75]',
+							'--metric',  'MI[%s,%s,0.5,32]'%(fixed_image,moved_image),
+							'--convergence', '[100x100x100,1e-6,5]',
+							'--shrink-factors', '8x2x1',
+							'--smoothing-sigmas', '6x2x2vox',
+							'--use-estimate-learning-rate-once',
+							'-x %s'%mask,
 
-subprocess.check_call('NSLOTS=4',shell=True)
-subprocess.check_call(' '.join([ANTs_PATH+'antsRegistration', ' '.join(registration_parametrs)]),shell=True,cwd=working_folder)
-subprocess.check_call(' '.join([ANTs_PATH+'antsApplyTransforms',
-						   '-d 3',
-						   '-r',fixed_im,
-						   '-i',moved_im,
-						   '-t [%s0GenericAffine.mat,1]'%prefix,
-						   '-t [%s1Warp.nii.gz,0]'%prefix,
-						   '-o %s_registered.nii.gz'%prefix])
-				,shell=True,cwd=working_folder)
+							'--transform', 'SyN[0.75]',
+							'--metric',  'MI[%s,%s,0.5,32]'%(fixed_image,moved_image),
+							'--convergence', '[100x100x100,1e-6,5]',
+							'--shrink-factors', '6x2x1',
+							'--smoothing-sigmas', '8x2x1vox',
+							'--use-estimate-learning-rate-once'
+							'-x %s'%mask,
+							'-o',prefix
+							]
+	#print ' '.join(registration_parametrs)
+	subprocess.check_call('ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=3',shell=True)
+	subprocess.check_call(' '.join([ANTs_PATH+'antsRegistration', ' '.join(registration_parametrs)]),shell=True,cwd=output_folder)
+	subprocess.check_call(' '.join([ANTs_PATH+'antsApplyTransforms',
+							   '-d 3',
+							   '-r',fixed_image,
+							   '-i',moved_image,
+							   '-t [%s0GenericAffine.mat,1]'%prefix,
+							   '-t [%s1Warp.nii.gz,0]'%prefix,
+							   '-o %s_registered.nii.gz'%prefix])
+					,shell=True,cwd=output_folder)
+
+for file_name in [f for p,d,f in os.walk(images_folder)][0]:
+	fname = os.path.join(images_folder,file_name)
+	if not fname==os.path.join(images_folder ,fixed_im):
+		registration(os.path.relpath(fname,output_folder),os.path.relpath(fixed_im,output_folder),os.path.relpath(mask,output_folder),output_folder)
+
+
+
 #calculte rois parametrs
 
 
