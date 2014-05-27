@@ -1,4 +1,5 @@
 #-*- coding: utf-8-*-
+
 #The workflow for recieved DICOM in some TEMP folder
 
 #Parse DICOM and move them to DATA_STORAGE folder with generated subfolder structure /Patient_name/DCM/Examination_date/Series_Kernel_Filter
@@ -19,19 +20,45 @@
 #Create ROIs for aorta,IVC
 #Choose target phase and make registration
 #Create ROIs for pancreas,tumor,tumor1
+ANTs_PATH = '/home/denest/ANTs-1.9.v4-Linux/bin/'
+TARGET_PHASE =8
+MASK = ''
+#registration
+import subprocess
+working_folder = '/home/denest/temnosagatij/croped/'
+fixed_im='20140508_100402GeneralBodyPerfusionCopiedTEMNOSAGATYIAV02041973s004a001_8_I40_G1.5-subvolume-scale_1.nii.gz'
+moved_im='20140508_100402GeneralBodyPerfusionCopiedTEMNOSAGATYIAV02041973s004a001_20_I40_G1.5-subvolume-scale_1.nii.gz'
+prefix='trans20to8'
+registration_parametrs=['-d', '3',
+						'--transform', 'Affine[0.75]',
+						'--metric',  'MI[%s,%s,0.5,32]'%(fixed_im,moved_im),
+						'--convergence', '[100x100x100x100,1e-6,5]',
+						'--shrink-factors', '8x5x3x1',
+						'--smoothing-sigmas', '6x2x1x1vox',
+						'--use-estimate-learning-rate-once',
+						'-x %s'%MASK,
 
+						'--transform', 'SyN[0.75]',
+						'--metric',  'MI[%s,%s,0.5,32]'%(fixed_im,moved_im),
+						'--convergence', '[100x100x10,1e-6,5]',
+						'--shrink-factors', '6x4x1',
+						'--smoothing-sigmas', '8x5x1vox',
+						'--use-estimate-learning-rate-once'
+						'-x %s'%MASK,
+						'-o',prefix
+						]
+
+subprocess.check_call('NSLOTS=4',shell=True)
+subprocess.check_call(' '.join([ANTs_PATH+'antsRegistration', ' '.join(registration_parametrs)]),shell=True,cwd=working_folder)
+subprocess.check_call(' '.join([ANTs_PATH+'antsApplyTransforms',
+						   '-d 3',
+						   '-r',fixed_im,
+						   '-i',moved_im,
+						   '-t [%s0GenericAffine.mat,1]'%prefix,
+						   '-t [%s1Warp.nii.gz,0]'%prefix,
+						   '-o %s_registered.nii.gz'%prefix])
+				,shell=True,cwd=working_folder)
 #calculte rois parametrs
-from perfusion import roi
-aorta = roi.Roi('/home/denest/PERF_volumes/TEMNOSAGATYI  A.V. 02.04.1973/ROI/20140508_100402GeneralBodyPerfusionCopiedTEMNOSAGATYIAV02041973s004a001_3_I40_G1_roi_aorta.nii.gz',
-			rois_info='/home/denest/PERF_volumes/TEMNOSAGATYI  A.V. 02.04.1973/ROI/aorta_info.csv')
-aorta.output()
-ivc = roi.Roi('/home/denest/PERF_volumes/TEMNOSAGATYI  A.V. 02.04.1973/ROI/20140508_100402GeneralBodyPerfusionCopiedTEMNOSAGATYIAV02041973s004a001_3_I40_G1_roi_ivc.nii.gz',
-			rois_info='/home/denest/PERF_volumes/TEMNOSAGATYI  A.V. 02.04.1973/ROI/aorta_info.csv')
-ivc.output()
-print aorta.equilibrium_time(aorta.concentrations,ivc.concentrations)
-pancreas = roi.Roi('/home/denest/PERF_volumes/TEMNOSAGATYI  A.V. 02.04.1973/ROI/pancreas_roi.nii.gz',
-			rois_info='/home/denest/PERF_volumes/TEMNOSAGATYI  A.V. 02.04.1973/ROI/aorta_info.csv')
-pancreas.output()
 
 
 """
