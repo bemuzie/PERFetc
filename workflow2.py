@@ -1,16 +1,96 @@
 #-*- coding: utf-8-*-
 import os
+import subprocess
+from image import nii_separator
+import nibabel as nib
+import numpy as np
 #The workflow for recieved DICOM in some TEMP folder
 
 #Parse DICOM and move them to DATA_STORAGE folder with generated subfolder structure /Patient_name/DCM/Examination_date/Series_Kernel_Filter
+DCM_FOLDER = 'DCM/20140508_536/'
 #make information file /Patient_name/DCM/Examination_date/info.txt
 
 
-#Convert DICOMs to NIFTI, write NIFTI to /Patient_name/NII/(Examination_date)_(Series).nii.gz
 
+#Convert DICOMs to NIFTI, write NIFTI to /Patient_name/NII/(Examination_date)_(Series).nii.gz
+"""
+dcm2nii HELP
+-4 Create 4D volumes, else DTI/fMRI saved as many 3D volumes: Y,N = Y
+-a Anonymize [remove identifying information]: Y,N = Y
+-b load settings from specified inifile, e.g. '-b C:\sett1.ini'  
+-c Collapse input folders: Y,N = Y
+-d Date in filename [filename.dcm -> 20061230122032.nii]: Y,N = Y
+-e events (series/acq) in filename [filename.dcm -> s002a003.nii]: Y,N = Y
+-f Source filename [e.g. filename.par -> filename.nii]: Y,N = N
+-g gzip output, filename.nii.gz [ignored if '-n n']: Y,N = Y
+-i ID  in filename [filename.dcm -> johndoe.nii]: Y,N = N
+-m manually prompt user to specify output format [NIfTI input only]: Y,N = Y
+-n output .nii file [if no, create .hdr/.img pair]: Y,N = Y
+-o Output Directory, e.g. 'C:\TEMP' (if unspecified, source directory is used)
+-p Protocol in filename [filename.dcm -> TFE_T1.nii]: Y,N = Y
+-r Reorient image to nearest orthogonal: Y,N 
+-s SPM2/Analyze not SPM5/NIfTI [ignored if '-n y']: Y,N = N
+-v Convert every image in the directory: Y,N = Y
+-x Reorient and crop 3D NIfTI images: Y,N = N
+"""
+PATIENT_FOLDER = '/home/denest/PERF_volumes/TEMNOSAGATYI  A.V. 02.04.1973/'
+
+DCM2NII_PATH = '/home/denest/mricron/dcm2nii'
+ini_path = 'dcm2nii.ini'
+output_folder = 'NII/'
+dcm2nii_pars =['-4 n',#Create 4D volumes, else DTI/fMRI saved as many 3D volumes: Y,N = Y
+			 '-a n',# Anonymize [remove identifying information]: Y,N = Y
+			 '-b dcm2nii.ini',#load settings from specified inifile, e.g. '-b C:\set\t1.ini'  
+			 #'-c y',#Collapse input folders: Y,N = Y
+			 '-d n',#Date in filename [filename.dcm -> 20061230122032.nii]: Y,N = Y
+			 '-e y',# events (series/acq) in filename [filename.dcm -> s002a003.nii]: Y,N = Y
+			 '-f y',# Source filename [e.g. filename.par -> filename.nii]: Y,N = N
+			 '-g y',#gzip output, filename.nii.gz [ignored if '-n n']: Y,N = Y
+			 #'-i y',#ID  in filename [filename.dcm -> johndoe.nii]: Y,N = N
+			 #'-m n',#manually prompt user to specify output format [NIfTI input only]: Y,N = Y
+			 '-n y',#output .nii file [if no, create .hdr/.img pair]: Y,N = Y
+			 "-o '%s'"%os.path.join(PATIENT_FOLDER,output_folder),#Output Directory, e.g. 'C:\TEMP' (if unspecified, source directory is used)
+			 '-p n',#Protocol in filename [filename.dcm -> TFE_T1.nii]: Y,N = Y
+			 '-r n',# Reorient image to nearest orthogonal: Y,N 
+			 '-s n',#SPM2/Analyze not SPM5/NIfTI [ignored if '-n y']: Y,N = N
+			 '-v y',#Convert every image in the directory: Y,N = Y
+			 '-x n',#Reorient and crop 3D NIfTI images: Y,N = N
+			 "'%s'"%os.path.join(PATIENT_FOLDER,DCM_FOLDER) #INPUT FOLDER
+			]
+"""
+subprocess.check_call(' '.join([DCM2NII_PATH,' '.join(dcm2nii_pars)] ),
+						shell=True)
+"""
 #compress DICOMs
 
 #Separate 4d NIIs to 3d NIIs and move them to /Patient_name/NII/(Examination_date)_(Series)/(Examination_date)_(Series)_time.nii.gz
+"""
+for p,d,f in os.walk(os.path.join(PATIENT_FOLDER, 'NII/')):
+	
+	for fname in f:
+		try:
+			nii_separator.separate_nii(os.path.join(p,'20140508_100402GeneralBodyPerfusionCopiedTEMNOSAGATYIAV02041973s010a001.nii'))
+		except ValueError, s:
+			if s == 'Expecting four dimensions':
+				continue
+"""
+#Select crop volume for NIFTies
+CROP_VOLUME = 'crop_volume.nii.gz'
+cr_vol=nib.load(os.path.join(PATIENT_FOLDER,'ROI',CROP_VOLUME)).get_data()
+if len(cr_vol.shape)==4:
+	cr_vol = cr_vol[...,0]
+
+borders_vol = np.where(cr_vol==1)
+x_fr,y_fr,z_fr = map(np.min,borders_vol)
+x_to,y_to,z_to = map(np.max,borders_vol)
+
+f = nib.load(os.path.join(PATIENT_FOLDER,'NII/20140508_100402GeneralBodyPerfusionCopiedTEMNOSAGATYIAV02041973s010a001','20140508_100402GeneralBodyPerfusionCopiedTEMNOSAGATYIAV02041973s010a001_4.nii.gz'))
+vol3d = f.get_data()
+hdr = f.get_header()
+res = hdr.get_zooms() # getting voxel size
+mrx = hdr.get_sform() # getting affine matrix
+vol3d = vol3d[x_fr:x_to,y_fr:y_to,z_fr:z_to]
+nib.nifti1.save(nib.Nifti1Image(vol3d, mrx), os.path.join(PATIENT_FOLDER,'ROI','test_crop.nii') )
 
 #Filter 3dNIIs with 3d bilateral filter with
 #move them to /Patient_name/NII/(Examination_date)_(Series)_filter_I(IntensitySigma)_G(GaussianSigma)/(Examination_date)_(Series)_time_filter_I(IntensitySigma)_G(GaussianSigma).nii.gz
@@ -20,11 +100,12 @@ import os
 #Create ROIs for aorta,IVC
 #Choose target phase and make registration
 #Create ROIs for pancreas,tumor,tumor1
+"""
 ANTs_PATH = '/home/denest/ANTs-1.9.x-Linux/bin/'
 TARGET_PHASE =8
 MASK = ''
 #registration
-import subprocess
+
 WORKING_FOLDER = '/home/denest/PERF_volumes/TEMNOSAGATYI  A.V. 02.04.1973/'
 images_folder = '/home/denest/PERF_volumes/TEMNOSAGATYI  A.V. 02.04.1973/NII/20140508_100402GeneralBodyPerfusionCopiedTEMNOSAGATYIAV02041973s004a001_filtered/croped/short/'
 fixed_im='/home/denest/PERF_volumes/TEMNOSAGATYI  A.V. 02.04.1973/NII/20140508_100402GeneralBodyPerfusionCopiedTEMNOSAGATYIAV02041973s004a001_filtered/croped/short/8.nii'
@@ -71,7 +152,7 @@ for file_name in [f for p,d,f in os.walk(images_folder)][0]:
 	if not fname==os.path.join(images_folder ,fixed_im):
 		registration(os.path.relpath(fname,output_folder),os.path.relpath(fixed_im,output_folder),os.path.relpath(mask,output_folder),output_folder)
 
-
+"""
 
 #calculte rois parametrs
 

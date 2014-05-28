@@ -4,7 +4,7 @@ import numpy as np
 from scipy import stats
 class Vividict(dict):
 
-    def __missing__(self, key):
+    def __missing__(self, key):    	
         value = self[key] = type(self)()
         return value
 
@@ -48,14 +48,26 @@ class Roi():
 		#write headers
 		out_file.write(','.join(headers))
 		out_file.write('\n')
-		
+		print 'datafolder',data_folder
 		#write data
 		for r_name in self.rois:
+
 			line = [r_name]
 			line += ';'.join(map(str,times)),
 			for t in times:
-				np.savetxt(data_folder+'/%s_%s.txt'%(r_name,t), self.rois[r_name]['series'][t]['data'])
-				line += data_folder+'/%s_%s.txt'%(r_name,t),
+				print r_name,t,self.rois[r_name]['series'][t]['data']
+				try:
+					np.savetxt(data_folder+'/%s_%s.txt'%(r_name,t), self.rois[r_name]['series'][t]['data'])
+					print os.path.join(data_folder,'%s_%s.txt'%(r_name,t))
+					line += os.path.join(data_folder,'%s_%s.txt'%(r_name,t)),
+				except IndexError as s:
+					if s[0]=="tuple index out of range":
+						line += '',
+					else:
+						raise IndexError,s
+
+
+
 			line +=[str(self.rois[r_name]['series'][i]['mean_density']) for i in times]
 			line +=[str(self.rois[r_name]['series'][i]['median_density']) for i in times]
 			line +=[str(self.rois[r_name]['series'][i]['sd_density']) for i in times]
@@ -81,9 +93,17 @@ class Roi():
 		for i in r_name:
 			for t in self.get_time_list():
 				d = self.rois[i]['series'][t]['data']
-				self.rois[i]['series'][t]['mean_density'] = np.mean(d)
-				self.rois[i]['series'][t]['median_density'] = np.median(d)
-				self.rois[i]['series'][t]['sd_density'] = np.std(d)
+				print i,t
+				try:
+					self.rois[i]['series'][t]['mean_density'] = np.mean(d)
+					self.rois[i]['series'][t]['median_density'] = np.median(d)
+					self.rois[i]['series'][t]['sd_density'] = np.std(d)
+				except TypeError as s:
+					if s[0] == "unsupported operand type(s) for /: 'Vividict' and 'float'":
+						pass
+					else:
+						print s,type(s),s[0]
+						raise TypeError, s
 
 
 
@@ -109,7 +129,11 @@ class Roi():
 				if col_name[0] == 'series':
 					self.rois [r_name] ['series'] [int(col_name[-1])] [col_name[1]] = v
 				elif col_name[0] == 'data':
-					self.rois [r_name] ['series'] [int(col_name[-1])] ['data'] = np.loadtxt(os.path.abspath(v))
+					try:
+						self.rois [r_name] ['series'] [int(col_name[-1])] ['data'] = np.loadtxt(os.path.join(os.path.v))
+					except:
+						continue
+					
 				else:
 					continue
 		self.update_series()
@@ -117,26 +141,30 @@ class Roi():
 
 
 
-	def add_roi_from_file(self,roi_name,roi_file,vol_file,vol_time,cut_and_save=None):
+	def add_roi_from_file(self,roi_name,roi_file,vol_file,vol_time,cut_and_save=None,update_info=True):
 
 		vol_np = nib.load(vol_file).get_data()
 		roi_np = nib.load(roi_file).get_data()[...,0]
 		data = vol_np[roi_np>0]
 		self.rois[roi_name]['series'][int(vol_time)]['data'] = data
-		self.update_series()
-		self.update_summary()
+		if update_info:
+			self.update_series()
+			self.update_summary()
 
 
 	def add_rois_from_csv(self,roi_csv):
 		f = open(roi_csv)
 		for line in f:
+			print line
 			if line == '\n':
 				line = f.next()
 				
 				roi_name,roi_file = line.strip('\n').split(',')
 			else: 
-				vol_file,voi_time = line[:-2].split(',')
-				self.add_roi_from_file(roi_name, roi_file, vol_file, voi_time)
+				vol_file,voi_time = line.strip('\n').split(',')
+				print roi_name,voi_time
+				self.add_roi_from_file(roi_name, roi_file, vol_file, voi_time, update_info=False)
+		f.close()
 		self.update_series()
 		self.update_summary()
 

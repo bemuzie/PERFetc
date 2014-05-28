@@ -27,17 +27,21 @@ def separate_nii(input_file, output_folder=None):
 
 
     vol4d = nib.load(os.path.abspath(input_file)) # loading 4d image
+    v4=vol4d.get_data()
+    hdr=vol4d.get_header()
+    print hdr
+
     vol3d_list=nib.funcs.four_to_three(vol4d) # getting list of 3d volumes
 
     for i in range(len(vol3d_list)):
     	try:
         	nib.nifti1.save(vol3d_list[i], 
-        					os.path.join(output_folder, '%s_%s.nii'%(new_folder,i)))
+        					os.path.join(output_folder, '%s_%s.nii.gz'%(new_folder,i)))
         except IOError, s:
         	if s[0] == 2: #No directory exception
         		os.mkdir(os.path.join(output_folder))
         		nib.nifti1.save(vol3d_list[i], 
-        					os.path.join(output_folder, '%s_%s.nii'%(new_folder,i)))
+        					os.path.join(output_folder, '%s_%s.nii.gz'%(new_folder,i)))
         		continue
 
 
