@@ -20,28 +20,29 @@ def separate_nii(input_file, output_folder=None):
     """
 
 
+    file_name = os.path.basename(os.path.abspath(input_file)).split('.')[0] #naming output folder like file without extension
     if not output_folder:
-
-    	new_folder = os.path.basename(os.path.abspath(input_file)).split('.')[0] #naming output folder like file without extension
-    	output_folder = os.path.join(os.path.dirname(os.path.abspath(input_file)), new_folder)
+    	output_folder = os.path.join(os.path.dirname(os.path.abspath(input_file)), file_name)
 
 
     vol4d = nib.load(os.path.abspath(input_file)) # loading 4d image
     v4=vol4d.get_data()
     hdr=vol4d.get_header()
     print hdr
-
-    vol3d_list=nib.funcs.four_to_three(vol4d) # getting list of 3d volumes
+    if vol4d.shape[-1]>1:
+        vol3d_list=nib.funcs.four_to_three(vol4d) # getting list of 3d volumes
+    else:
+        return True
 
     for i in range(len(vol3d_list)):
     	try:
         	nib.nifti1.save(vol3d_list[i], 
-        					os.path.join(output_folder, '%s_%s.nii.gz'%(new_folder,i)))
+        					os.path.join(output_folder, '%s_%s.nii.gz'%(file_name,i)))
         except IOError, s:
         	if s[0] == 2: #No directory exception
         		os.mkdir(os.path.join(output_folder))
         		nib.nifti1.save(vol3d_list[i], 
-        					os.path.join(output_folder, '%s_%s.nii.gz'%(new_folder,i)))
+        					os.path.join(output_folder, '%s_%s.nii.gz'%(file_name,i)))
         		continue
 
 

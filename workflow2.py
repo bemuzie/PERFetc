@@ -4,13 +4,24 @@ import subprocess
 from image import nii_separator
 import nibabel as nib
 import numpy as np
-
+from filters import bilateral
 class Dir_manager():
-	def __init__(self,root_folder):
-		self.abs_path = root_folder
+	def __init__(self):
+		#self.abs_path = root_folder
 		#Creatioon of default folder structure
-		self.dcm,self.nii,self.roi = [ os.pathjoin(self.abs_path,sf) for sf in ('DCM','ROI','NII')]
-		for i in (self.dcm,self.nii,self.roi):
+		#self.dcm,self.nii,self.roi = [ os.pathjoin(self.abs_path,sf) for sf in ('DCM','ROI','NII')]
+		self.p = {}
+	def add_path(self,path_to,l,s=None,a=None,add_to=None):
+		if add_to:
+			path_to = os.path.join(add_to,path_to)
+		if not os.path.isdir(path_to) and not os.path.isfile(path_to):
+			os.makedirs(path_to)
+		self.p[l]={s:{a:path_to}}
+	def get_path(self,l,s=None,a=None):
+		return self.p[l][s][a]
+	def files_in(self,l,s=None):
+		[f for f in os.listdir(self.p[l][s]) if os.path.isfile(f)]
+		
 
 			
 
@@ -18,7 +29,15 @@ class Dir_manager():
 
 #The workflow for recieved DICOM in some TEMP folder
 
+
 #Parse DICOM and move them to DATA_STORAGE folder with generated subfolder structure /Patient_name/DCM/Examination_date/Series_Kernel_Filter
+pat=Dir_manager()
+
+pat.add_path('/home/denest/PERF_volumes/TEMNOSAGATYI  A.V. 02.04.1973','root')
+pat.add_path('DCM/20140508_536','dcm',add_to=pat.get_path('root'))
+pat.add_path('NII','nii',add_to=pat.get_path('root'))
+pat.add_path('ROI','roi',add_to=pat.get_path('root'))
+pat.add_path('NII/RAW/','nii_raw',add_to=pat.get_path('root'))
 DCM_FOLDER = 'DCM/20140508_536/'
 #make information file /Patient_name/DCM/Examination_date/info.txt
 
@@ -45,50 +64,59 @@ dcm2nii HELP
 -v Convert every image in the directory: Y,N = Y
 -x Reorient and crop 3D NIfTI images: Y,N = N
 """
-PATIENT_FOLDER = '/home/denest/PERF_volumes/TEMNOSAGATYI  A.V. 02.04.1973/'
+
 
 DCM2NII_PATH = '/home/denest/mricron/dcm2nii'
 ini_path = 'dcm2nii.ini'
-output_folder = 'NII/'
-dcm2nii_pars =['-4 n',#Create 4D volumes, else DTI/fMRI saved as many 3D volumes: Y,N = Y
+print pat.get_path('nii_raw')
+dcm2nii_pars =['-4 y',#Create 4D volumes, else DTI/fMRI saved as many 3D volumes: Y,N = Y
 			 '-a n',# Anonymize [remove identifying information]: Y,N = Y
 			 '-b dcm2nii.ini',#load settings from specified inifile, e.g. '-b C:\set\t1.ini'  
 			 #'-c y',#Collapse input folders: Y,N = Y
 			 '-d n',#Date in filename [filename.dcm -> 20061230122032.nii]: Y,N = Y
 			 '-e y',# events (series/acq) in filename [filename.dcm -> s002a003.nii]: Y,N = Y
-			 '-f y',# Source filename [e.g. filename.par -> filename.nii]: Y,N = N
+			 '-f n',# Source filename [e.g. filename.par -> filename.nii]: Y,N = N
 			 '-g y',#gzip output, filename.nii.gz [ignored if '-n n']: Y,N = Y
 			 #'-i y',#ID  in filename [filename.dcm -> johndoe.nii]: Y,N = N
 			 #'-m n',#manually prompt user to specify output format [NIfTI input only]: Y,N = Y
 			 '-n y',#output .nii file [if no, create .hdr/.img pair]: Y,N = Y
-			 "-o '%s'"%os.path.join(PATIENT_FOLDER,output_folder),#Output Directory, e.g. 'C:\TEMP' (if unspecified, source directory is used)
+			 "-o '%s'"%pat.get_path('nii_raw'),#Output Directory, e.g. 'C:\TEMP' (if unspecified, source directory is used)
 			 '-p n',#Protocol in filename [filename.dcm -> TFE_T1.nii]: Y,N = Y
 			 '-r n',# Reorient image to nearest orthogonal: Y,N 
 			 '-s n',#SPM2/Analyze not SPM5/NIfTI [ignored if '-n y']: Y,N = N
 			 '-v y',#Convert every image in the directory: Y,N = Y
 			 '-x n',#Reorient and crop 3D NIfTI images: Y,N = N
-			 "'%s'"%os.path.join(PATIENT_FOLDER,DCM_FOLDER) #INPUT FOLDER
+			 "'%s'"%pat.get_path('dcm') #INPUT FOLDER
 			]
 """
 subprocess.check_call(' '.join([DCM2NII_PATH,' '.join(dcm2nii_pars)] ),
 						shell=True)
 """
+
+
 #compress DICOMs
 
 #Separate 4d NIIs to 3d NIIs and move them to /Patient_name/NII/(Examination_date)_(Series)/(Examination_date)_(Series)_time.nii.gz
+pat.add_path('Separated','separated',add_to=pat.get_path('nii'))
+
 """
-for p,d,f in os.walk(os.path.join(PATIENT_FOLDER, 'NII/')):
-	
+for p,d,f in os.walk(pat.get_path('nii_raw')):
 	for fname in f:
 		try:
-			nii_separator.separate_nii(os.path.join(p,'20140508_100402GeneralBodyPerfusionCopiedTEMNOSAGATYIAV02041973s010a001.nii'))
+			print pat.get_path('separated',4),p,fname
+
+			nii_separator.separate_nii(os.path.join(p,fname),pat.get_path('separated',4))
 		except ValueError, s:
 			if s == 'Expecting four dimensions':
 				continue
+
 """
 #Select crop volume for NIFTies
 CROP_VOLUME = 'crop_volume.nii.gz'
-cr_vol=nib.load(os.path.join(PATIENT_FOLDER,'ROI',CROP_VOLUME)).get_data()
+pat.add_path('crop_volume.nii.gz','crop',s=4,add_to=pat.get_path('roi'))
+
+
+cr_vol=nib.load(pat.get_path('crop',4)).get_data()
 if len(cr_vol.shape)==4:
 	cr_vol = cr_vol[...,0]
 
@@ -100,9 +128,13 @@ x_to,y_to,z_to = map(np.max,borders_vol)
 
 #Filter 3dNIIs with 3d bilateral filter with
 #move them to /Patient_name/NII/(Examination_date)_(Series)_filter_I(IntensitySigma)_G(GaussianSigma)/(Examination_date)_(Series)_time_filter_I(IntensitySigma)_G(GaussianSigma).nii.gz
-DYNAMIC_SUBFOLDER=''
-for p,d,f in os.walk(os.path.join(PATIENT_FOLDER,'NII',DYNAMIC_SUBFOLDER)):
-	bilateral(os.path.join(p,f),sig_i=40,sig_g=1.5)
+pat.add_path('FILTERED_4','filtered',4,add_to=pat.get_path('nii'))
+
+
+for p,d,f in os.walk(pat.get_path('separated',4)):
+	for fname in f:
+		bilateral.bilateral(os.path.join(p,fname),output_folder=pat.get_path('filtered',4), sig_i=40,sig_g=1.5,x_range=[x_fr,x_to], y_range=[y_fr,y_to], z_range=[z_fr,z_to])
+
 
 #make / 
 
@@ -163,9 +195,14 @@ for file_name in [f for p,d,f in os.walk(images_folder)][0]:
 	if not fname==os.path.join(images_folder ,fixed_im):
 		registration(os.path.relpath(fname,output_folder),os.path.relpath(fixed_im,output_folder),os.path.relpath(mask,output_folder),output_folder)
 
+
+
 """
 
 #calculte rois parametrs
+
+"""
+
 
 
 """
