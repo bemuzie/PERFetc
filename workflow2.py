@@ -4,6 +4,18 @@ import subprocess
 from image import nii_separator
 import nibabel as nib
 import numpy as np
+
+class Dir_manager():
+	def __init__(self,root_folder):
+		self.abs_path = root_folder
+		#Creatioon of default folder structure
+		self.dcm,self.nii,self.roi = [ os.pathjoin(self.abs_path,sf) for sf in ('DCM','ROI','NII')]
+		for i in (self.dcm,self.nii,self.roi):
+
+			
+
+
+
 #The workflow for recieved DICOM in some TEMP folder
 
 #Parse DICOM and move them to DATA_STORAGE folder with generated subfolder structure /Patient_name/DCM/Examination_date/Series_Kernel_Filter
@@ -84,23 +96,22 @@ borders_vol = np.where(cr_vol==1)
 x_fr,y_fr,z_fr = map(np.min,borders_vol)
 x_to,y_to,z_to = map(np.max,borders_vol)
 
-f = nib.load(os.path.join(PATIENT_FOLDER,'NII/20140508_100402GeneralBodyPerfusionCopiedTEMNOSAGATYIAV02041973s010a001','20140508_100402GeneralBodyPerfusionCopiedTEMNOSAGATYIAV02041973s010a001_4.nii.gz'))
-vol3d = f.get_data()
-hdr = f.get_header()
-res = hdr.get_zooms() # getting voxel size
-mrx = hdr.get_sform() # getting affine matrix
-vol3d = vol3d[x_fr:x_to,y_fr:y_to,z_fr:z_to]
-nib.nifti1.save(nib.Nifti1Image(vol3d, mrx), os.path.join(PATIENT_FOLDER,'ROI','test_crop.nii') )
+
 
 #Filter 3dNIIs with 3d bilateral filter with
 #move them to /Patient_name/NII/(Examination_date)_(Series)_filter_I(IntensitySigma)_G(GaussianSigma)/(Examination_date)_(Series)_time_filter_I(IntensitySigma)_G(GaussianSigma).nii.gz
+DYNAMIC_SUBFOLDER=''
+for p,d,f in os.walk(os.path.join(PATIENT_FOLDER,'NII',DYNAMIC_SUBFOLDER)):
+	bilateral(os.path.join(p,f),sig_i=40,sig_g=1.5)
+
 #make / 
 
 #Manual manipulations
 #Create ROIs for aorta,IVC
 #Choose target phase and make registration
 #Create ROIs for pancreas,tumor,tumor1
-"""
+#Create registration mask
+
 ANTs_PATH = '/home/denest/ANTs-1.9.x-Linux/bin/'
 TARGET_PHASE =8
 MASK = ''
