@@ -131,6 +131,7 @@ x_to,y_to,z_to = map(np.max,borders_vol)
 pat.add_path('FILTERED_4','filtered',4,add_to=pat.get_path('nii'))
 
 
+
 for p,d,f in os.walk(pat.get_path('separated',4)):
 	for fname in f:
 		bilateral.bilateral(os.path.join(p,fname),output_folder=pat.get_path('filtered',4), sig_i=40,sig_g=1.5,x_range=[x_fr,x_to], y_range=[y_fr,y_to], z_range=[z_fr,z_to])
@@ -143,18 +144,23 @@ for p,d,f in os.walk(pat.get_path('separated',4)):
 #Choose target phase and make registration
 #Create ROIs for pancreas,tumor,tumor1
 #Create registration mask
+for fn in pat.flist('filtered',4):
+	 s,a=fn.split('.','s','a')[0:2]
+	
+	pat.aďd_path('filtered',s,a,join_to(pat.get_path('filtered'))
+
 
 ANTs_PATH = '/home/denest/ANTs-1.9.x-Linux/bin/'
 TARGET_PHASE =8
 MASK = ''
 #registration
 
-WORKING_FOLDER = '/home/denest/PERF_volumes/TEMNOSAGATYI  A.V. 02.04.1973/'
-images_folder = '/home/denest/PERF_volumes/TEMNOSAGATYI  A.V. 02.04.1973/NII/20140508_100402GeneralBodyPerfusionCopiedTEMNOSAGATYIAV02041973s004a001_filtered/croped/short/'
-fixed_im='/home/denest/PERF_volumes/TEMNOSAGATYI  A.V. 02.04.1973/NII/20140508_100402GeneralBodyPerfusionCopiedTEMNOSAGATYIAV02041973s004a001_filtered/croped/short/8.nii'
+WORKING_FOLDER = pat.gp('root')
+images_folder = pat.gp('filtered,4')
+fixed_im=pat.get_path('filtered',4,4)
 #moved_im='20140508_100402GeneralBodyPerfusionCopiedTEMNOSAGATYIAV02041973s004a001_20_I40_G1.5-subvolume-scale_1.nii.gz'
-mask = '/home/denest/PERF_volumes/TEMNOSAGATYI  A.V. 02.04.1973//ROI/8_roi.nii.gz'
-output_folder = '/home/denest/PERF_volumes/TEMNOSAGATYI  A.V. 02.04.1973/NII/registered/'
+mask = pat.gp('reg_mask')
+output_folder = pat.gp('reg')
 
 def registration(moved_image,fixed_image,mask,output_folder):
 	
@@ -190,7 +196,9 @@ def registration(moved_image,fixed_image,mask,output_folder):
 							   '-o %s_registered.nii.gz'%prefix])
 					,shell=True,cwd=output_folder)
 
-for file_name in [f for p,d,f in os.walk(images_folder)][0]:
+for aq_n,file_name in pat.gp('filtered',4):
+	if not aq_n:
+		continue
 	fname = os.path.join(images_folder,file_name)
 	if not fname==os.path.join(images_folder ,fixed_im):
 		registration(os.path.relpath(fname,output_folder),os.path.relpath(fixed_im,output_folder),os.path.relpath(mask,output_folder),output_folder)
