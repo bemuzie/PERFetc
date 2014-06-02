@@ -146,8 +146,9 @@ for p,d,f in os.walk(pat.get_path('separated',4)):
 #Create registration mask
 for fn in pat.flist('filtered',4):
 	 s,a=fn.split('.','s','a')[0:2]
+	pat.ap('filtered',s,a)
 	
-	pat.aďd_path('filtered',s,a,join_to(pat.get_path('filtered'))
+	pat.add_path('filtered',s,a,join_to(pat.get_path('filtered'))
 
 
 ANTs_PATH = '/home/denest/ANTs-1.9.x-Linux/bin/'
@@ -191,7 +192,7 @@ def registration(moved_image,fixed_image,mask,output_folder):
 							   '-d 3',
 							   '-r',fixed_image,
 							   '-i',moved_image,
-							   '-t [%s0GenericAffine.mat,1]'%prefix,
+							   '-t [%s0GenericAffine.mat,0]'%prefix,
 							   '-t [%s1Warp.nii.gz,0]'%prefix,
 							   '-o %s_registered.nii.gz'%prefix])
 					,shell=True,cwd=output_folder)
@@ -210,8 +211,13 @@ for aq_n,file_name in pat.gp('filtered',4):
 #calculte rois parametrs
 
 """
+roi.add('aorta',pat.gp('aorta'))
+roi.add('ivc',pat.gp('ivc'))
 
-
+roi.add('pancreas',pat.gp('pancreas'))
+for i,t in zip(range(21),time_list):
+	for roi_name in ("aorta","ivc","pancreas","tumor"):
+		roi.add_vol(roi_name,pat.gp(roi_name,4,i),t)
 
 """
 Subfolder structure

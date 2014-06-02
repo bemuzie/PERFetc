@@ -15,11 +15,11 @@ def dcm_parser(folder, folder_out=None,force=False):
     Args:
       folder (str): absolute path to folder with *.dcm
       folder_out (str, optional): absolute path where 3d nii files will be saved. 
-          If not given they will be saved in the same folder subfolder named like infut file.
+          If not given they will be saved in the same folder subfolder named like input file.
     forse (bool, optional): default=False, if True dont checl file extension when read it. Need to be true to read DICOM 3.0 format
 
     Returns:
-      True
+      str, abspath to folder out/PatientName/
 
     Raises:
       
