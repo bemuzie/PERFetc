@@ -165,6 +165,10 @@ def filter_vols():
 #Choose target phase and make registration
 TARGET_PHASE = 4
 pat.add_path('s004a001_10_I40_G1_registration_roi.nii.gz','registration_roi',add_to=pat.get_path('roi'))
+pat.add_path('aorta_roi.nii.gz','aorta',add_to=pat.get_path('roi'))
+pat.add_path('pancreas_roi.nii.gz','pancreas',add_to=pat.get_path('roi'))
+pat.add_path('tumor_roi.nii.gz','tumor',add_to=pat.get_path('roi'))
+
 
 pat.add_path('Registered_4','reg',4,add_to=pat.get_path('nii'))
 #Create ROIs for pancreas,tumor,tumor1
@@ -246,12 +250,11 @@ def registration_start():
 """
 def roi_calculation():
 	roi.add('aorta',pat.get_path('aorta'))
-	roi.add('ivc',pat.gp('ivc'))
-
+	roi.add('tumor',pat.gp('tumor'))
 	roi.add('pancreas',pat.gp('pancreas'))
 	for i,t in zip(range(21),time_list):
-		for roi_name in ("aorta","ivc","pancreas","tumor"):
-	roi.add_roi_from_file(roi_name,pat.gp(roi_name),pat.gp('reg',4,i),t)
+		for roi_name in ("aorta","pancreas","tumor"):
+			roi.add_roi_from_file(roi_name,pat.gp(roi_name),pat.gp('reg',4,i),t)
 			
 
 """
