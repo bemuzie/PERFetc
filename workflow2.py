@@ -211,7 +211,7 @@ def registration_start():
 
 								'--transform', 'SyN[0.75]',
 								'--metric',  'MI[%s,%s,0.5,32]'%(fixed_image,moved_image),
-								'--convergence', '[100x100x0,1e-6,5]',
+								'--convergence', '[100x0x0,1e-6,5]',
 								'--shrink-factors', '6x2x1',
 								'--smoothing-sigmas', '8x2x1vox',
 								'--use-estimate-learning-rate-once'
@@ -230,8 +230,11 @@ def registration_start():
 								   '-o %s_registered.nii.gz'%prefix])
 						,shell=True,cwd=output_folder)
 	for anum in pat.p['filtered'][4]:
-		registration(pat.get_path('filtered',4,anum),fixed_im,mask,output_folder)
-	 	prefix='%s_to_%s'%(os.path.basename(moved_image).split('.')[0],os.path.basename(fixed_image).split('.')[0])
+		print anum
+		mi =pat.get_path('filtered',4,anum)
+		fi = fixed_im
+		registration(mi,fi,mask,output_folder)
+	 	prefix='%s_to_%s'%(os.path.basename(mi).split('.')[0],os.path.basename(fi).split('.')[0])
 		pat.add_path( '%s_registered.nii.gz'%prefix,'reg',4, anum)
 	"""
 	for aq_n,file_name in pat.gp('filtered',4):
