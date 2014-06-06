@@ -39,6 +39,8 @@ class Dir_manager():
 	def print_all(self):
 		for i,v in self.p.items():
 			print i,v
+	def gp(self,l,s=None,a=None):
+		self.get_path(l,s,a)
 		
 
 			
@@ -223,8 +225,10 @@ def registration_start():
 								   '-t [%s1Warp.nii.gz,0]'%prefix,
 								   '-o %s_registered.nii.gz'%prefix])
 						,shell=True,cwd=output_folder)
-
-	registration(pat.get_path('filtered',4,10),fixed_im,mask,output_folder)
+	for anum in pat.p['filtered'][4]:
+		registration(pat.get_path('filtered',4,anum),fixed_im,mask,output_folder)
+	 	prefix='%s_to_%s'%(os.path.basename(moved_image).split('.')[0],os.path.basename(fixed_image).split('.')[0])
+		pat.add_path( '%s_registered.nii.gz'%prefix,'reg',4, anum)
 	"""
 	for aq_n,file_name in pat.gp('filtered',4):
 		if not aq_n:
@@ -241,13 +245,14 @@ def registration_start():
 
 """
 def roi_calculation():
-	roi.add('aorta',pat.gp('aorta'))
+	roi.add('aorta',pat.get_path('aorta'))
 	roi.add('ivc',pat.gp('ivc'))
 
 	roi.add('pancreas',pat.gp('pancreas'))
 	for i,t in zip(range(21),time_list):
 		for roi_name in ("aorta","ivc","pancreas","tumor"):
-			roi.add_vol(roi_name,pat.gp(roi_name,4,i),t)
+	roi.add_roi_from_file(roi_name,pat.gp(roi_name),pat.gp('reg',4,i),t)
+			
 
 """
 Subfolder structure
