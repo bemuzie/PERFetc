@@ -54,12 +54,12 @@ class Dir_manager():
 
 pat=Dir_manager()
 
-pat.add_path('/home/denest/PERF_volumes/GRUDININ  A.E. 09.01.1952/20140606_623/','root')
+pat.add_path('/home/denest/PERF_volumes/ZAKHAROVA  O.A. 13.11.1981/20140610_635/','root')
 
-pat.add_path('DCM','dcm',add_to=pat.get_path('root'))
-pat.add_path('NII','nii',add_to=pat.get_path('root'))
+pat.add_path('DCM2','dcm',add_to=pat.get_path('root'))
+pat.add_path('NII2','nii',add_to=pat.get_path('root'))
 pat.add_path('ROI','roi',add_to=pat.get_path('root'))
-pat.add_path('NII/RAW/','nii_raw',add_to=pat.get_path('root'))
+pat.add_path('NII2/RAW2/','nii_raw',add_to=pat.get_path('root'))
 DCM_FOLDER = 'DCM'
 #make information file /Patient_name/DCM/Examination_date/info.txt
 
@@ -119,26 +119,27 @@ def convert_dcm_to_nii():
 
 
 
-
+#convert_dcm_to_nii()
 #compress DICOMs
 
 #Separate 4d NIIs to 3d NIIs and move them to /Patient_name/NII/(Examination_date)_(Series)/(Examination_date)_(Series)_time.nii.gz
+
+pat.add_path('SEPARATED_TOSHIBA_REG','separated',add_to=pat.get_path('nii'))
+
 """
-pat.add_path('Separated','separated',add_to=pat.get_path('nii'))
-
-
 for p,d,f in os.walk(pat.get_path('nii_raw')):
 	for fname in f:
 		try:
-			print pat.get_path('separated',4),p,fname
+			print pat.get_path('separated'),p,fname
 
-			nii_separator.separate_nii(os.path.join(p,fname),pat.get_path('separated',4))
+			nii_separator.separate_nii(os.path.join(p,fname),pat.get_path('separated'))
 		except ValueError, s:
 			if s == 'Expecting four dimensions':
 				continue
 
 """
 #Select crop volume for NIFTies
+
 CROP_VOLUME = 'crop_volume.nii.gz'
 pat.add_path('crop_volume.nii.gz','crop',s=4,add_to=pat.get_path('roi'))
 
@@ -155,16 +156,22 @@ x_to,y_to,z_to = map(np.max,borders_vol)
 
 #Filter 3dNIIs with 3d bilateral filter with
 #move them to /Patient_name/NII/(Examination_date)_(Series)_filter_I(IntensitySigma)_G(GaussianSigma)/(Examination_date)_(Series)_time_filter_I(IntensitySigma)_G(GaussianSigma).nii.gz
-pat.add_path('FILTERED','filtered',add_to=pat.get_path('nii'))
-pat.add_path('SEPARATED','separated',add_to=pat.get_path('nii'))
+pat.add_path('FILTERED_TOSHIBA_REG','filtered',add_to=pat.get_path('nii'))
+#pat.add_path('SEPARATED','separated',add_to=pat.get_path('nii'))
 
 pat.add_path('FILTERED2','filtered2',add_to=pat.get_path('nii'))
 pat.add_path('SEPARATED2','separated2',add_to=pat.get_path('nii'))
 
 def filter_vols():
-	for p,d,f in os.walk(pat.get_path('separated2')):
+	for p,d,f in os.walk(pat.get_path('separated')):
 		for fname in f:
-			bilateral.bilateral(os.path.join(p,fname),output_folder=pat.get_path('filtered2'), sig_i=40,sig_g=.5,x_range=[x_fr,x_to], y_range=[y_fr,y_to], z_range=[z_fr,z_to])
+			INTENSITY_SIGMA=40
+			GAUSSIAN_SIGMA=1.5
+			if not os.path.isfile(os.path.join(pat.get_path('filtered'),'%s_I%s_G%s.nii'%(fname.rstrip('.nii.gz'),INTENSITY_SIGMA,GAUSSIAN_SIGMA))):
+				print os.path.join(pat.get_path('filtered'),'%s_I%s_G%s.nii'%(fname.rstrip('.nii.gz'),INTENSITY_SIGMA,GAUSSIAN_SIGMA))
+				bilateral.bilateral(os.path.join(p,fname),output_folder=pat.get_path('filtered'), sig_i=INTENSITY_SIGMA,sig_g=GAUSSIAN_SIGMA,x_range=[x_fr,x_to], y_range=[y_fr,y_to], z_range=[z_fr,z_to])
+			else:
+				print 'exists',os.path.join(pat.get_path('filtered'),'%s_I%s_G%s.nii'%(fname.rstrip('.nii.gz'),INTENSITY_SIGMA,GAUSSIAN_SIGMA))
 
 filter_vols()
 #make / 
@@ -349,9 +356,7 @@ roi_name;vol_path,vol_time....
 """
 
 if __name__ == "__main__":
-	#make_root_dirs()
 	#convert_dcm_to_nii()
-
 	filter_vols()
-	registration_start()
+	#registration_start()
 	pass

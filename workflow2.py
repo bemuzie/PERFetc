@@ -121,7 +121,7 @@ def convert_dcm_to_nii():
 #compress DICOMs
 
 #Separate 4d NIIs to 3d NIIs and move them to /Patient_name/NII/(Examination_date)_(Series)/(Examination_date)_(Series)_time.nii.gz
-pat.add_path('Separated','separated',add_to=pat.get_path('nii'))
+pat.add_path('SEPARATED2','separated',add_to=pat.get_path('nii'))
 
 """
 for p,d,f in os.walk(pat.get_path('nii_raw')):
@@ -152,13 +152,19 @@ x_to,y_to,z_to = map(np.max,borders_vol)
 
 #Filter 3dNIIs with 3d bilateral filter with
 #move them to /Patient_name/NII/(Examination_date)_(Series)_filter_I(IntensitySigma)_G(GaussianSigma)/(Examination_date)_(Series)_time_filter_I(IntensitySigma)_G(GaussianSigma).nii.gz
-pat.add_path('FILTERED_4','filtered',4,add_to=pat.get_path('nii'))
+pat.add_path('FILTERED_TOSHIBA_REG','filtered',add_to=pat.get_path('nii'))
 
 
 def filter_vols():
-	for p,d,f in os.walk(pat.get_path('separated',4)):
+	for p,d,f in os.walk(pat.get_path('separated')):
 		for fname in f:
-			bilateral.bilateral(os.path.join(p,fname),output_folder=pat.get_path('filtered',4), sig_i=40,sig_g=1.5,x_range=[x_fr,x_to], y_range=[y_fr,y_to], z_range=[z_fr,z_to])
+			INTENSITY_SIGMA=40
+			GAUSSIAN_SIGMA=1.5
+			if not os.path.isfile(os.path.join(pat.get_path('filtered'),'%s_I%s_G%s.nii'%(fname.rstrip('.nii.gz'),INTENSITY_SIGMA,GAUSSIAN_SIGMA))):
+				print os.path.join(pat.get_path('filtered'),'%s_I%s_G%s.nii'%(fname.rstrip('.nii.gz'),INTENSITY_SIGMA,GAUSSIAN_SIGMA))
+				bilateral.bilateral(os.path.join(p,fname),output_folder=pat.get_path('filtered'), sig_i=INTENSITY_SIGMA,sig_g=GAUSSIAN_SIGMA,x_range=[x_fr,x_to], y_range=[y_fr,y_to], z_range=[z_fr,z_to])
+			else:
+				print 'exists',os.path.join(pat.get_path('filtered'),'%s_I%s_G%s.nii'%(fname.rstrip('.nii.gz'),INTENSITY_SIGMA,GAUSSIAN_SIGMA))
 
 
 #make / 
@@ -166,6 +172,7 @@ def filter_vols():
 #Manual manipulations
 #Create ROIs for aorta,IVC
 #Choose target phase and make registration
+
 TARGET_PHASE = 4
 pat.add_path('s004a001_10_I40_G1_registration_roi.nii.gz','registration_roi',add_to=pat.get_path('roi'))
 pat.add_path('s004a001_11_I40_G1-aorta_roi.nii.gz','aorta',add_to=pat.get_path('roi'))
@@ -177,13 +184,13 @@ pat.add_path('Registered_4','reg',4,add_to=pat.get_path('nii'))
 #Create ROIs for pancreas,tumor,tumor1
 #Create registration mask
 #print pat.files_in('filtered',4)
-for fn in pat.files_in('filtered',4):
+for fn in pat.files_in('filtered'):
 	splited_fname = re.split(r"s|a|_",fn)
 	#print splited_fname
 	s,a = [int(i) for i in (splited_fname[1],splited_fname[3])  ]
 	
 	
-	pat.add_path(fn,'filtered',s,a,add_to=(pat.get_path('filtered',4)))
+	pat.add_path(fn,'filtered',s,a,add_to=(pat.get_path('filtered')))
 #pat.print_all()
 
 def registration_start():
@@ -281,8 +288,9 @@ def roi_calculation():
 			roi.add_roi_from_file(roi_name,pat.get_path(roi_name),pat.get_path('reg',4,i),t)
 			
 	roi.save_txt(os.path.join(pat.get_path('root'),'roitest.csv'),'/home/denest/PERF_volumes/TEMNOSAGATYI  A.V. 02.04.1973/ROI/1/')
-roi.load(os.path.join(pat.get_path('root'),'roitest.csv'))
-roi.export_disserdb(68,'/home/denest/disser_db/BigTable')
+#roi.load(os.path.join(pat.get_path('root'),'roitest.csv'))
+#roi.export_disserdb(68,'/home/denest/disser_db/BigTable')
+
 """
 Subfolder structure
 Patient_name/
@@ -354,7 +362,7 @@ roi_name;vol_path,vol_time....
 if __name__ == "__main__":
 	#make_root_dirs()
 	#convert_dcm_to_nii()
-	#filter_vols()
-	registration_start()
+	filter_vols()
+	#registration_start()
 	#roi_calculation()
 	pass
