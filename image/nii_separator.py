@@ -46,7 +46,7 @@ def separate_nii(input_file, output_folder=None):
 
 	return True
 
-def merge_nii(input_folder):
+def merge_nii(nii_list):
 	pass
 
 def get_resolution(input_file):

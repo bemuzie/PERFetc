@@ -90,5 +90,6 @@ def dcm_parser(folder, folder_out=None,force=False):
 #TODO separate parser from IO operations
 #TODO add csv writer
 
+if __name__ == "__main__":
 
-dcm_parser('/home/denest/_TEMP','/home/denest/PERF_volumes')
+    dcm_parser('/home/denest/_TEMP','/home/denest/PERF_volumes')

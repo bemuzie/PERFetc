@@ -1,4 +1,5 @@
 import nibabel as nib
+import sys
 import os
 import numpy as np
 from scipy import stats
@@ -127,7 +128,7 @@ class Roi():
 			for n,v in l_dict.items():
 				col_name = n.split(' ')
 				if col_name[0] == 'series':
-					self.rois [r_name] ['series'] [int(col_name[-1])] [col_name[1]] = v
+					self.rois [r_name] ['series'] [int(col_name[-1])] [col_name[1]] = float(v)
 				elif col_name[0] == 'data':
 					try:
 						self.rois [r_name] ['series'] [int(col_name[-1])] ['data'] = np.loadtxt(os.path.join(os.path.v))
@@ -142,7 +143,7 @@ class Roi():
 
 
 	def add_roi_from_file(self,roi_name,roi_file,vol_file,vol_time,cut_and_save=None,update_info=True):
-
+		print vol_file
 		vol_np = nib.load(vol_file).get_data()
 		roi_np = nib.load(roi_file).get_data()[...,0]
 		data = vol_np[roi_np>0]
@@ -204,9 +205,31 @@ class Roi():
 		print self.max_hu
 		print self.max_t
 
-	def  get_concentrations(self,r_name):
+	def get_concentrations(self,r_name):
 		
 		return [self.rois[r_name]['series'][t]['mean_density'] for t in self.get_time_list()]
+	def export_disserdb(self,exam_num,db_path=''):
+		sys.path.append(db_path)
+		from django.core.management import setup_environ
+		from django.core.exceptions import ObjectDoesNotExist
+
+		import BigTable.settings
+		setup_environ(BigTable.settings)
+		from exams.models import Patient,Examination,Perfusion,Density
+
+		examination = Examination.objects.get(pk=exam_num)
+		for t in self.get_time_list():
+			ph=examination.phase_set.get(time=t)
+			for rname in self.rois:
+				try:
+					r=ph.density_set.get(roi=rname)
+					r.density = self.rois[r_name]['series'][t]['median_density']
+					r.save()
+				except ObjectDoesNotExist:
+					print self.rois[rname]['series'][t]['median_density']
+					print type(self.rois[rname]['series'][t]['median_density'])
+					ph.density_set.add(Density(roi=rname,density=int(self.rois[rname]['series'][t]['median_density'])))
+
 
 
 if __name__ == "__main__":
