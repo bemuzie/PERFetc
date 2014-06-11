@@ -28,7 +28,11 @@ def bilateral(input_file,output_folder=None,sig_i=40,sig_g=1,x_range=[20,512-20]
     hdr = f.get_header()
     res = hdr.get_zooms() # getting voxel size
     mrx = hdr.get_sform() # getting affine matrix
-
+    if len(vol3d.shape)==4:
+      vol3d = vol3d[...,0]
+      res = res[:-1]
+    
+    print res
     vol3d = np.array(vol3d, dtype='int32',order='C')
     filtered_image = cython_bilateral3d.bilateral3d(vol3d, res,
                                                               sig_g,

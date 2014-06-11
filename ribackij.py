@@ -3,6 +3,7 @@ import os
 import re
 import subprocess
 from image import nii_separator
+from image import dcm_parser
 import nibabel as nib
 import numpy as np
 from filters import bilateral
@@ -44,23 +45,34 @@ class Dir_manager():
 		
 
 			
-
+CROP_VOLUME = 'crop_volume.nii.gz'
 
 
 #The workflow for recieved DICOM in some TEMP folder
 
 
 #Parse DICOM and move them to DATA_STORAGE folder with generated subfolder structure /Patient_name/DCM/Examination_date/Series_Kernel_Filter
+def create_folders():
+	global pat
+	pat=Dir_manager()
+	pat.add_path(ROOT_FOLDER,'root')
+	pat.add_path('DCM','dcm',add_to=pat.get_path('root'))
+	pat.add_path('NII','nii',add_to=pat.get_path('root'))
+	pat.add_path('ROI','roi',add_to=pat.get_path('root'))
+	pat.add_path('NII/RAW/','nii_raw',add_to=pat.get_path('root'))
+	pat.add_path(SEPARATED,'separated',add_to=pat.get_path('nii'))
 
-pat=Dir_manager()
+	pat.add_path('crop_volume.nii.gz','crop',add_to=pat.get_path('roi'))
+	pat.add_path(FILTERED,'filtered',add_to=pat.get_path('nii'))
+	TARGET_PHASE = 10
+	pat.add_path('registration_roi.nii.gz','registration_roi',add_to=pat.get_path('roi'))
+	pat.add_path('aorta_roi.nii.gz','aorta',add_to=pat.get_path('roi'))
+	pat.add_path('pancreas_roi.nii.gz','pancreas',add_to=pat.get_path('roi'))
+	pat.add_path('tumor_roi.nii.gz','tumor',add_to=pat.get_path('roi'))
 
-pat.add_path('/home/denest/PERF_volumes/ZAKHAROVA  O.A. 13.11.1981/20140610_635/','root')
 
-pat.add_path('DCM2','dcm',add_to=pat.get_path('root'))
-pat.add_path('NII2','nii',add_to=pat.get_path('root'))
-pat.add_path('ROI','roi',add_to=pat.get_path('root'))
-pat.add_path('NII2/RAW2/','nii_raw',add_to=pat.get_path('root'))
-DCM_FOLDER = 'DCM'
+	pat.add_path(REGISTERED,'reg',add_to=pat.get_path('nii'))
+
 #make information file /Patient_name/DCM/Examination_date/info.txt
 
 
@@ -124,87 +136,81 @@ def convert_dcm_to_nii():
 
 #Separate 4d NIIs to 3d NIIs and move them to /Patient_name/NII/(Examination_date)_(Series)/(Examination_date)_(Series)_time.nii.gz
 
-pat.add_path('SEPARATED_TOSHIBA_REG','separated',add_to=pat.get_path('nii'))
 
-"""
-for p,d,f in os.walk(pat.get_path('nii_raw')):
-	for fname in f:
-		try:
-			print pat.get_path('separated'),p,fname
 
-			nii_separator.separate_nii(os.path.join(p,fname),pat.get_path('separated'))
-		except ValueError, s:
-			if s == 'Expecting four dimensions':
-				continue
+def separate_nii(path_to_nii,output_path):
 
-"""
+	for p,d,f in os.walk(path_to_nii):
+		for fname in f:
+			try:
+				nii_separator.separate_nii(os.path.join(p,fname),output_path)
+			except ValueError, s:
+				if s == 'Expecting four dimensions':
+					continue
+
+
 #Select crop volume for NIFTies
 
-CROP_VOLUME = 'crop_volume.nii.gz'
-pat.add_path('crop_volume.nii.gz','crop',s=4,add_to=pat.get_path('roi'))
 
 
-cr_vol=nib.load(pat.get_path('crop',4)).get_data()
-if len(cr_vol.shape)==4:
-	cr_vol = cr_vol[...,0]
 
-borders_vol = np.where(cr_vol==1)
-x_fr,y_fr,z_fr = map(np.min,borders_vol)
-x_to,y_to,z_to = map(np.max,borders_vol)
+
+
 
 
 
 #Filter 3dNIIs with 3d bilateral filter with
 #move them to /Patient_name/NII/(Examination_date)_(Series)_filter_I(IntensitySigma)_G(GaussianSigma)/(Examination_date)_(Series)_time_filter_I(IntensitySigma)_G(GaussianSigma).nii.gz
-pat.add_path('FILTERED_TOSHIBA_REG','filtered',add_to=pat.get_path('nii'))
-#pat.add_path('SEPARATED','separated',add_to=pat.get_path('nii'))
 
-pat.add_path('FILTERED2','filtered2',add_to=pat.get_path('nii'))
-pat.add_path('SEPARATED2','separated2',add_to=pat.get_path('nii'))
+
+
+
 
 def filter_vols():
+	cr_vol=nib.load(pat.get_path('crop')).get_data()
+	if len(cr_vol.shape)==4:
+		cr_vol = cr_vol[...,0]
+
+	borders_vol = np.where(cr_vol==1)
+	x_fr,y_fr,z_fr = map(np.min,borders_vol)
+	x_to,y_to,z_to = map(np.max,borders_vol)
+	print x_fr,y_fr,z_fr,x_to,y_to,z_to
+
 	for p,d,f in os.walk(pat.get_path('separated')):
 		for fname in f:
 			INTENSITY_SIGMA=40
 			GAUSSIAN_SIGMA=1.5
+			nii_separator.set_header_from(os.path.join(p,fname),'/home/denest/PERF_volumes/ZAKHAROVA  O.A. 13.11.1981/20140610_635/NII/SEPARATED/s004a001_3.nii.gz')
 			if not os.path.isfile(os.path.join(pat.get_path('filtered'),'%s_I%s_G%s.nii'%(fname.rstrip('.nii.gz'),INTENSITY_SIGMA,GAUSSIAN_SIGMA))):
-				print os.path.join(pat.get_path('filtered'),'%s_I%s_G%s.nii'%(fname.rstrip('.nii.gz'),INTENSITY_SIGMA,GAUSSIAN_SIGMA))
 				bilateral.bilateral(os.path.join(p,fname),output_folder=pat.get_path('filtered'), sig_i=INTENSITY_SIGMA,sig_g=GAUSSIAN_SIGMA,x_range=[x_fr,x_to], y_range=[y_fr,y_to], z_range=[z_fr,z_to])
 			else:
 				print 'exists',os.path.join(pat.get_path('filtered'),'%s_I%s_G%s.nii'%(fname.rstrip('.nii.gz'),INTENSITY_SIGMA,GAUSSIAN_SIGMA))
 
-filter_vols()
+	for fn in pat.files_in('filtered'):
+		splited_fname = re.split(r"s|a|_",fn)
+		print splited_fname
+		s,a = [int(i) for i in (splited_fname[1],splited_fname[3])  ]
+		
+		
+		pat.add_path(fn,'filtered',s,a,add_to=(pat.get_path('filtered')))
+
 #make / 
 
 #Manual manipulations
 #Create ROIs for aorta,IVC
 #Choose target phase and make registration
-TARGET_PHASE = 10
-pat.add_path('registration_roi.nii.gz','registration_roi',add_to=pat.get_path('roi'))
-pat.add_path('aorta_roi.nii.gz','aorta',add_to=pat.get_path('roi'))
-pat.add_path('pancreas_roi.nii.gz','pancreas',add_to=pat.get_path('roi'))
-pat.add_path('tumor_roi.nii.gz','tumor',add_to=pat.get_path('roi'))
 
-
-pat.add_path('Registered','reg',add_to=pat.get_path('nii'))
 #Create ROIs for pancreas,tumor,tumor1
 #Create registration mask
 
-for fn in pat.files_in('filtered'):
-	splited_fname = re.split(r"s|a|_",fn)
-	print splited_fname
-	s,a = [int(i) for i in (splited_fname[1],splited_fname[3])  ]
-	
-	
-	pat.add_path(fn,'filtered',s,a,add_to=(pat.get_path('filtered')))
-pat.print_all()
+
 
 def registration_start():
 	ANTs_PATH = '/home/denest/ANTs-1.9.x-Linux/bin/'
 	#registration
 	WORKING_FOLDER = pat.get_path('root')
 	#images_folder = pat.get_path('filtered,4')
-	fixed_im=pat.get_path('filtered',8,TARGET_PHASE)
+	fixed_im=pat.get_path('filtered',TARGET_PHASE)
 	#moved_im='20140508_100402GeneralBodyPerfusionCopiedTEMNOSAGATYIAV02041973s004a001_20_I40_G1.5-subvolume-scale_1.nii.gz'
 	mask = pat.get_path('registration_roi')
 	print 'mask',mask
@@ -356,7 +362,21 @@ roi_name;vol_path,vol_time....
 """
 
 if __name__ == "__main__":
+	ROOT_FOLDER ='/home/denest/PERF_volumes/MOSKOVTSEV  V.I. 18.01.1938/20140610_632'
+	SEPARATED = 'RAW3'
+	FILTERED = 'FILTERED3'
+	REGISTERED = 'REGISTERED3'
+
+	create_folders()
+	subprocess.check_call(' '.join(['gzip','-rd ',"'%s'"%pat.get_path('dcm')] ),		
+							shell=True)
+	dcm_parser.get_times(pat.get_path('dcm'),pat.get_path('roi'))
+	subprocess.check_call(' '.join(['gzip','-r -1',"'%s'"%pat.get_path('dcm')] ),		
+							shell=True)
 	#convert_dcm_to_nii()
-	filter_vols()
+	#separate_nii(pat.get_path('nii_raw'),pat.get_path('separated'))
+
+
+	#filter_vols()
 	#registration_start()
 	pass
