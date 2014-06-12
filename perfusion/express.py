@@ -45,19 +45,20 @@ def get_tissue_tac_mrx(aorta_spline,mtt,bv,t):
 	
 	return final_arr
 
-def get_tissue_tac(aorta_spline,mtt,bv,t):
+def get_tissue_tac(aorta_spline,mtt,bv,t,lag=0):
+	
 	t = np.array(t)
 	final_arr=[]
-	
-
 	from_t = t-mtt
 	from_t[from_t<t[0]] = t[0]
+	t -= lag
 	
 	final_arr = np.array([interpolate.splint(ft,tt,aorta_spline)/mtt for ft,tt in zip(from_t,t)])
 	final_arr*=bv
 	
 	return final_arr
-
+def input_tac_spline(dens,time,time_shift):
+	pass
 
 def tac_mrx(input_tac,t,mtt_range,bv_range):
 	#smothing input curve
@@ -72,36 +73,39 @@ def calculate_mtt_bv(tac,example_mrx,mtt_vector,bv_vector):
 	mtt_idx,bv_idx=np.where(ssd==np.min(ssd))
 	return mtt_vector[mtt_idx],bv_vector[bv_idx]
 
-def make_map(vol4d,input_tac,mtt_range,bv_range,t):
+def make_map(vol4d,input_tac,mtt_range,bv_range,t,lag_range):
 	
 	bv_vol = np.zeros(vol4d.shape[:-1])
 	mtt_vol = np.zeros(vol4d.shape[:-1])
+	lag_vol = np.zeros(vol4d.shape[:-1])
 	mtt=np.arange(mtt_range[0],mtt_range[1],mtt_range[2])
 	bv=np.arange(bv_range[0],bv_range[1],bv_range[2])
+	lag=np.arange(lag_range[0],lag_range[1],lag_range[2])
 	
 	for m in mtt:
 		for b in bv:
-			tac=get_tissue_tac(input_tac,m,b,t)
-			diff=vol4d-tac
-
-			diff=diff*diff
-			ssd_vol2=np.sum(diff,axis=3)
-
-			try:
-				mask_array = ssd_vol1>=ssd_vol2
-
-			except NameError:
-				mask_array=np.ones(ssd_vol2.shape,dtype=np.bool)
-				ssd_vol1=np.copy(ssd_vol2)
-			
-			bv_vol[mask_array]=b
-			mtt_vol[mask_array]=m
-			ssd_vol1[mask_array]=ssd_vol2[mask_array]
+			for l in lag:
+				tac=get_tissue_tac(input_tac,m,b,t)
+				diff=vol4d-tac
+	
+				diff=diff*diff
+				ssd_vol2=np.sum(diff,axis=3)
+	
+				try:
+					mask_array = ssd_vol1>=ssd_vol2
+	
+				except NameError:
+					mask_array=np.ones(ssd_vol2.shape,dtype=np.bool)
+					ssd_vol1=np.copy(ssd_vol2)
+				lag_vol[mask_array]=l
+				bv_vol[mask_array]=b
+				mtt_vol[mask_array]=m
+				ssd_vol1[mask_array]=ssd_vol2[mask_array]
 
 	bv_vol*=100 # Blood volume should be in ml/100ml not percent
 	#mtt_vol/=60. # MTT in min^-1
 	bf_vol = bv_vol/(mtt_vol/60.)
-	output_vol = np.concatenate((bv_vol[...,None],mtt_vol[...,None], bf_vol[...,None],ssd_vol1[...,None]),axis=3)
+	output_vol = np.concatenate((bv_vol[...,None],mtt_vol[...,None], bf_vol[...,None],lag_vol[...,None],ssd_vol1[...,None]),axis=3)
 	output_vol[-1] = output_vol[1]/output_vol[0]
 	
 	return output_vol
@@ -242,7 +246,7 @@ if __name__ == "__main__":
 	out_vol[...,-1] = (out_vol[...,1]*100.)/(out_vol[...,0]/60.)
 	"""
 	niiData=niiData-niiData[...,0][...,None]
-	out_vol=make_map(niiData,s,mtt_range=(1,80,2),bv_range=(0.1,1,0.1),t=t)
+	out_vol=make_map(niiData,s,mtt_range=(1,80,2),bv_range=(0.1,1,0.1),t=t,lag_range=(0,5,1))
 	
 	nii_im = nib.Nifti1Image(out_vol, nii4.get_header().get_sform(), nii4.get_header())
 
