@@ -1,26 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ca7396ea-78df-4e98-901e-a045ad143151" name="Default" comment="codingStyle fixes">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/image/loadsave.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/image/pattern_finder.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/image/slide.py" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/FlowPy.iml" afterPath="$PROJECT_DIR$/.idea/FlowPy.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/filters/bilateral.py" afterPath="$PROJECT_DIR$/filters/bilateral.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image/curves.py" afterPath="$PROJECT_DIR$/image/curves.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image/dcm_parser.py" afterPath="$PROJECT_DIR$/image/dcm_parser.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/perfusion/express.py" afterPath="$PROJECT_DIR$/perfusion/express.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/movie.py" afterPath="$PROJECT_DIR$/movie.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image/nii_separator.py" afterPath="$PROJECT_DIR$/image/nii_separator.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/oncogen.py" afterPath="$PROJECT_DIR$/oncogen.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image/parser.py" afterPath="$PROJECT_DIR$/image/parser.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ribackij.py" afterPath="$PROJECT_DIR$/ribackij.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/roi.py" afterPath="$PROJECT_DIR$/roi.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/perfusion/roi.py" afterPath="$PROJECT_DIR$/perfusion/roi.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image/roi_map.py" afterPath="$PROJECT_DIR$/image/roi_map.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflow.py" afterPath="$PROJECT_DIR$/workflow.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflow2.py" afterPath="$PROJECT_DIR$/workflow2.py" />
+    <list default="true" id="ca7396ea-78df-4e98-901e-a045ad143151" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="FlowPy.iws" />
@@ -92,10 +73,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="bilateral.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="bilateral.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/filters/bilateral.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.2064" vertical-offset="56" max-vertical-offset="1170">
+            <state vertical-scroll-proportion="0.0" vertical-offset="56" max-vertical-offset="1170">
               <caret line="45" column="78" selection-start-line="45" selection-start-column="78" selection-end-line="45" selection-end-column="78" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
@@ -104,12 +85,15 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="nii_separator.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/image/nii_separator.py">
+      <file leaf-file-name="volumeutils.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file:///usr/local/lib/python2.7/dist-packages/nibabel/volumeutils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="130" max-vertical-offset="2052">
-              <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="0.63322884" vertical-offset="14752" max-vertical-offset="15390">
+              <caret line="848" column="0" selection-start-line="848" selection-start-column="0" selection-end-line="848" selection-end-column="0" />
+              <folding>
+                <element signature="e#29223#30999#0" expanded="false" />
+                <element signature="e#31025#31654#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -1144,7 +1128,11 @@
       <created>1343385295897</created>
       <updated>1343385295897</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="codingStyle fixes">
+      <created>1402783383707</created>
+      <updated>1402783383707</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers>
       <GitHub shared="false" url="">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1296,18 +1284,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/local/lib/python2.7/dist-packages/nibabel/volumeutils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="3.5165422" vertical-offset="11411" max-vertical-offset="14832">
-          <caret line="913" column="0" selection-start-line="913" selection-start-column="0" selection-end-line="913" selection-end-column="0" />
-          <folding>
-            <element signature="e#28178#29166#0" expanded="false" />
-            <element signature="e#29223#30999#0" expanded="false" />
-            <element signature="e#31025#31654#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/oncogen.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="940" max-vertical-offset="1800">
@@ -1406,10 +1382,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/filters/bilateral.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.2064" vertical-offset="56" max-vertical-offset="1170">
+        <state vertical-scroll-proportion="0.0" vertical-offset="56" max-vertical-offset="1170">
           <caret line="45" column="78" selection-start-line="45" selection-start-column="78" selection-end-line="45" selection-end-column="78" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/nibabel/volumeutils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.63322884" vertical-offset="14752" max-vertical-offset="15390">
+          <caret line="848" column="0" selection-start-line="848" selection-start-column="0" selection-end-line="848" selection-end-column="0" />
+          <folding>
+            <element signature="e#29223#30999#0" expanded="false" />
+            <element signature="e#31025#31654#0" expanded="false" />
           </folding>
         </state>
       </provider>
