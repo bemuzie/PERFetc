@@ -1,3 +1,4 @@
+# -*- coding: utf-8-*-
 # cython: profile=False
  #   Copyright 2012 Denis Nesterov
 #   cireto@gmail.com

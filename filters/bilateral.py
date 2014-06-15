@@ -1,6 +1,11 @@
+# -*- coding: utf-8-*-
 import numpy as np
+
 import pyximport
-from pyximport import install()
+pyximport.install(setup_args={"script_args":["--compiler=mingw32"],
+                              "include_dirs":np.get_include()},
+                  reload_support=True)
+#pyximport.install()
 import cython_bilateral3d
 from scipy import ndimage
 import nibabel as nib

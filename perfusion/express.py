@@ -12,6 +12,7 @@ def get_tac(roi, vol4d, time):
         tac += np.median(vol4d[..., t][roi == 1]),
     return np.array(tac)
 
+
 def run_trapz(input_conc, window):
     o = np.zeros(input_conc.shape)
     for i in range(len(input_conc)):
@@ -25,24 +26,24 @@ def spline_interpolation(conc, time, new_time, ss=0):
     return interpolate.splev(new_time, tck, der=0), tck
 
 
-def calc_tissue_tac_mrx(input_tac, mtts, bvs, times, lags=0):
+def calc_tissue_tac_mrx(input_tac, mtts, bvs, times, lags=(0,)):
     """
-    Calculate Time/Attenuation Curve (TAC) of tissue from input TAC smothed with spline
+    Calculate Time/Attenuation Curve (TAC) of tissue from input TAC smoothed with spline
 
 
     Args:
       input_tac (tuple): is argument to scipy.interpolate.splint(..., tck, ...)
-      mtts (float): mean transit time of tissue in seconds
-      bvs (float): tissue blod volume. Should be between 0 and 1
+      mtts (iterable): mean transit time of tissue in seconds
+      bvs (iterable): tissue blood volume. Should be between 0 and 1
       times (np.array): time steps of output TAC
-      lag (float): time wich input TAC needed to get to the tissue
+      lag (iterable): time which input TAC needed to get to the tissue
 
     Returns:
       tacs(list): list of TACs
-      params(list): list of tuples with TACs parametrs (mtt,bv,lag)
+      params(list): list of tuples with TACs parameters (mtt,bv,lag)
 
     """
-    if not 0<bvs<1:
+    if not 0 < bvs < 1:
         raise ValueError('bvs should be in interval from 0 to 1')
     times = np.array(times)
     tacs = []
@@ -50,33 +51,34 @@ def calc_tissue_tac_mrx(input_tac, mtts, bvs, times, lags=0):
     for im in mtts:
         for ib in bvs:
             for il in lags:
-                tacs += calc_tissue_tac(input_tac,im,bv,times,il),
-                params += (im,bv,il),
-    return final_arr,params
+                tacs += calc_tissue_tac(input_tac, im, ib, times, il),
+                params += (im, ib, il),
+    return tacs, params
 
 
 def calc_tissue_tac(input_tac, mtt, bv, t, lag=0):
     """
-    Calculate Time/Attenuation Curve (TAC) of tissue from input TAC smothed with spline
+    Calculate Time/Attenuation Curve (TAC) of tissue from input TAC smoothed with spline
 
 
     Args:
       input_tac (tuple): is argument to scipy.interpolate.splint(..., tck, ...)
       mtt (float): mean transit time of tissue in seconds
-      bv (float): tissue blod volume. Should be between 0 and 1
+      bv (float): tissue blood volume. Should be between 0 and 1
       t (np.array): time steps of output TAC
-      lag (float): time wich input TAC needed to get to the tissue
+      lag (float): time which input TAC needed to get to the tissue
 
     Returns:
       (np.array): tissue TAC with in defined time steps
     """
-    if not 0<bv<1:
+    if not 0 < bv < 1:
         raise ValueError('bv should be in interval from 0 to 1')
     t -= lag
     from_t = t - mtt
     from_t[from_t < t[0]] = t[0]
     final_arr = np.array([interpolate.splint(ft, tt, input_tac) for ft, tt in zip(from_t, t)])
-    return (final_arr*bv)/mtt
+    return (final_arr * bv) / mtt
+
 
 def calculate_mtt_bv(tac, example_mrx, mtt_vector, bv_vector):
     # tac=np.array(tac)
@@ -123,25 +125,32 @@ def make_map(vol4d, input_tac, mtt_range, bv_range, t, lag_range):
     output_vol[-1] = output_vol[1] / output_vol[0]
     return output_vol
 
+
 def make_map2(vol4d, input_tac, mtt_range, bv_range, times, lag_range):
-    bv_vol = np.zeros(vol4d.shape[:-1])
-    mtt_vol = np.zeros(vol4d.shape[:-1])
-    bf_vol = np.zeros(vol4d.shape[:-1])
-    lag_vol = np.zeros(vol4d.shape[:-1])
-    ssd_vol = np.zeros(vol4d.shape[:-1])
     mtt_array = np.arange(mtt_range[0], mtt_range[1], mtt_range[2])
     bv_array = np.arange(bv_range[0], bv_range[1], bv_range[2])
     lag_array = np.arange(lag_range[0], lag_range[1], lag_range[2])
 
-    reference_tacs,reference_pars = calc_tissue_tac_mrx(input_tac,mtt_array,bv_array,times,lag_array)
+    reference_tacs, reference_pars = calc_tissue_tac_mrx(input_tac, mtt_array, bv_array, times, lag_array)
     reference_tacs = np.array(reference_tacs)
-    vol4d_2d= vol4d.reshape((np.prod(vol4d.shape[:-1]), vol4d.shape[-1]))
+    vol4d_2d = vol4d.reshape((np.prod(vol4d.shape[:-1]), vol4d.shape[-1]))
 
+    perfusion = []
+    ssds = []
     for real_tac in vol4d_2d:
         diff = reference_tacs - real_tac
-        ssd = np.sum(diff*diff, axis=-1)
-        perfusion = np.min(ssd)
+        ssd = np.sum(diff * diff, axis=-1)
+        min_ssd = np.min(ssd)
+        perfusion += reference_pars[ssd == min_ssd],
+        ssds += min_ssd
 
+    perfusion = np.array(perfusion)
+    bv_vol = perfusion[:, 0].reshape(vol4d.shape[:-1]) * 100
+    mtt_vol = perfusion[:, 1].reshape(vol4d.shape[:-1])
+    lag_vol = perfusion[:, 2].reshape(vol4d.shape[:-1])
+    ssd_vol = np.array(ssds).reshape(vol4d.shape[:-1])
+    bf_vol = (bv_vol * 100) / (mtt_vol / 60.)
+    return bv_vol, mtt_vol, bf_vol, lag_vol, ssd_vol
 
 
 if __name__ == "__main__":

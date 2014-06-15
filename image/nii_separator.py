@@ -21,11 +21,15 @@ def separate_nii(input_file, output_folder=None):
     if not output_folder:
         output_folder = os.path.join(os.path.dirname(os.path.abspath(input_file)), file_name)
 
-    vol4d = nib.load(os.path.abspath(input_file))  # loading 4d image
-    hdr = vol4d.get_header()
-    print hdr
-    if vol4d.shape[-1] > 1:  # 3d nii can have the forth dimension with length 1
+    vol4d = nib.load(os.path.abspath(input_file))
+      # loading 4d image
 
+    #hdr = vol4d.get_header()
+    #print hdr
+    vol_shape = vol4d.get_header().get_data_shape()
+    if len(vol_shape)>3 and vol_shape[-1] > 1:  # 3d nii can have the forth dimension with length 1
+        vol4d.get_data()
+        print vol4d.get_header().get_data_shape()
         vol3d_list = nib.funcs.four_to_three(vol4d)  # getting list of 3d volumes
     else:
         return True
