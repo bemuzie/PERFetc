@@ -135,7 +135,7 @@ class Roi():
         self.update_summary()
 
 
-    def add_roi_from_file(self, roi_name, roi_file, vol_file, vol_time, cut_and_save=None, update_info=True):
+    def add_roi_from_file(self, roi_name, roi_file, vol_file, vol_time, update_info=True):
         print vol_file
         vol_np = nib.load(vol_file).get_data()
         roi_np = nib.load(roi_file).get_data()[..., 0]
