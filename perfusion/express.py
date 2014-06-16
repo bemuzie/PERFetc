@@ -4,7 +4,7 @@ from scipy.interpolate import interp1d
 from scipy import interpolate
 from scipy.integrate import quadrature
 import nibabel as nib
-
+import matplotlib.pyplot as plt
 
 def get_tac(roi, vol4d, time):
     tac = []
@@ -43,16 +43,26 @@ def calc_tissue_tac_mrx(input_tac, mtts, bvs, times, lags=(0,)):
       params(list): list of tuples with TACs parameters (mtt,bv,lag)
 
     """
-    if not 0 < bvs < 1:
+    print bvs < 0
+    print bvs > 1
+    print bvs
+    if np.any(bvs < 0) or np.any(bvs > 1):
         raise ValueError('bvs should be in interval from 0 to 1')
-    times = np.array(times)
+    print times
+
+    print times
     tacs = []
     params = []
     for im in mtts:
         for ib in bvs:
             for il in lags:
-                tacs += calc_tissue_tac(input_tac, im, ib, times, il),
+                tacs += calc_tissue_tac(input_tac, im, ib, np.array(times), il),
                 params += (im, ib, il),
+    #plt.plot(times,interpolate.splev(times, input_tac, der=0))
+    #print times
+
+    #plt.plot(times,np.array(tacs).T)
+    #plt.show()
     return tacs, params
 
 
@@ -71,12 +81,16 @@ def calc_tissue_tac(input_tac, mtt, bv, t, lag=0):
     Returns:
       (np.array): tissue TAC with in defined time steps
     """
-    if not 0 < bv < 1:
+    if not 0 <= bv <= 1:
         raise ValueError('bv should be in interval from 0 to 1')
-    t -= lag
-    from_t = t - mtt
-    from_t[from_t < t[0]] = t[0]
-    final_arr = np.array([interpolate.splint(ft, tt, input_tac) for ft, tt in zip(from_t, t)])
+    if mtt == 0:
+        mtt+=0.01
+
+    t2 = t-lag
+    t2[t2<t[0]] = t[0]
+    from_t = t2 - mtt
+    from_t[from_t < t2[0]] = t2[0]
+    final_arr = np.array([interpolate.splint(ft, tt, input_tac) for ft, tt in zip(from_t, t2)])
     return (final_arr * bv) / mtt
 
 
@@ -89,44 +103,7 @@ def calculate_mtt_bv(tac, example_mrx, mtt_vector, bv_vector):
     return mtt_vector[mtt_idx], bv_vector[bv_idx]
 
 
-def make_map(vol4d, input_tac, mtt_range, bv_range, t, lag_range):
-    bv_vol = np.zeros(vol4d.shape[:-1])
-    mtt_vol = np.zeros(vol4d.shape[:-1])
-    lag_vol = np.zeros(vol4d.shape[:-1])
-    mtt = np.arange(mtt_range[0], mtt_range[1], mtt_range[2])
-    bv = np.arange(bv_range[0], bv_range[1], bv_range[2])
-    lag = np.arange(lag_range[0], lag_range[1], lag_range[2])
-
-    for m in mtt:
-        for b in bv:
-            for l in lag:
-                tac = calc_tissue_tac(input_tac, m, b, t)
-                diff = vol4d - tac
-
-                diff = diff * diff
-                ssd_vol2 = np.sum(diff, axis=3)
-
-                try:
-                    mask_array = ssd_vol1 >= ssd_vol2
-
-                except NameError:
-                    mask_array = np.ones(ssd_vol2.shape, dtype=np.bool)
-                    ssd_vol1 = np.copy(ssd_vol2)
-                lag_vol[mask_array] = l
-                bv_vol[mask_array] = b
-                mtt_vol[mask_array] = m
-                ssd_vol1[mask_array] = ssd_vol2[mask_array]
-
-    bv_vol *= 100  # Blood volume should be in ml/100ml not percent
-    # mtt_vol/=60. # MTT in min^-1
-    bf_vol = bv_vol / (mtt_vol / 60.)
-    output_vol = np.concatenate(
-        (bv_vol[..., None], mtt_vol[..., None], bf_vol[..., None], lag_vol[..., None], ssd_vol1[..., None]), axis=3)
-    output_vol[-1] = output_vol[1] / output_vol[0]
-    return output_vol
-
-
-def make_map2(vol4d, input_tac, mtt_range, bv_range, times, lag_range):
+def make_map(vol4d, input_tac, mtt_range, bv_range, times, lag_range):
     mtt_array = np.arange(mtt_range[0], mtt_range[1], mtt_range[2])
     bv_array = np.arange(bv_range[0], bv_range[1], bv_range[2])
     lag_array = np.arange(lag_range[0], lag_range[1], lag_range[2])
@@ -135,21 +112,68 @@ def make_map2(vol4d, input_tac, mtt_range, bv_range, times, lag_range):
     reference_tacs = np.array(reference_tacs)
     vol4d_2d = vol4d.reshape((np.prod(vol4d.shape[:-1]), vol4d.shape[-1]))
 
+    perfusion = np.zeros((vol4d_2d.shape[0],3))
+
+    done = 0.
+    loops = reference_tacs.shape[0]
+    print loops
+    for ref_tac,ref_pars in zip(reference_tacs,reference_pars):
+        diff = vol4d_2d - ref_tac
+        done += 1
+        progress_bar = round(done/loops)
+        if progress_bar>0 and progress_bar%5 == 0:
+            print done/loops
+        ssd2 = np.sum(diff*diff, axis=1)
+        try:
+            mask_array = ssd1 > ssd2
+        except NameError:
+            mask_array = np.ones(ssd2.shape, dtype=np.bool)
+            ssd1 = np.copy(ssd2)
+        perfusion[mask_array] = ref_pars
+        ssd1[mask_array] = ssd2[mask_array]
+
+    bv_vol = perfusion[:, 1].reshape(vol4d.shape[:-1]) * 100
+    mtt_vol = perfusion[:, 0].reshape(vol4d.shape[:-1])
+    lag_vol = perfusion[:, 2].reshape(vol4d.shape[:-1])
+    ssd_vol = np.array(ssd1).reshape(vol4d.shape[:-1])
+    bf_vol = (bv_vol) / (mtt_vol / 60.)
+    return bv_vol, mtt_vol, bf_vol, lag_vol, ssd_vol
+
+
+def make_map2(vol4d, input_tac, mtt_range, bv_range, times, lag_range):
+
+    mtt_array = np.arange(mtt_range[0], mtt_range[1], mtt_range[2])
+    bv_array = np.arange(bv_range[0], bv_range[1], bv_range[2])
+    lag_array = np.arange(lag_range[0], lag_range[1], lag_range[2])
+    print times
+    reference_tacs, reference_pars = calc_tissue_tac_mrx(input_tac, mtt_array, bv_array, times, lag_array)
+    reference_tacs = np.array(reference_tacs)
+    vol4d_2d = vol4d.reshape((np.prod(vol4d.shape[:-1]), vol4d.shape[-1]))
+
     perfusion = []
     ssds = []
+    loops = np.prod(vol4d.shape[:-1])
+    done = 0.
+    print reference_tacs.shape,vol4d.shape,
     for real_tac in vol4d_2d:
+        done += 1
+        if done%50000 == 0:
+            print done/loops
         diff = reference_tacs - real_tac
         ssd = np.sum(diff * diff, axis=-1)
-        min_ssd = np.min(ssd)
-        perfusion += reference_pars[ssd == min_ssd],
-        ssds += min_ssd
+
+        #print np.where(ssd == min_ssd)[0][0]
+        min_idx = ssd.argmin(axis=0)
+        m = reference_pars[min_idx]
+        perfusion.append(m)
+        ssds.append(ssd[min_idx])
 
     perfusion = np.array(perfusion)
-    bv_vol = perfusion[:, 0].reshape(vol4d.shape[:-1]) * 100
-    mtt_vol = perfusion[:, 1].reshape(vol4d.shape[:-1])
+    bv_vol = perfusion[:, 1].reshape(vol4d.shape[:-1]) * 100
+    mtt_vol = perfusion[:, 0].reshape(vol4d.shape[:-1])
     lag_vol = perfusion[:, 2].reshape(vol4d.shape[:-1])
     ssd_vol = np.array(ssds).reshape(vol4d.shape[:-1])
-    bf_vol = (bv_vol * 100) / (mtt_vol / 60.)
+    bf_vol = (bv_vol) / (mtt_vol / 60.)
     return bv_vol, mtt_vol, bf_vol, lag_vol, ssd_vol
 
 
