@@ -268,7 +268,13 @@ class Workflow():
         #smoothed_tac, in_tac = express.spline_interpolation(input_tac, times, new_times)
 
         volume4d = nib.load(self.dir_manager.get_path('4d')).get_data()
-        volume4d -= volume4d[..., 0][..., None]
+        volume4d = volume4d-volume4d[...,0:1]
+
+        hdr = nib.load(self.dir_manager.get_path('4d')).get_header()
+        mrx = hdr.get_sform()
+        nii_im = nib.Nifti1Image(volume4d, mrx, hdr)
+
+        nib.save(nii_im, os.path.join(self.dir_manager.get_path('nii'), 'subtracted.nii'))
 
         bv_vol, mtt_vol, bf_vol, sigma_vol, lag_vol, ssd_vol = express.make_map_conv(volume4d,
                                                                                      times,
@@ -560,9 +566,9 @@ if __name__ == "__main__":
     wf.dir_manager.add_path('roi3.nii.gz', 'roi3', add_to='roi', create=False)
     #wf.add_roi('roi3')
 
-    wf.calculate_roi_perf()
+    #wf.calculate_roi_perf()
     #wf.make_4dvol()
-    #wf.create_perf_map()
+    wf.create_perf_map()
     #wf.show_curves()
     #separate_nii(pat.get_path('nii_raw'),pat.get_path('separated'))
 
