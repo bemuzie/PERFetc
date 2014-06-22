@@ -30,10 +30,13 @@ class Workflow():
         except IOError:
             pass
 
-    def setup_env(self):
-        self.gzip = os.path.abspath('E:\gzip\gzip.exe')
-        self.mricron = os.path.abspath('E:\mricron\dcm2nii.exe')
-        self.ants = os.path.abspath('C:\Program Files (x86)\ANTS\\bin')
+    def setup_env(self, gzip=None, mricron=None, ants=None):
+        if gzip:
+            self.gzip = gzip
+        if mricron:
+            self.mricron = mricron
+        if ants:
+            self.ants = ants
 
     def __create_folders(self):
         self.dir_manager.add_path(self.folders['root_folder'], 'root')
@@ -45,7 +48,7 @@ class Workflow():
 
         self.dir_manager.add_path('crop_volume.nii.gz', 'crop', add_to='roi', create=False)
         self.dir_manager.add_path('FILTERED', 'filtered', add_to='nii')
-        self.dir_manager.add_path('4dvol.nii', '4d', add_to='filtered')
+        self.dir_manager.add_path('4dvol.nii', '4d', add_to='nii', create=False)
 
         self.dir_manager.add_path('registration_roi.nii.gz', 'registration_roi', add_to='roi', create=False)
         self.dir_manager.add_path('aorta_roi.nii.gz', 'aorta', add_to='roi', create=False)
@@ -58,10 +61,10 @@ class Workflow():
 
         self.dir_manager.add_path('REGISTERED', 'reg', add_to='nii')
 
-    def convert_dcm_to_nii(self):
+    def convert_dcm_to_nii(self, make_time=False):
         # ini_path = 'dcm2nii.ini'
-
-        dcm_parser.get_times(self.dir_manager.get_path('dcm'), self.dir_manager.get_path('roi'))
+        if make_time:
+            dcm_parser.get_times(self.dir_manager.get_path('dcm'), self.dir_manager.get_path('roi'))
 
         dcm2nii_pars = ['-4 y',  # Create 4D volumes, else DTI/fMRI saved as many 3D volumes: Y,N = Y
                         '-a n',  # Anonymize [remove identifying information]: Y,N = Y
@@ -130,7 +133,7 @@ class Workflow():
                     print 'exists', os.path.join(self.dir_manager.get_path('filtered'), '%s_I%s_G%s.nii' % (
                         fname.rstrip('.nii.gz'), intensity_sigma, gaussian_sigma))
 
-    def registration_start(self):
+    def registration_start(self, target_phase):
         ants = self.ants
         # registration
 
@@ -178,7 +181,7 @@ class Workflow():
                     continue
 
                 mi = self.dir_manager.get_path('filtered', snum, anum)
-                fi = self.dir_manager.get_path('filtered', TARGET_PHASE)
+                fi = self.dir_manager.get_path('filtered', snum, target_phase)
 
                 prefix = '%s_to_%s' % (os.path.basename(mi).split('.')[0], os.path.basename(fi).split('.')[0])
 
@@ -204,7 +207,6 @@ class Workflow():
             except ValueError:
                 continue
 
-
     def make_4dvol(self, label='filtered'):
         times = []
         vol_list = []
@@ -221,17 +223,16 @@ class Workflow():
 
         return image4d.get_data()
 
-
-    def add_rois(self):
-        for fn in self.dir_manager.files_in('filtered'):
+    def add_roi(self, roi_name, vol_label='filtered'):
+        for fn in self.dir_manager.files_in(vol_label):
             splited_fname = re.split(r"s|a|_", fn)
-            # print splited_fname
+            print splited_fname
             s, a = [int(i) for i in (splited_fname[1], splited_fname[3])]
-            self.dir_manager.add_path(fn, 'filtered', s, a, add_to='filtered')
+            self.dir_manager.add_path(fn, vol_label, s, a, add_to=vol_label)
             print self.get_img_time(s, int(a) + 1), s, a
-            self.rois.add_roi_from_file('aorta',
-                                        self.dir_manager.get_path('aorta'),
-                                        self.dir_manager.get_path('filtered', s, a),
+            self.rois.add_roi_from_file(roi_name,
+                                        self.dir_manager.get_path(roi_name),
+                                        self.dir_manager.get_path(vol_label, s, a),
                                         self.get_img_time(s, int(a) + 1))
         self.rois.save_txt(self.dir_manager.get_path('saved_roi'),
                            self.dir_manager.get_path('folder_roi'), )
@@ -258,34 +259,90 @@ class Workflow():
         plt.plot(times, np.array(curves2).T, color='b')
         plt.show()
 
-
     def create_perf_map(self):
         input_tac = np.array(self.rois.get_concentrations('aorta'))
         input_tac -= input_tac[0]
         times = self.rois.get_time_list()
-        new_times = np.arange(8, 60, .1)
+        #new_times = np.arange(8, 60, .1)
         print map(int, times)
-        smoothed_tac, in_tac = express.spline_interpolation(input_tac, times, new_times)
+        #smoothed_tac, in_tac = express.spline_interpolation(input_tac, times, new_times)
 
         volume4d = nib.load(self.dir_manager.get_path('4d')).get_data()
         volume4d -= volume4d[..., 0][..., None]
 
-        bv_vol, mtt_vol, bf_vol, lag_vol, ssd_vol = express.make_map(volume4d, in_tac, (0, 60, 1), (0, 1, 0.1),
-                                                                      times, (0, 40, 2))
-        out_vol = np.concatenate(
-            (bv_vol[..., None], mtt_vol[..., None], bf_vol[..., None], lag_vol[..., None], ssd_vol[..., None]),
-            axis=3)
+        bv_vol, mtt_vol, bf_vol, sigma_vol, lag_vol, ssd_vol = express.make_map_conv(volume4d,
+                                                                                     times,
+                                                                                     input_tac,
+                                                                                     (1, 70, 3),
+                                                                                     (0, 1, 0.1),
+                                                                                     (0, 1, 1),
+                                                                                     (0.01, 1, 0.1),
+                                                                                     'lognorm',
+                                                                                     1)
 
+        out_vol = np.concatenate((bv_vol[..., None],
+                                    mtt_vol[..., None],
+                                    bf_vol[..., None],
+                                    sigma_vol[..., None]*100,
+                                    lag_vol[..., None],
+                                    ssd_vol[..., None]),
+                                axis=3)
         hdr = nib.load(self.dir_manager.get_path('4d')).get_header()
         mrx = hdr.get_sform()
         nii_im = nib.Nifti1Image(out_vol, mrx, hdr)
 
-        nib.save(nii_im, os.path.join(self.dir_manager.get_path('filtered'), 'perf_map3.nii'))
+        nib.save(nii_im, os.path.join(self.dir_manager.get_path('filtered'), 'perf_map4.nii'))
 
         import matplotlib.pyplot as plt
 
-        plt.plot(new_times, smoothed_tac)
-        plt.plot(times, input_tac)
+        #plt.plot(new_times, smoothed_tac)
+        #plt.plot(times, input_tac)
+        #plt.show()
+
+    def calculate_roi_perf(self):
+        input_tac = np.array(self.rois.get_concentrations('aorta'))
+        input_tac -= input_tac[0]
+        real_tac = np.array(self.rois.get_concentrations('roi1'))
+        print real_tac
+        real_tac -= real_tac[0]
+        times = self.rois.get_time_list()
+        print 'times', times
+        new_times = np.arange(times[0], times[-1] + 1, 1)
+
+        print map(int, times)
+        smoothed_tac, in_tac = express.spline_interpolation(input_tac, times, new_times)
+        s_tissue_tac, s_tissue_tac_pars = express.spline_interpolation(real_tac, times, new_times, ss=0.1)
+
+        modeled_tac, modeled_pars = express.calc_tissue_tac_mrx_conv(smoothed_tac,
+                                                                     time_steps=new_times,
+                                                                     time_subset=times,
+                                                                     rc_type='lognorm',
+                                                                     mtts=np.arange(1, 70, 3),
+                                                                     bvs=np.arange(0, 1, 0.1),
+                                                                     rc_sigma=np.arange(0.01, 1, 0.1))
+
+        # modeled_tac, modeled_pars = express.calc_tissue_tac_mrx(in_tac, times=times, mtts=np.arange(5,80,1), bvs=np.arange(0.1,0.9,0.1))
+
+        modeled_pars = np.array(modeled_pars)
+        print modeled_pars.shape
+        ssd = np.sum((modeled_tac - real_tac) ** 2, axis=-1)
+        best_choice = modeled_tac[ssd.argmin()]
+        subset_array = ssd.argsort()[:10]
+        print modeled_pars[ssd.argmin()]
+        plt.subplot(3, 1, 1)
+        plt.plot(times, real_tac, 'o-')
+        plt.plot(times, best_choice, '--')
+        gr = np.array([modeled_tac[i] for i in subset_array])
+        #print gr.shape
+        plt.plot(times, gr.T, '-', alpha=0.3)
+
+        plt.subplot(3, 1, 2)
+        bv_subset = modeled_pars[:, 1][subset_array]
+        cmap = plt.cm.coolwarm(bv_subset / np.max(bv_subset))
+        print modeled_pars[subset_array]
+        plt.scatter(modeled_pars[:, 0][subset_array], modeled_pars[:, 1][subset_array], marker='o', edgecolors=cmap)
+        plt.subplot(3, 1, 3)
+        plt.plot(modeled_pars[:, 0][subset_array], ssd[subset_array], 'o')
         plt.show()
 
 
@@ -489,14 +546,23 @@ roi_name;vol_path,vol_time....
 
 if __name__ == "__main__":
     ROOT_FOLDER_WIN = 'E:/_PerfDB/ROGACHEVSKIJ/ROGACHEVSKIJ V.F. 10.03.1945/20111129_1396'
-    ROOT_FOLDER_LIN = '/media/4EDE948CDE946DC9/_PerfDB/ROGACHEVSKIJ/ROGACHEVSKIJ V.F. 10.03.1945/20111129_1396'
+    ROOT_FOLDER_LIN = '/home/denest/PERF_volumes/STOLBOVA N.G. 08.06.1945/20140616_651'
     wf = Workflow(ROOT_FOLDER_LIN)
-    # wf.convert_dcm_to_nii()
-    # wf.separate_nii()
-    # wf.filter_vols(intensity_sigma=80, gaussian_sigma=1.5)
-    #wf.add_rois()
+    wf.setup_env(mricron='/home/denest/mricron/dcm2nii')
+    # wf.convert_dcm_to_nii(make_time=True)
+    #wf.separate_nii()
+    #wf.filter_vols(intensity_sigma=40, gaussian_sigma=1.5)
+    wf.rois.output()
     wf.update_label()
-    wf.create_perf_map()
+    #wf.add_roi('aorta')
+    wf.dir_manager.add_path('roi1.nii.gz', 'roi1', add_to='roi', create=False)
+    wf.dir_manager.add_path('roi2.nii.gz', 'roi2', add_to='roi', create=False)
+    wf.dir_manager.add_path('roi3.nii.gz', 'roi3', add_to='roi', create=False)
+    #wf.add_roi('roi3')
+
+    wf.calculate_roi_perf()
+    #wf.make_4dvol()
+    #wf.create_perf_map()
     #wf.show_curves()
     #separate_nii(pat.get_path('nii_raw'),pat.get_path('separated'))
 

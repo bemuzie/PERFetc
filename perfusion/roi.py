@@ -191,10 +191,8 @@ class Roi():
         return aorta_vs_ivc
 
     def output(self):
-        print self.mean_concentrations
-        print self.sd_concentrations
-        print self.max_hu
-        print self.max_t
+        for r in self.rois:
+            print self.get_concentrations(r)
 
     def get_concentrations(self, r_name):
 

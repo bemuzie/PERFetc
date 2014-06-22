@@ -31,8 +31,10 @@ def separate_nii(input_file, output_folder=None):
         vol4d.get_data()
         print vol4d.get_header().get_data_shape()
         vol3d_list = nib.funcs.four_to_three(vol4d)  # getting list of 3d volumes
+        return vol3d_list
+    
     else:
-        return True
+        return None
 
     for i in range(len(vol3d_list)):
         try:
@@ -97,7 +99,6 @@ def get_crop_cords(roi_vol):
 def set_header_from(image, image_header):
     f1 = nib.load(os.path.abspath(image_header))
     hdr = f1.get_header()
-    res = hdr.get_zooms()  # getting voxel size
     mrx = hdr.get_sform()  # getting affine matrix
 
     changing_image = nib.load(os.path.abspath(image))

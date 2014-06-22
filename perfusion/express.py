@@ -1,10 +1,11 @@
 # -*- coding: utf8 -*-
 import numpy as np
 from scipy.interpolate import interp1d
-from scipy import interpolate
+from scipy import interpolate,stats
 from scipy.integrate import quadrature
 import nibabel as nib
 import matplotlib.pyplot as plt
+
 
 def get_tac(roi, vol4d, time):
     tac = []
@@ -43,14 +44,9 @@ def calc_tissue_tac_mrx(input_tac, mtts, bvs, times, lags=(0,)):
       params(list): list of tuples with TACs parameters (mtt,bv,lag)
 
     """
-    print bvs < 0
-    print bvs > 1
-    print bvs
+
     if np.any(bvs < 0) or np.any(bvs > 1):
         raise ValueError('bvs should be in interval from 0 to 1')
-    print times
-
-    print times
     tacs = []
     params = []
     for im in mtts:
@@ -58,11 +54,49 @@ def calc_tissue_tac_mrx(input_tac, mtts, bvs, times, lags=(0,)):
             for il in lags:
                 tacs += calc_tissue_tac(input_tac, im, ib, np.array(times), il),
                 params += (im, ib, il),
-    #plt.plot(times,interpolate.splev(times, input_tac, der=0))
-    #print times
+    # plt.plot(times,interpolate.splev(times, input_tac, der=0))
+    # print times
 
-    #plt.plot(times,np.array(tacs).T)
+    # plt.plot(times,np.array(tacs).T)
     #plt.show()
+    return tacs, params
+
+def calc_tissue_tac_mrx_conv(input_tac, time_steps, time_subset, rc_type, mtts, bvs, rc_sigma=(0.5,),lags=(0,)):
+    """
+    Calculate Time/Attenuation Curve (TAC) of tissue from input TAC smoothed with spline
+
+
+    Args:
+      input_tac (tuple): is argument to scipy.interpolate.splint(..., tck, ...)
+      mtts (iterable): mean transit time of tissue in seconds
+      bvs (iterable): tissue blood volume. Should be between 0 and 1
+      times (np.array): time steps of output TAC
+      lag (iterable): time which input TAC needed to get to the tissue
+
+    Returns:
+      tacs(list): list of TACs
+      params(list): list of tuples with TACs parameters (mtt,bv,lag)
+
+    """
+
+    if np.any(bvs < 0) or np.any(bvs > 1):
+        raise ValueError('bvs should be in interval from 0 to 1')
+
+
+    tacs = []
+    params = [(i_mtt, i_bv, i_lag, i_sigma) for i_mtt in mtts
+                                            for i_bv in bvs
+                                            for i_lag in lags
+                                            for i_sigma in rc_sigma]
+    for i in params:
+        tacs += calc_tissue_tac_conv(input_tac,
+                                     mtt=i[0],
+                                     bv=i[1],
+                                     t=time_steps,
+                                     t_subset=time_subset,
+                                     rc_family=rc_type,
+                                     sigma=i[3]),
+
     return tacs, params
 
 
@@ -84,14 +118,54 @@ def calc_tissue_tac(input_tac, mtt, bv, t, lag=0):
     if not 0 <= bv <= 1:
         raise ValueError('bv should be in interval from 0 to 1')
     if mtt == 0:
-        mtt+=0.01
+        mtt += 0.01
 
-    t2 = t-lag
-    t2[t2<t[0]] = t[0]
+    t2 = t - lag
+    t2[t2 < t[0]] = t[0]
     from_t = t2 - mtt
     from_t[from_t < t2[0]] = t2[0]
     final_arr = np.array([interpolate.splint(ft, tt, input_tac) for ft, tt in zip(from_t, t2)])
     return (final_arr * bv) / mtt
+
+def calc_tissue_tac_conv(input_tac, mtt, bv, t, t_subset=None, rc_family='trap', sigma=1):
+
+    if rc_family=='trap':
+        rc_func = lambda x,y,z: make_rc_trap(x, y, z)
+    elif rc_family =='lognorm':
+        rc_func = lambda x,y,z: make_rc_lognorm(x, y, z, sigma)
+
+    rc = rc_func(mtt, bv, t)
+    out = np.convolve(input_tac, rc)
+
+    if not t_subset is None:
+        subset = [np.where(t == i)[0][0] for i in t_subset]
+        out = out[subset]
+    return out
+
+def make_rc_trap(mtt, bv, ts):
+
+    ts_fr0 = np.arange(0, ts.max(), ts[1]-ts[0])
+    rc = np.zeros(ts_fr0.shape[0])
+    rc[ts_fr0 < mtt] = 1
+    print np.sum(rc)
+    return bv*rc/mtt
+
+def make_rc_lognorm(mtt, bv, ts, sigma=0.01):
+
+    ts_fr0 = np.arange(0, ts.max(), ts[1]-ts[0])
+
+    rc = 1-stats.lognorm.cdf(ts_fr0, sigma, 0, mtt)
+    s_rc = bv*rc
+    #print rc
+    return s_rc/np.sum(rc)
+
+def make_rc_gamma(mtt, bv, ts, sigma=0.01):
+
+    ts_fr0 = np.arange(0, ts.max(), ts[1]-ts[0])
+    rc=1-stats.gamma.cdf(ts_fr0, 1,mtt,sigma)
+    s_rc = bv*rc
+    return s_rc/np.sum(rc)
+
 
 
 def calculate_mtt_bv(tac, example_mrx, mtt_vector, bv_vector):
@@ -112,18 +186,18 @@ def make_map(vol4d, input_tac, mtt_range, bv_range, times, lag_range):
     reference_tacs = np.array(reference_tacs)
     vol4d_2d = vol4d.reshape((np.prod(vol4d.shape[:-1]), vol4d.shape[-1]))
 
-    perfusion = np.zeros((vol4d_2d.shape[0],3))
+    perfusion = np.zeros((vol4d_2d.shape[0], 3))
 
     done = 0.
     loops = reference_tacs.shape[0]
     print loops
-    for ref_tac,ref_pars in zip(reference_tacs,reference_pars):
+    for ref_tac, ref_pars in zip(reference_tacs, reference_pars):
         diff = vol4d_2d - ref_tac
         done += 1
-        progress_bar = round(done/loops)
-        if progress_bar>0 and progress_bar%5 == 0:
-            print done/loops
-        ssd2 = np.sum(diff*diff, axis=1)
+        progress_bar = round(done / loops)
+        if progress_bar > 0 and progress_bar % 5 == 0:
+            print done / loops
+        ssd2 = np.sum(diff * diff, axis=1)
         try:
             mask_array = ssd1 > ssd2
         except NameError:
@@ -140,8 +214,9 @@ def make_map(vol4d, input_tac, mtt_range, bv_range, times, lag_range):
     return bv_vol, mtt_vol, bf_vol, lag_vol, ssd_vol
 
 
-def make_map2(vol4d, input_tac, mtt_range, bv_range, times, lag_range):
 
+
+def make_map2(vol4d, input_tac, mtt_range, bv_range, times, lag_range):
     mtt_array = np.arange(mtt_range[0], mtt_range[1], mtt_range[2])
     bv_array = np.arange(bv_range[0], bv_range[1], bv_range[2])
     lag_array = np.arange(lag_range[0], lag_range[1], lag_range[2])
@@ -154,15 +229,15 @@ def make_map2(vol4d, input_tac, mtt_range, bv_range, times, lag_range):
     ssds = []
     loops = np.prod(vol4d.shape[:-1])
     done = 0.
-    print reference_tacs.shape,vol4d.shape,
+    print reference_tacs.shape, vol4d.shape,
     for real_tac in vol4d_2d:
         done += 1
-        if done%50000 == 0:
-            print done/loops
+        if done % 50000 == 0:
+            print done / loops
         diff = reference_tacs - real_tac
         ssd = np.sum(diff * diff, axis=-1)
 
-        #print np.where(ssd == min_ssd)[0][0]
+        # print np.where(ssd == min_ssd)[0][0]
         min_idx = ssd.argmin(axis=0)
         m = reference_pars[min_idx]
         perfusion.append(m)
@@ -175,6 +250,74 @@ def make_map2(vol4d, input_tac, mtt_range, bv_range, times, lag_range):
     ssd_vol = np.array(ssds).reshape(vol4d.shape[:-1])
     bf_vol = (bv_vol) / (mtt_vol / 60.)
     return bv_vol, mtt_vol, bf_vol, lag_vol, ssd_vol
+
+def make_map_conv(vol4d, times, input_tac, mtt_range, bv_range, lag_range, sigma_range, rc_type='lognorm', time_res=1):
+
+    mtt_array = np.arange(mtt_range[0], mtt_range[1], mtt_range[2])
+    bv_array = np.arange(bv_range[0], bv_range[1], bv_range[2])
+    lag_array = np.arange(lag_range[0], lag_range[1], lag_range[2])
+    sigma_array = np.arange(sigma_range[0], sigma_range[1], sigma_range[2])
+
+    print times
+    print 'mtt',mtt_array
+    print 'bv', bv_array
+    print 'lag', lag_array
+    print 'sigma',sigma_array
+    new_time_steps = np.arange(times[0], times[-1]+1, time_res)
+    input_tac_smoothed, input_tac_splines = spline_interpolation(input_tac, times, new_time_steps)
+    input_tac_smoothed[new_time_steps<times[0]]=input_tac[0]
+
+
+    reference_tacs, reference_pars = calc_tissue_tac_mrx_conv(input_tac_smoothed,
+                                                              time_steps=new_time_steps,
+                                                              time_subset=times,
+                                                              rc_type=rc_type,
+                                                              mtts=mtt_array,
+                                                              bvs=bv_array,
+                                                              rc_sigma=sigma_array,
+                                                              lags=lag_array)
+    reference_tacs = np.array(reference_tacs)
+    plt.plot(times,reference_tacs.T,alpha=0.1)
+    plt.plot(times,input_tac)
+    plt.plot(new_time_steps,input_tac_smoothed)
+    plt.show()
+    vol4d_2d = vol4d.reshape((np.prod(vol4d.shape[:-1]), vol4d.shape[-1]))
+
+    perfusion = []
+    ssds = []
+    loops = np.prod(vol4d.shape[:-1])
+    done = 0.
+    print reference_tacs.shape, vol4d.shape
+    for real_tac in vol4d_2d:
+        done += 1
+        if real_tac.max()==real_tac[0]:
+            perfusion.append((100,0,0,0))
+            ssds.append(100000)
+            continue
+
+        diff = reference_tacs - real_tac
+        ssd = np.sum(diff * diff, axis=-1)
+        min_idx = ssd.argmin()
+        m = reference_pars[min_idx]
+        perfusion.append(m)
+        ssds.append(ssd[min_idx])
+        if done % 50000 == 0:
+            print done / loops, ssd[min_idx], m, ssd.shape
+
+            #plt.plot(times,real_tac)
+            #plt.plot(times,reference_tacs[min_idx])
+            #plt.show()
+
+            # print np.where(ssd == min_ssd)[0][0]
+
+    perfusion = np.array(perfusion)
+    bv_vol = perfusion[:, 1].reshape(vol4d.shape[:-1]) * 100
+    mtt_vol = perfusion[:, 0].reshape(vol4d.shape[:-1])
+    lag_vol = perfusion[:, 2].reshape(vol4d.shape[:-1])
+    sigma_vol = perfusion[:, 3].reshape(vol4d.shape[:-1])
+    ssd_vol = np.array(ssds).reshape(vol4d.shape[:-1])
+    bf_vol = (bv_vol) / (mtt_vol / 60.)
+    return bv_vol, mtt_vol, bf_vol, sigma_vol, lag_vol, ssd_vol
 
 
 if __name__ == "__main__":
@@ -200,7 +343,7 @@ if __name__ == "__main__":
          101.09165687256322,
          94.59840815055142]
 
-    t = [10,
+    t = np.array([10,
          13,
          15,
          17,
@@ -218,63 +361,25 @@ if __name__ == "__main__":
          62,
          91,
          101,
-         111]
-
+         111])
+    a=np.array(a)
+    a-=a[0]
     print len(t)
+    new_times = np.arange(t[0], t[-1]+1)
+    input_tac_s, input_tac_pars = spline_interpolation(a, t, new_times)
 
-    # plt.plot(run_sum(a,1,10))
-    a = np.array(a)
-    a -= a[0]
-    t = np.array(t)
+    simple_tac = calc_tissue_tac(input_tac_pars,20,0.4,t)
+    simple_tac2 = calc_tissue_tac_conv(input_tac_s, 20, 0.4, new_times, t, 'trap')
+    simple_tac3 = calc_tissue_tac_conv(input_tac_s, 20, 0.4, new_times, t, 'lognorm', 0.3)
 
-    p = interp1d(t, a, kind='cubic')
-    # plt.plot(np.arange(np.min(t),np.max(t),.1),p(np.arange(np.min(t),np.max(t),.1)),color='k')
-    # print quadrature(p,[1,2,3],[2,3,4])
-    # plt.plot(t,run_trapz(a,1,4),color='red')
-    spl, s = spline_interpolation(a, t, np.arange(8, 90, .1))
-
-    mtts = np.arange(5, 40, 1)
-    bvs = np.arange(0.1, 1, 0.1)
-
-    pancreas = calc_tissue_tac_mrx(s, mtts, bvs, t)
-
-    """
-    curves_mrx = np.zeros([len(a),len(range(10))])
-    print curves_mrx.shape
-    for j in range(10):
-        curves_mrx[:,j]=run_trapz(a,1,j)
-    plt.plot(curves_mrx,color='red')
-    plt.plot(curves_mrx*.2,color='blue')
-
-    """
-
-    plt.plot(t, a)
-
-    path_to4d = u'/home/denest/PERF_volumes/MOSKOVTSEV  V.I. 18.01.1938/20140610_632/NII/FILTERED_TOSHIBA_REG/4D00.nii'
-    nii4 = nib.load(path_to4d)
-    niiData = nii4.get_data()
-    # bv_vol=np.zeros(niiData.shape[:-1])
-    # mtt_vol=np.zeros(niiData.shape[:-1])
-    # out_vol = np.zeros(niiData.shape[:-1]+(3,))
-    print niiData[..., 0][..., None].shape, niiData.shape
-
-    # niiData=np.concatenate((niiData[...,0][...,None],niiData),axis=3)
-
-    """
-    for x in range(niiData.shape[0]):
-        for y in range(niiData.shape[1]):
-            for z in range(niiData.shape[2]):
-                #print niiData[x,y,z].shape
-                out_vol[x,y,z,:-1] = calculate_mtt_bv(niiData[x,y,z],pancreas,mtts,bvs)
-    out_vol[...,-1] = (out_vol[...,1]*100.)/(out_vol[...,0]/60.)
-    """
-    niiData = niiData - niiData[..., 0][..., None]
-    out_vol = make_map(niiData, s, mtt_range=(1, 80, 2), bv_range=(0.1, 1, 0.1), t=t, lag_range=(0, 5, 1))
-
-    nii_im = nib.Nifti1Image(out_vol, nii4.get_header().get_sform(), nii4.get_header())
-
-    nib.nifti1.save(nii_im,
-                    u'/home/denest/PERF_volumes/MOSKOVTSEV  V.I. 18.01.1938/20140610_632/NII/FILTERED_TOSHIBA_REG/4D00_bf_map.nii')
-
+    plt.subplot(2,1,1)
+    #plt.plot(t, a)
+    plt.plot(t, simple_tac, 'r')
+    plt.plot(t, simple_tac2, 'b')
+    plt.plot(t, simple_tac3, 'g')
+    plt.subplot(2,1,2)
+    plt.plot(make_rc_lognorm(20,0.4,new_times,0.3),'r')
+    plt.plot(make_rc_trap(20,0.4,new_times),'g')
     plt.show()
+
 

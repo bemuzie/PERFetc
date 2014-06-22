@@ -10,6 +10,7 @@ import shutil
 from datetime import datetime
 import time
 
+
 class Parser():
     def __init__(self, folder, folder_out, force=False):
         self.folder = folder
@@ -75,6 +76,7 @@ class Parser():
             self.logger.moved()
             pass
 
+
 class Loger():
     def __init__(self, adress):
         curtime = datetime.now()
@@ -110,7 +112,7 @@ def get_times(folder, folder_out=None, force=False, ):
     """ parse DICOM in folder and copy it in folder_out
     with folder structure /PatientName-BirthDate/StudyNumber/SeriesNumber/"""
     a = 0
-    i = 0
+
     curtime = datetime.now()
     log = open(folder_out + '/log_' + str(curtime.month) + str(curtime.day) + '_' + str(curtime.hour) + str(
         curtime.minute) + str(curtime.second) + '.txt', 'w')
@@ -161,7 +163,7 @@ def get_times(folder, folder_out=None, force=False, ):
                 series_time = tnum(dcm, 0x00080031)
                 acquisition_time = tnum(dcm, 0x00080032)
                 acquisition_num = tnum(dcm, 0x00200012)
-                #study_time=tnum(dcm,0x00080030)
+                # study_time=tnum(dcm,0x00080030)
                 contrast_time = tnum(dcm, 0x00181042)
                 # output_dict[contrast_time][series_num][series_time][acquisition_num]
                 output_dict[contrast_time][series_num][series_time][acquisition_num] = acquisition_time
@@ -197,4 +199,4 @@ def get_times(folder, folder_out=None, force=False, ):
 
 
 if __name__ == "__main__":
-    Parser('E:\_PerfDB\ROGACHEVSKIJ\DCM', 'E:\_PerfDB\ROGACHEVSKIJ')
+    Parser('/home/denest/_TEMP/', '/home/denest/PERF_volumes/')
