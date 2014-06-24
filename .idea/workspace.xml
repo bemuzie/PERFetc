@@ -1170,7 +1170,11 @@
       <created>1403630076359</created>
       <updated>1403630076359</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="codingStyle fixes">
+      <created>1403630091744</created>
+      <updated>1403630091744</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers>
       <GitHub shared="false" url="">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
