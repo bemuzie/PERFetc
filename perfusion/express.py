@@ -1,11 +1,11 @@
 # -*- coding: utf8 -*-
 import numpy as np
-from scipy.interpolate import interp1d
 from scipy import interpolate, stats
-from scipy.integrate import quadrature
-import nibabel as nib
-import matplotlib.pyplot as plt
 
+import pyximport
+
+pyximport.install()
+import cssd
 
 def get_tac(roi, vol4d, time):
     tac = []
@@ -89,13 +89,13 @@ def calc_tissue_tac_mrx_conv(input_tac, time_steps, time_subset, rc_type, mtts, 
               for i_lag in lags
               for i_sigma in rc_sigma]
     for i in params:
-        tacs += calc_tissue_tac_conv(input_tac,
-                                     mtt=i[0],
-                                     bv=i[1],
-                                     time_steps=time_steps,
-                                     t_subset=time_subset,
-                                     rc_family=rc_type,
-                                     sigma=i[3]),
+        tacs.append(calc_tissue_tac_conv(input_tac,
+                                         mtt=i[0],
+                                         bv=i[1],
+                                         time_steps=time_steps,
+                                         t_subset=time_subset,
+                                         rc_family=rc_type,
+                                         sigma=i[3]))
 
     return tacs, params
 
@@ -273,10 +273,10 @@ def make_map_conv(vol4d, times, input_tac, mtt_range, bv_range, lag_range, sigma
                                                               rc_sigma=sigma_array,
                                                               lags=lag_array)
     reference_tacs = np.array(reference_tacs)
-    plt.plot(times, reference_tacs.T, alpha=0.1)
-    plt.plot(times, input_tac)
-    plt.plot(new_time_steps, input_tac_smoothed)
-    plt.show()
+    # plt.plot(times, reference_tacs.T, alpha=0.1)
+    #plt.plot(times, input_tac)
+    #plt.plot(new_time_steps, input_tac_smoothed)
+    #plt.show()
     vol4d_2d = vol4d.reshape((np.prod(vol4d.shape[:-1]), vol4d.shape[-1]))
 
     perfusion = []
@@ -286,11 +286,6 @@ def make_map_conv(vol4d, times, input_tac, mtt_range, bv_range, lag_range, sigma
     print reference_tacs.shape, vol4d.shape
     for real_tac in vol4d_2d:
         done += 1
-        if real_tac.max() == real_tac[0]:
-            perfusion.append((100, 0, 0, 0))
-            ssds.append(100000)
-            continue
-
         diff = reference_tacs - real_tac
         ssd = np.sum(diff * diff, axis=-1)
         min_idx = ssd.argmin()
@@ -317,6 +312,55 @@ def make_map_conv(vol4d, times, input_tac, mtt_range, bv_range, lag_range, sigma
     lag_vol = perfusion[:, 2].reshape(vol4d.shape[:-1])
     sigma_vol = perfusion[:, 3].reshape(vol4d.shape[:-1])
     ssd_vol = np.array(ssds).reshape(vol4d.shape[:-1])
+    bf_vol = bv_vol / (mtt_vol / 60.)
+    return bv_vol, mtt_vol, bf_vol, sigma_vol, lag_vol, ssd_vol
+
+
+def make_map_conv_cython(vol4d, times, input_tac, mtt_range, bv_range, lag_range, sigma_range, rc_type='lognorm',
+                         time_res=1):
+    mtt_array = np.arange(mtt_range[0], mtt_range[1], mtt_range[2])
+    bv_array = np.arange(bv_range[0], bv_range[1], bv_range[2])
+    lag_array = np.arange(lag_range[0], lag_range[1], lag_range[2])
+    sigma_array = np.arange(sigma_range[0], sigma_range[1], sigma_range[2])
+
+    print times
+    print 'mtt', mtt_array
+    print 'bv', bv_array
+    print 'lag', lag_array
+    print 'sigma', sigma_array
+    new_time_steps = np.arange(times[0], times[-1] + 1, time_res)
+    input_tac_smoothed, input_tac_splines = spline_interpolation(input_tac, times, new_time_steps)
+    input_tac_smoothed[new_time_steps < times[0]] = input_tac[0]
+
+    reference_tacs, reference_pars = calc_tissue_tac_mrx_conv(input_tac_smoothed,
+                                                              time_steps=new_time_steps,
+                                                              time_subset=times,
+                                                              rc_type=rc_type,
+                                                              mtts=mtt_array,
+                                                              bvs=bv_array,
+                                                              rc_sigma=sigma_array,
+                                                              lags=lag_array)
+    reference_tacs = np.array(reference_tacs)
+    # plt.plot(times, reference_tacs.T, alpha=0.1)
+    #plt.plot(times, input_tac)
+    #plt.plot(new_time_steps, input_tac_smoothed)
+    #plt.show()
+    vol4d_2d = vol4d.reshape((np.prod(vol4d.shape[:-1]), vol4d.shape[-1]))
+
+    print 'references', reference_tacs.shape
+
+    pars_indexes, ssds = np.array(cssd.ssd(np.asarray(vol4d_2d, dtype=float), reference_tacs), dtype=int)
+    print pars_indexes.shape
+    perfusion = np.array(reference_pars)[pars_indexes]
+
+    print 1
+    bv_vol = perfusion[:, 1].reshape(vol4d.shape[:-1]) * 100
+    mtt_vol = perfusion[:, 0].reshape(vol4d.shape[:-1])
+    lag_vol = perfusion[:, 2].reshape(vol4d.shape[:-1])
+    sigma_vol = perfusion[:, 3].reshape(vol4d.shape[:-1])
+    print 2
+    ssd_vol = np.array(ssds, dtype=float).reshape(vol4d.shape[:-1])
+    print 3
     bf_vol = bv_vol / (mtt_vol / 60.)
     return bv_vol, mtt_vol, bf_vol, sigma_vol, lag_vol, ssd_vol
 

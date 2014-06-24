@@ -2,6 +2,7 @@
 import os
 import re
 import subprocess
+
 import nibabel as nib
 import numpy as np
 import matplotlib.pyplot as plt
@@ -279,10 +280,10 @@ class Workflow():
         bv_vol, mtt_vol, bf_vol, sigma_vol, lag_vol, ssd_vol = express.make_map_conv(volume4d,
                                                                                      times,
                                                                                      input_tac,
-                                                                                     (1, 70, 3),
-                                                                                     (0, 1, 0.1),
-                                                                                     (0, 1, 1),
+                                                                                     (10, 70, 1),
                                                                                      (0.01, 1, 0.1),
+                                                                                     (0, 10, 2),
+                                                                                     (0.01, 1.5, 0.2),
                                                                                      'lognorm',
                                                                                      1)
 
@@ -298,8 +299,6 @@ class Workflow():
         nii_im = nib.Nifti1Image(out_vol, mrx, hdr)
 
         nib.save(nii_im, os.path.join(self.dir_manager.get_path('filtered'), 'perf_map4.nii'))
-
-        import matplotlib.pyplot as plt
 
         #plt.plot(new_times, smoothed_tac)
         #plt.plot(times, input_tac)
@@ -323,9 +322,9 @@ class Workflow():
                                                                      time_steps=new_times,
                                                                      time_subset=times,
                                                                      rc_type='lognorm',
-                                                                     mtts=np.arange(1, 70, 3),
+                                                                     mtts=np.arange(1, 70, 4),
                                                                      bvs=np.arange(0, 1, 0.1),
-                                                                     rc_sigma=np.arange(0.01, 1, 0.1))
+                                                                     rc_sigma=np.arange(0.01, 1, 0.2))
 
         # modeled_tac, modeled_pars = express.calc_tissue_tac_mrx(in_tac, times=times, mtts=np.arange(5,80,1), bvs=np.arange(0.1,0.9,0.1))
 

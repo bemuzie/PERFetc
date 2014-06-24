@@ -1,5 +1,6 @@
-import nibabel as nib
 import os
+
+import nibabel as nib
 
 
 def separate_nii(input_file, output_folder=None):
@@ -24,28 +25,26 @@ def separate_nii(input_file, output_folder=None):
     vol4d = nib.load(os.path.abspath(input_file))
       # loading 4d image
 
-    #hdr = vol4d.get_header()
-    #print hdr
     vol_shape = vol4d.get_header().get_data_shape()
     if len(vol_shape)>3 and vol_shape[-1] > 1:  # 3d nii can have the forth dimension with length 1
         vol4d.get_data()
         print vol4d.get_header().get_data_shape()
         vol3d_list = nib.funcs.four_to_three(vol4d)  # getting list of 3d volumes
-        return vol3d_list
-    
     else:
-        return None
-
+        raise ValueError('Expecting four dimensions')
     for i in range(len(vol3d_list)):
         try:
             nib.nifti1.save(vol3d_list[i],
                             os.path.join(output_folder, '%s_%s.nii.gz' % (file_name, i)))
         except IOError, s:
+
             if s[0] == 2:  # No directory exception
                 os.mkdir(os.path.join(output_folder))
                 nib.nifti1.save(vol3d_list[i],
                                 os.path.join(output_folder, '%s_%s.nii.gz' % (file_name, i)))
-                continue
+            else:
+                raise IOError(s)
+
 
     return True
 
