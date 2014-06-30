@@ -145,6 +145,11 @@ class Roi():
             self.update_series()
             self.update_summary()
 
+    def calculate_perf(self):
+        for i in self.rois:
+            if not i == 'aorta':
+                express.calculate_perfusion(input_tac, tissue_tac, times)
+                cssd.ssd(np.asarray(vol4d_2d, dtype=float), reference_tacs)
 
     def add_rois_from_csv(self, roi_csv):
         f = open(roi_csv)

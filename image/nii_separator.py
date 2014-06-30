@@ -3,7 +3,7 @@ import os
 import nibabel as nib
 
 
-def separate_nii(input_file, output_folder=None):
+def separate_nii(input_file, acquisitions=None, output_folder=None):
     """
     Separate 4d *.nii file to 3d *.nii files and write them in output directory.
 
@@ -32,16 +32,17 @@ def separate_nii(input_file, output_folder=None):
         vol3d_list = nib.funcs.four_to_three(vol4d)  # getting list of 3d volumes
     else:
         raise ValueError('Expecting four dimensions')
-    for i in range(len(vol3d_list)):
+
+    for v3, acq in zip(vol3d_list, acquisitions):
         try:
-            nib.nifti1.save(vol3d_list[i],
-                            os.path.join(output_folder, '%s_%s.nii.gz' % (file_name, i)))
+            nib.nifti1.save(v3,
+                            os.path.join(output_folder, '%s_%s.nii.gz' % (file_name, acq)))
         except IOError, s:
 
             if s[0] == 2:  # No directory exception
                 os.mkdir(os.path.join(output_folder))
-                nib.nifti1.save(vol3d_list[i],
-                                os.path.join(output_folder, '%s_%s.nii.gz' % (file_name, i)))
+                nib.nifti1.save(v3,
+                                os.path.join(output_folder, '%s_%s.nii.gz' % (file_name, acq)))
             else:
                 raise IOError(s)
 

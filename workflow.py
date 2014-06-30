@@ -108,11 +108,15 @@ class Workflow():
         if not output_path:
             output_path = self.dir_manager.get_path('separated')
         print output_path
+
         for p, d, f in os.walk(path_to_nii):
             for fname in f:
                 try:
-                    print os.path.join(p, fname)
-                    nii_separator.separate_nii(os.path.join(p, fname), output_path)
+                    ser_num = int(re.split(r"s|a|_|\.", fname)[1])
+
+                    acquisitions = self.get_vol_acq(ser_num)
+                    print acquisitions
+                    nii_separator.separate_nii(os.path.join(p, fname), acquisitions, output_path)
                 except ValueError, s:
                     if s == 'Expecting four dimensions':
                         print s
@@ -243,7 +247,7 @@ class Workflow():
             self.rois.add_roi_from_file(roi_name,
                                         self.dir_manager.get_path(roi_name),
                                         self.dir_manager.get_path(vol_label, s, a),
-                                        self.get_img_time(s, int(a) + 1))
+                                        self.get_img_time(s, int(a)))
         self.rois.save_txt(self.dir_manager.get_path('saved_roi'),
                            self.dir_manager.get_path('folder_roi'), )
 
@@ -253,6 +257,16 @@ class Workflow():
                 if i.startswith('%s_%s,' % (series, aquisition)):
                     # print i,'%s_%s,'%(series, aquisition)
                     return int(i.split(',')[1])
+    def get_vol_acq(self, series):
+        acq_list = []
+        with open(self.dir_manager.get_path('time_file'), 'r') as f:
+            for i in f.readlines():
+                print i
+                if i.startswith('%s_' % (series)):
+                    # print i,'%s_%s,'%(series, aquisition)
+                    acq_list.append(int(re.split(r",|_", i)[1]))
+            return sorted(acq_list)
+
 
     def show_curves(self):
         input_tac = self.rois.get_concentrations('aorta')
@@ -313,11 +327,10 @@ class Workflow():
         #plt.plot(times, input_tac)
         #plt.show()
 
-    def calculate_roi_perf(self):
+    def calculate_roi_perf(self, roi_name):
         input_tac = np.array(self.rois.get_concentrations('aorta'))
         input_tac -= input_tac[0]
-        real_tac = np.array(self.rois.get_concentrations('roi1'))
-        print real_tac
+        real_tac = np.array(self.rois.get_concentrations(roi_name))
         real_tac -= real_tac[0]
         times = self.rois.get_time_list()
         print 'times', times
@@ -560,25 +573,29 @@ roi_name;vol_path,vol_time....
 
 if __name__ == "__main__":
     ROOT_FOLDER_WIN = 'E:/_PerfDB/ROGACHEVSKIJ/ROGACHEVSKIJ V.F. 10.03.1945/20111129_1396'
-    ROOT_FOLDER_LIN = '/home/denest/PERF_volumes/SIZOV  N.V. 11.12.1968'
+    ROOT_FOLDER_LIN = '/home/denest/PERF_volumes/OBUKHOVA I.V. 11.10.1976/20140630_664'
     wf = Workflow(ROOT_FOLDER_LIN)
-    # wf.dir_manager.add_path('FILTERED', 'filtered', add_to='nii')
+    wf.dir_manager.add_path('FILTERED', 'filtered', add_to='nii')
     wf.setup_env(mricron='/home/denest/mricron/dcm2nii')
     #wf.make_time_file()
     wf.convert_dcm_to_nii(make_time=True)
     wf.separate_nii()
-    #wf.filter_vols(intensity_sigma=40, gaussian_sigma=1.5)
+    wf.filter_vols(intensity_sigma=40, gaussian_sigma=1.5)
     #wf.update_label()
     #wf.make_4dvol()
     #wf.crop_volume(wf.dir_manager.get_path('aorta'))
-    #wf.add_roi('aorta')
-    #wf.rois.output()
-    #wf.dir_manager.add_path('roi1.nii.gz', 'roi1', add_to='roi', create=False)
-    #wf.dir_manager.add_path('roi2.nii.gz', 'roi2', add_to='roi', create=False)
-    #wf.dir_manager.add_path('roi3.nii.gz', 'roi3', add_to='roi', create=False)
-    #wf.add_roi('roi3')
 
     #wf.calculate_roi_perf()
+    """
+    wf.add_roi('aorta')
+    wf.dir_manager.add_path('tumor2.nii.gz', 'tumor2', add_to='roi', create=False)
+    wf.dir_manager.add_path('tumor1.nii.gz', 'tumor1', add_to='roi', create=False)
+    wf.dir_manager.add_path('pancreas_distal.nii.gz', 'pancreas_distal', add_to='roi', create=False)
+    wf.dir_manager.add_path('pancreas_norm.nii.gz', 'pancreas_norm', add_to='roi', create=False)
+    for r in ['tumor2','tumor1', 'pancreas_norm', 'pancreas_distal']:
+        wf.add_roi(r)
+    """
+    #3wf.rois.output()
     #wf.create_perf_map()
     #wf.show_curves()
 

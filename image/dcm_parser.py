@@ -21,7 +21,7 @@ class Parser():
         for pathfold, dirs, file_list in os.walk(folder):
             for file_name in file_list:
                 in_file = os.path.join(pathfold, file_name)
-                print in_file
+                #print in_file
                 try:
                     out_file_p, out_file_n = self.file_read(in_file)
                     self.file_copy(in_file, out_file_p, out_file_n)
@@ -199,4 +199,4 @@ def get_times(folder, folder_out=None, force=False, ):
 
 
 if __name__ == "__main__":
-    Parser('/home/denest/_TEMP/', '/home/denest/PERF_volumes/')
+    Parser('/home/denest/_TEMP', '/home/denest/PERF_volumes')
