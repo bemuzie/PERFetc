@@ -573,19 +573,17 @@ roi_name;vol_path,vol_time....
 
 if __name__ == "__main__":
     ROOT_FOLDER_WIN = 'E:/_PerfDB/ROGACHEVSKIJ/ROGACHEVSKIJ V.F. 10.03.1945/20111129_1396'
-    ROOT_FOLDER_LIN = '/home/denest/PERF_volumes/OBUKHOVA I.V. 11.10.1976/20140630_664'
+    ROOT_FOLDER_LIN = '/media/WORK/_PERF/MALYSHEV  A.A. 03.01.1974/20140311_302'
     wf = Workflow(ROOT_FOLDER_LIN)
     wf.dir_manager.add_path('FILTERED', 'filtered', add_to='nii')
     wf.setup_env(mricron='/home/denest/mricron/dcm2nii')
     #wf.make_time_file()
     wf.convert_dcm_to_nii(make_time=True)
     wf.separate_nii()
-    wf.filter_vols(intensity_sigma=40, gaussian_sigma=1.5)
+    #wf.filter_vols(intensity_sigma=40, gaussian_sigma=1.5)
     #wf.update_label()
     #wf.make_4dvol()
-    #wf.crop_volume(wf.dir_manager.get_path('aorta'))
-
-    #wf.calculate_roi_perf()
+    #wf.add_roi('aorta')
     """
     wf.add_roi('aorta')
     wf.dir_manager.add_path('tumor2.nii.gz', 'tumor2', add_to='roi', create=False)
@@ -595,8 +593,11 @@ if __name__ == "__main__":
     for r in ['tumor2','tumor1', 'pancreas_norm', 'pancreas_distal']:
         wf.add_roi(r)
     """
+    #wf.crop_volume(wf.dir_manager.get_path('aorta'))
+
+    #wf.calculate_roi_perf()
     #3wf.rois.output()
-    #wf.create_perf_map()
+    wf.create_perf_map()
     #wf.show_curves()
 
     pass

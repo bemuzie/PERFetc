@@ -4,11 +4,7 @@
     <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ca7396ea-78df-4e98-901e-a045ad143151" name="Default" comment="codingStyle fixes">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/perfusion/cssd.pyx" afterPath="$PROJECT_DIR$/perfusion/cssd.pyx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image/dcm_parser.py" afterPath="$PROJECT_DIR$/image/dcm_parser.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image/nii_separator.py" afterPath="$PROJECT_DIR$/image/nii_separator.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/perfusion/roi.py" afterPath="$PROJECT_DIR$/perfusion/roi.py" />
+    <list default="true" id="ca7396ea-78df-4e98-901e-a045ad143151" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/workflow.py" afterPath="$PROJECT_DIR$/workflow.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -60,11 +56,9 @@
       <file leaf-file-name="workflow.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/workflow.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6791444" vertical-offset="9231" max-vertical-offset="10170">
-              <caret line="576" column="34" selection-start-line="576" selection-start-column="34" selection-end-line="576" selection-end-column="34" />
-              <folding>
-                <element signature="e#2961#5283#0" expanded="false" />
-              </folding>
+            <state vertical-scroll-proportion="0.48128343" vertical-offset="9864" max-vertical-offset="10728">
+              <caret line="575" column="50" selection-start-line="575" selection-start-column="50" selection-end-line="575" selection-end-column="50" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -1156,7 +1150,11 @@
       <created>1403630115096</created>
       <updated>1403630115096</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="codingStyle fixes">
+      <created>1404143750146</created>
+      <updated>1404143750146</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers>
       <GitHub shared="false" url="">
         <commitMessageFormat>{id} {summary}</commitMessageFormat>
@@ -1197,6 +1195,7 @@
     <frame x="0" y="24" width="1920" height="1176" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32819584" sideWeight="0.49737877" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32728922" sideWeight="0.4734375" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293718" sideWeight="0.49630412" order="6" side_tool="false" content_ui="tabs" />
@@ -1213,7 +1212,6 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32819584" sideWeight="0.49737877" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
@@ -1230,7 +1228,7 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="CHECK_NEW_TODO" value="false" />
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
@@ -1248,9 +1246,6 @@
     <MESSAGE value="codingStyle fixes" />
     <option name="LAST_COMMIT_MESSAGE" value="codingStyle fixes" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
-    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
-    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
-    <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1637,11 +1632,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/workflow.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6791444" vertical-offset="9231" max-vertical-offset="10170">
-          <caret line="576" column="34" selection-start-line="576" selection-start-column="34" selection-end-line="576" selection-end-column="34" />
-          <folding>
-            <element signature="e#2961#5283#0" expanded="false" />
-          </folding>
+        <state vertical-scroll-proportion="0.48128343" vertical-offset="9864" max-vertical-offset="10728">
+          <caret line="575" column="50" selection-start-line="575" selection-start-column="50" selection-end-line="575" selection-end-column="50" />
+          <folding />
         </state>
       </provider>
     </entry>
