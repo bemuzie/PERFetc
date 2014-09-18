@@ -22,7 +22,7 @@ class Workflow():
         self.__create_folders()
         self.gzip = 'gzip'
         self.mricron = 'dcm2nii'
-        self.ants = 'ants'
+        self.ants = ''
         self.times = []
 
         self.rois = roi.Roi()
@@ -51,8 +51,9 @@ class Workflow():
         self.dir_manager.add_path('FILTERED', 'filtered', add_to='nii')
         self.dir_manager.add_path('4dvol.nii', '4d', add_to='nii', create=False)
 
-        self.dir_manager.add_path('registration_roi.nii.gz', 'registration_roi', add_to='roi', create=False)
+        self.dir_manager.add_path('registration.nii.gz', 'registration_roi', add_to='roi', create=False)
         self.dir_manager.add_path('aorta_roi.nii.gz', 'aorta', add_to='roi', create=False)
+        self.dir_manager.add_path('porta_roi.nii.gz', 'porta', add_to='roi', create=False)
         self.dir_manager.add_path('pancreas_roi.nii.gz', 'pancreas', add_to='roi', create=False)
         self.dir_manager.add_path('tumor_roi.nii.gz', 'tumor', add_to='roi', create=False)
         self.dir_manager.add_path('time_info.txt', 'time_file', add_to='roi', create=False)
@@ -204,6 +205,7 @@ class Workflow():
                     pass
 
                 else:
+                    print 1
                     registration(mi, fi, self.dir_manager.get_path('registration_roi'),
                                  self.dir_manager.get_path('reg'))
                 self.dir_manager.add_path('%s_registered.nii.gz' % prefix, 'reg', snum, anum,
@@ -262,7 +264,7 @@ class Workflow():
         with open(self.dir_manager.get_path('time_file'), 'r') as f:
             for i in f.readlines():
                 print i
-                if i.startswith('%s_' % (series)):
+                if i.startswith('%s_' % series):
                     # print i,'%s_%s,'%(series, aquisition)
                     acq_list.append(int(re.split(r",|_", i)[1]))
             return sorted(acq_list)
@@ -286,6 +288,12 @@ class Workflow():
     def create_perf_map(self):
         input_tac = np.array(self.rois.get_concentrations('aorta'))
         input_tac -= input_tac[0]
+        try:
+            input_tac2 = np.array(self.rois.get_concentrations('porta'))
+            input_tac2 -= input_tac2[0]
+        except:
+            input_tac2 = None
+            pass
         times = self.rois.get_time_list()
         # new_times = np.arange(8, 60, .1)
         print map(int, times)
@@ -300,23 +308,37 @@ class Workflow():
 
         nib.save(nii_im, os.path.join(self.dir_manager.get_path('nii'), 'subtracted.nii'))
 
-        bv_vol, mtt_vol, bf_vol, sigma_vol, lag_vol, ssd_vol = express.make_map_conv_cython(volume4d,
+        bv_vol, mtt_vol, bf_vol, sigma_vol, lag_vol, ssd_vol, portal_map = express.make_map_conv_cython(volume4d,
                                                                                             times,
                                                                                             input_tac,
-                                                                                            (10, 70, 1),
-                                                                                            (0.01, 1, 0.1),
+                                                                                            (10, 80, 10),
+                                                                                            (0.01, 1, 0.2),
                                                                                             (0, 1, 1),
-                                                                                            (0.01, 1.5, 0.1),
+                                                                                            (0.01, 1.5, 0.3),
                                                                                             'lognorm',
-                                                                                            1)
+                                                                                            1,
+                                                                                            input_tac2=input_tac2)
         print 4
-        out_vol = np.concatenate((bv_vol[..., None],
-                                  mtt_vol[..., None],
-                                  bf_vol[..., None],
-                                  sigma_vol[..., None] * 100,
-                                  lag_vol[..., None],
-                                  ssd_vol[..., None]),
-                                 axis=3)
+        if input_tac2:
+            out_vol = np.concatenate((bv_vol[..., None],
+                                      portal_map['bv'][..., None],
+                                      mtt_vol[..., None],
+                                      portal_map['mtt'][..., None],
+                                      bf_vol[..., None],
+                                      portal_map['bf'][..., None],
+                                      sigma_vol[..., None] * 100,
+                                      portal_map['sigma'][..., None]*100,
+                                      lag_vol[..., None],
+                                      ssd_vol[..., None]),
+                                     axis=3)
+        else:
+            out_vol = np.concatenate((bv_vol[..., None],
+                                      mtt_vol[..., None],
+                                      bf_vol[..., None],
+                                      sigma_vol[..., None] * 100,
+                                      lag_vol[..., None],
+                                      ssd_vol[..., None]),
+                                     axis=3)
         print 5
         hdr = nib.load(self.dir_manager.get_path('4d')).get_header()
         mrx = hdr.get_sform()
@@ -573,17 +595,19 @@ roi_name;vol_path,vol_time....
 
 if __name__ == "__main__":
     ROOT_FOLDER_WIN = 'E:/_PerfDB/ROGACHEVSKIJ/ROGACHEVSKIJ V.F. 10.03.1945/20111129_1396'
-    ROOT_FOLDER_LIN = '/media/WORK/_PERF/MALYSHEV  A.A. 03.01.1974/20140311_302'
+    ROOT_FOLDER_LIN = '/home/denest/PERF_volumes/ZAKHAROVA  O.A. 13.11.1981/20140909_833/'
     wf = Workflow(ROOT_FOLDER_LIN)
     wf.dir_manager.add_path('FILTERED', 'filtered', add_to='nii')
     wf.setup_env(mricron='/home/denest/mricron/dcm2nii')
     #wf.make_time_file()
-    wf.convert_dcm_to_nii(make_time=True)
-    wf.separate_nii()
+    #wf.convert_dcm_to_nii(make_time=True)
+    #wf.separate_nii()
     #wf.filter_vols(intensity_sigma=40, gaussian_sigma=1.5)
-    #wf.update_label()
+    wf.update_label()
+    #wf.registration_start(11)
     #wf.make_4dvol()
-    #wf.add_roi('aorta')
+    wf.add_roi('aorta')
+    wf.add_roi('porta')
     """
     wf.add_roi('aorta')
     wf.dir_manager.add_path('tumor2.nii.gz', 'tumor2', add_to='roi', create=False)
