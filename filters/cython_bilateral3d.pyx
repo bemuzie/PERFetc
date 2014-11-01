@@ -56,7 +56,7 @@ cdef inline double calc_weight(double img_value1, double img_value2, double gaus
 @cython.wraparound(False)
 @cython.cdivision(True)
 #sme as data_2 but different looping/ 
-def bilateral3d(int [:,:,:] data, voxel_size, float sigg, float sigi, x_range=[0,-1], y_range=[0,-1], z_range=[0,-1]):
+def bilateral3d(int [:,:,:] data, voxel_size, float sigg, float sigi, x_range=None, y_range=None, z_range=None):
     if data.ndim<3:
         raise ValueError("Input image should have 4 dimensions")
 
@@ -64,7 +64,6 @@ def bilateral3d(int [:,:,:] data, voxel_size, float sigg, float sigi, x_range=[0
     cdef int imgSize_x=data.shape[0]
     cdef int imgSize_y=data.shape[1]
     cdef int imgSize_z=data.shape[2]
-    cdef int from_x = x_range[0], to_x = x_range[1], from_y = y_range[0], to_y = y_range[1], from_z= z_range[0], to_z= z_range[1]
 
 
 
@@ -77,6 +76,24 @@ def bilateral3d(int [:,:,:] data, voxel_size, float sigg, float sigi, x_range=[0
     cdef int kernelSize_x=gaus_kern3d.shape[0], kside_x=kernelSize_x // 2
     cdef int kernelSize_y=gaus_kern3d.shape[1], kside_y=kernelSize_y // 2
     cdef int kernelSize_z=gaus_kern3d.shape[2], kside_z=kernelSize_z // 2
+
+    cdef int from_x, to_x, from_y, to_y, from_z, to_z
+    crop_diap = [kside_x,kside_y,kside_z, imgSize_x-kside_x, imgSize_y-kside_y, imgSize_z-kside_z]
+    print crop_diap
+    for c,ii in zip([x_range,y_range,z_range], range(3)):
+        print c,ii
+        if not c[0] is None:
+            crop_diap[ii] = c[0]
+        if not c[1] is None:
+            crop_diap[ii+3] = c[1]
+    print crop_diap
+    from_x, from_y, from_z, to_x,to_y,to_z = crop_diap
+    print from_x, from_y, from_z, to_x,to_y,to_z
+
+
+
+    
+
     """
     if from_x-kside_x < 0 or from_y-kside_y < 0 \
                           or from_z-kside_z < 0 \

@@ -136,7 +136,7 @@ class Roi():
 
 
     def add_roi_from_file(self, roi_name, roi_file, vol_file, vol_time, update_info=True):
-        print vol_file
+        print 'vol_file', vol_file, 'time', vol_time
         vol_np = nib.load(vol_file).get_data()
         roi_np = nib.load(roi_file).get_data()[..., 0]
         data = vol_np[roi_np > 0]
@@ -201,7 +201,12 @@ class Roi():
 
     def get_concentrations(self, r_name):
 
-        return [self.rois[r_name]['series'][t]['mean_density'] for t in self.get_time_list()]
+        return [self.rois[r_name]['series'][t]['median_density'] for t in self.get_time_list()]
+
+    def get_roinames(self):
+
+        return self.rois.keys()
+
 
     def export_disserdb(self, exam_num, db_path=''):
         sys.path.append(db_path)

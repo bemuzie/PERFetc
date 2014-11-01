@@ -1,6 +1,7 @@
 # -*- coding: utf8 -*-
 import numpy as np
 from scipy import interpolate, stats
+import matplotlib.pyplot as plt
 
 import pyximport
 
@@ -62,6 +63,7 @@ def calc_tissue_tac_mrx(input_tac, mtts, bvs, times, lags=(0,)):
     return tacs, params
 
 
+
 def calc_tissue_tac_mrx_conv(input_tac, time_steps, time_subset, rc_type, mtts, bvs, rc_sigma=(0.5,), lags=(0,)):
     """
     Calculate Time/Attenuation Curve (TAC) of tissue from input TAC smoothed with spline
@@ -99,6 +101,39 @@ def calc_tissue_tac_mrx_conv(input_tac, time_steps, time_subset, rc_type, mtts, 
 
     return tacs, params
 
+def perf_pars_gen(bvs,mtts,sigmas,lags=(0,),bvs2=None,mtts2=None,sigmas2=None,lags2=None):
+    if bvs2 is None:
+        bvs2=bvs
+    if mtts2 is None:
+        mtts2 = mtts
+    if sigmas2 is None:
+        sigmas2=sigmas
+    if lags2 is None:
+        lags2=lags
+
+    params11 = [(i_mtt, i_bv, i_lag, i_sigma, i2_mtt, i2_bv, i2_lag, i2_sigma) for i_mtt in mtts
+                                                                                for i_bv in bvs[1:]
+                                                                                for i_lag in lags
+                                                                                for i_sigma in sigmas
+                                                                                for i2_mtt in mtts2
+                                                                                for i2_bv in bvs2[1:] if i_bv+i2_bv<=1 
+                                                                                for i2_lag in lags2
+                                                                                for i2_sigma in sigmas2]
+    
+    params00 = [(mtts[0], bvs[0], lags[0], sigmas[0], mtts2[0], bvs2[0], lags2[0], sigmas2[0]),]
+    params01 = [(mtts[0], bvs[0], lags[0], sigmas[0], i2_mtt, i2_bv, i2_lag, i2_sigma) for i2_mtt in mtts2
+                                                                                      for i2_bv in bvs2[1:]
+                                                                                      for i2_lag in lags2
+                                                                                      for i2_sigma in sigmas2]
+    params10 = [(i_mtt, i_bv, i_lag, i_sigma, mtts2[0], bvs2[0], lags2[0], sigmas2[0]) for i_mtt in mtts
+                                                                                for i_bv in bvs[1:]
+                                                                                for i_lag in lags
+                                                                                for i_sigma in sigmas]
+    params = np.array(params11 + params00 + params01 + params10)
+    print 'params shape', params.shape
+    return params
+
+
 def calc_tissue_tac_mrx_conv2(input_tac, input_tac2, time_steps, time_subset, rc_type, mtts, bvs, rc_sigma=(0.5,), lags=(0,)):
     """
     Calculate Time/Attenuation Curve (TAC) of tissue from input TAC smoothed with spline
@@ -121,14 +156,27 @@ def calc_tissue_tac_mrx_conv2(input_tac, input_tac2, time_steps, time_subset, rc
         raise ValueError('bvs should be in interval from 0 to 1')
 
     tacs = []
-    params = [(i_mtt, i_bv, i_lag, i_sigma, i2_mtt, i2_bv, i2_lag, i2_sigma) for i_mtt in mtts
-                                                                                for i_bv in bvs
+
+    params11 = [(i_mtt, i_bv, i_lag, i_sigma, i2_mtt, i2_bv, i2_lag, i2_sigma) for i_mtt in mtts
+                                                                                for i_bv in bvs[1:]
                                                                                 for i_lag in lags
                                                                                 for i_sigma in rc_sigma
                                                                                 for i2_mtt in mtts
-                                                                                for i2_bv in bvs if i_bv+i2_bv<=1
+                                                                                for i2_bv in bvs[1:] if i_bv+i2_bv<=1 
                                                                                 for i2_lag in lags
                                                                                 for i2_sigma in rc_sigma]
+    
+    params00 = [(mtts[0], bvs[0], lags[0], rc_sigma[0], mtts[0], bvs[0], lags[0], rc_sigma[0]),]
+    params01 = [(mtts[0], bvs[0], lags[0], rc_sigma[0], i2_mtt, i2_bv, i2_lag, i2_sigma) for i2_mtt in mtts
+                                                                                      for i2_bv in bvs[1:]
+                                                                                      for i2_lag in lags
+                                                                                      for i2_sigma in rc_sigma]
+    params10 = [(i_mtt, i_bv, i_lag, i_sigma, mtts[0], bvs[0], lags[0], rc_sigma[0]) for i_mtt in mtts
+                                                                                for i_bv in bvs[1:]
+                                                                                for i_lag in lags
+                                                                                for i_sigma in rc_sigma]
+    params = params11 + params00 + params01 + params10
+
     print 'params calculated. There are', len(params), 'created'
 
     for i in params:
@@ -148,9 +196,32 @@ def calc_tissue_tac_mrx_conv2(input_tac, input_tac2, time_steps, time_subset, rc
                                                  rc_family=rc_type,
                                                  sigma=i[7])
             tacs.append(tac1+tac2)
+            
 
 
     return tacs, params
+
+
+
+def calc_tissue_tac_from_pars(input_tac, input_tac2, time_steps, time_subset, params):
+
+    print 'params.shape',params.shape
+    params1={'mtt':params[...,0],'bv':params[...,1],'sigma':params[...,3]}
+    params2={'mtt':params[...,4],'bv':params[...,5],'sigma':params[...,7]}
+
+    
+
+    tac1 = calc_tissue_tacs_mrx(input_tac,
+                                params = params1,
+                                time_steps=time_steps,
+                               t_subset=time_subset)
+
+    tac2 = calc_tissue_tacs_mrx(input_tac2,
+                                params = params2,
+                                time_steps=time_steps,
+                               t_subset=time_subset)
+    tacs = tac1+tac2
+    return tacs
 
 
 def calc_tissue_tac(input_tac, mtt, bv, t, lag=0):
@@ -193,6 +264,55 @@ def calc_tissue_tac_conv(input_tac, mtt, bv, time_steps, t_subset=None, rc_famil
     if not t_subset is None:
         subset = [np.where(time_steps == i)[0][0] for i in t_subset]
         out = out[subset]
+    return out
+
+def calc_tissue_tacs_mrx(input_tac, params, time_steps, t_subset=None):
+    """
+    params - dictionary w keys: 'mtt','bv','sigma'
+    """
+    from scipy import signal
+    #print 'max params',np.max(params['mtt']),np.max(params['sigma']),np.max(params['bv'])
+    out = np.array([[]])    
+    #print t.shape
+    params_num = params['mtt'].shape[0]
+    for i_to,i_fr in zip(np.append(np.arange(50000,params_num,50000),params_num),
+                                    np.arange(0,params_num,50000)):
+        print 'slices',i_to,i_fr
+        t = time_steps[...,None].repeat(len(params['mtt'][i_fr:i_to]),axis=1)
+        print t[:,0]
+
+        rc = 1 - stats.gamma.cdf(t, 1, params['mtt'][i_fr:i_to], params['sigma'][i_fr:i_to])
+        print 'rc shape', rc.shape
+        rc /= np.sum(rc,axis=0)
+        rc = params['bv'][i_fr:i_to] * rc 
+        print 'rc max', np.max(rc)
+        print 'zeros',params['mtt'][i_fr:i_to][np.where(np.sum(rc,axis=0)==0)],params['sigma'][i_fr:i_to][np.where(np.sum(rc,axis=0)==0)],params['bv'][i_fr:i_to][np.where(np.sum(rc,axis=0)==0)]
+        #rc = s_rc / np.sum(rc,axis=0)
+        
+        #plt.plot(time_steps,rc)
+        #plt.show()
+    
+        tacs = signal.fftconvolve(input_tac[:,None], rc)
+        print 'tac shape', tacs.shape
+
+        if not t_subset is None:
+          subset = []
+          sub0=t_subset[0]
+          print sub0
+
+          for i in  t_subset:
+            print np.where(time_steps == i-sub0)
+
+            subset.append(np.where(time_steps == i-sub0)[0][0])
+
+          try:
+            out = np.append(out,tacs[subset],axis=1) 
+          except ValueError,s:
+            print s
+            out = tacs[subset]
+          print 'subset shape', out.shape
+
+    print out.shape, np.max(out)
     return out
 
 
@@ -443,6 +563,127 @@ def make_map_conv_cython(vol4d, times, input_tac, mtt_range, bv_range, lag_range
 
     return bv_vol, mtt_vol, bf_vol, sigma_vol, lag_vol, ssd_vol, portal_volumes
 
+def make_map_conv_cython2(vol4d, times, input_tac, mtt_range, bv_range, lag_range, sigma_range, rc_type='lognorm',
+                         time_res=1, input_tac2=None, vol4d_mask=None ):
+    mtt_array = np.arange(mtt_range[0], mtt_range[1], mtt_range[2])
+    bv_array = np.arange(bv_range[0], bv_range[1], bv_range[2])
+    lag_array = np.arange(lag_range[0], lag_range[1], lag_range[2])
+    sigma_array = np.arange(sigma_range[0], sigma_range[1], sigma_range[2])
+
+    print times
+    print 'mtt', mtt_array
+    print 'bv', bv_array
+    print 'lag', lag_array
+    print 'sigma', sigma_array
+    new_time_steps = np.arange(times[0], times[-1] + 1, time_res)
+    input_tac_smoothed, input_tac_splines = spline_interpolation(input_tac, times, new_time_steps)
+    input_tac_smoothed[new_time_steps < times[0]] = input_tac[0]
+    if input_tac2 is None:
+
+        reference_tacs, reference_pars = calc_tissue_tac_mrx_conv(input_tac_smoothed,
+                                                                  time_steps=new_time_steps,
+                                                                  time_subset=times,
+                                                                  rc_type=rc_type,
+                                                                  mtts=mtt_array,
+                                                                  bvs=bv_array,
+                                                                  rc_sigma=sigma_array,
+                                                                  lags=lag_array)
+    else:
+        print 'double input'
+        input_tac_smoothed2, input_tac_splines2 = spline_interpolation(input_tac2, times, new_time_steps)
+        input_tac_smoothed2[new_time_steps < times[0]] = input_tac2[0]
+        """
+        plt.plot(times,input_tac2)
+        plt.plot(new_time_steps,input_tac_smoothed2)
+        plt.plot(times,input_tac)
+        plt.plot(new_time_steps,input_tac_smoothed)
+        plt.show()
+        """
+
+
+        reference_tacs, reference_pars = calc_tissue_tac_mrx_conv2(input_tac_smoothed,
+                                                                    input_tac_smoothed2,
+                                                                    time_steps=new_time_steps,
+                                                                    time_subset=times,
+                                                                    rc_type=rc_type,
+                                                                    mtts=mtt_array,
+                                                                    bvs=bv_array,
+                                                                    rc_sigma=sigma_array,
+                                                                    lags=lag_array)
+    print 'Tacs created!'
+    reference_tacs = np.array(reference_tacs)
+    print reference_pars
+    #plt.plot(times, reference_tacs.T)
+    #plt.show()
+
+    if type(vol4d_mask)==np.ndarray:
+        print vol4d_mask.shape,vol4d.shape
+        vol4d_shape = vol4d.shape[:-1]
+
+        mask_row_num = vol4d_mask[vol4d_mask==1].size
+        vol4d = vol4d[vol4d_mask==1,:]
+        print vol4d.shape
+        vol4d_2d = np.array(vol4d,order='C')
+        #.reshape((mask_row_num, vol4d.shape[-1]),order='C')
+        print
+    else:
+        vol4d_2d = vol4d.reshape((np.prod(vol4d.shape[:-1]), vol4d.shape[-1]))
+
+    print 'references', vol4d_2d.dtype, reference_tacs.dtype,vol4d_2d.shape
+
+    pars_indexes, ssds = np.array(cssd.ssd_int(vol4d_2d, reference_tacs.astype("float32")), dtype=int)
+    print pars_indexes
+    print pars_indexes.shape,np.array(reference_pars).shape
+    perfusion = np.array(reference_pars)[pars_indexes]
+    print perfusion.shape,np.max(perfusion,axis=0),perfusion.dtype,np.max(perfusion[:,1])
+    print dir()
+    if type(vol4d_mask)==np.ndarray:
+
+        bv_vol,mtt_vol,lag_vol,sigma_vol,ssd_vol = [np.zeros(vol4d_shape) for i in range(5)]
+
+        print vol4d_mask.shape,bv_vol.shape,perfusion[:, 1].shape
+        print len(bv_vol[vol4d_mask==1]),len(perfusion[:, 1])
+        bv_vol[vol4d_mask==1] = perfusion[:, 1] * 100
+
+        mtt_vol[vol4d_mask==1] = perfusion[:, 0]
+        lag_vol[vol4d_mask==1] = perfusion[:, 2]
+        sigma_vol[vol4d_mask==1] = perfusion[:, 3]
+        bf_vol = bv_vol / ((mtt_vol+1) / 60.)
+        ssd_vol[vol4d_mask==1] = np.array(ssds, dtype=float)
+        print np.max(bv_vol),np.max(mtt_vol),np.max(lag_vol),np.max(sigma_vol),np.max(bf_vol),np.max(ssd_vol)
+        portal_volumes=dict([[i,np.zeros(vol4d_shape)] for i in ['bv','mtt','lag','sigma','bf']])
+        print 1
+        portal_volumes['bv'][vol4d_mask==1] = perfusion[:, 5] * 100
+        portal_volumes['mtt'][vol4d_mask==1] = perfusion[:, 4]
+        portal_volumes['lag'][vol4d_mask==1] = perfusion[:, 6]
+        portal_volumes['sigma'][vol4d_mask==1] = perfusion[:, 7]
+        portal_volumes['bf'] = portal_volumes['bv'] / ((1+portal_volumes['mtt']) / 60.)
+        print 1
+        return bv_vol, mtt_vol, bf_vol, sigma_vol, lag_vol, ssd_vol, portal_volumes
+
+
+    print 1
+    bv_vol = perfusion[:, 1].reshape(vol4d.shape[:-1]) * 100
+    mtt_vol = perfusion[:, 0].reshape(vol4d.shape[:-1])
+    lag_vol = perfusion[:, 2].reshape(vol4d.shape[:-1])
+    sigma_vol = perfusion[:, 3].reshape(vol4d.shape[:-1])
+
+    print 2
+    ssd_vol = np.array(ssds, dtype=float).reshape(vol4d.shape[:-1])
+    print 3
+    bf_vol = bv_vol / (mtt_vol / 60.)
+    portal_volumes={}
+    if not input_tac2 is None:
+
+        portal_volumes['bv'] = perfusion[:, 5].reshape(vol4d.shape[:-1]) * 100
+        portal_volumes['mtt'] = perfusion[:, 4].reshape(vol4d.shape[:-1])
+        portal_volumes['lag'] = perfusion[:, 6].reshape(vol4d.shape[:-1])
+        portal_volumes['sigma'] = perfusion[:, 7].reshape(vol4d.shape[:-1])
+        portal_volumes['bf'] = portal_volumes['bv'] / (portal_volumes['mtt'] / 60.)
+
+
+    return bv_vol, mtt_vol, bf_vol, sigma_vol, lag_vol, ssd_vol, portal_volumes
+
 
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
@@ -466,7 +707,26 @@ if __name__ == "__main__":
          105.83024818019554,
          101.09165687256322,
          94.59840815055142]
-
+    a=np.array(a)
+    a = [44.64877990864637,
+         60.49938896933365,
+         185.7885957985045,
+         424.99678292042654,
+         521.9514543622375,
+         473.2310834657947,
+         465.303563042722,
+         475.04206749112657,
+         408.29381960598403,
+         385.55330475432997,
+         283.41730958452371,
+         325.78528484932369,
+         414.54445596352669,
+         513.53738966541108,
+         216.15463139449018,
+         217.12762712371725,
+         105.83024818019554,
+         101.09165687256322,
+         94.59840815055142]
     t = np.array([10,
                   13,
                   15,
@@ -492,18 +752,51 @@ if __name__ == "__main__":
     new_times = np.arange(t[0], t[-1] + 1)
     input_tac_s, input_tac_pars = spline_interpolation(a, t, new_times)
 
-    simple_tac = calc_tissue_tac(input_tac_pars, 20, 0.4, t)
-    simple_tac2 = calc_tissue_tac_conv(input_tac_s, 20, 0.4, new_times, t, 'trap')
-    simple_tac3 = calc_tissue_tac_conv(input_tac_s, 20, 0.4, new_times, t, 'lognorm', 0.3)
+    simple_tac = calc_tissue_tac(input_tac_pars, 10, 0.3, t)
+    #simple_tac2 = calc_tissue_tac_conv(input_tac_s, 10, 0.3, new_times, t, 'trap')
+    simple_tac3 = calc_tissue_tac_conv(input_tac_s, 14, 0.4, new_times, t, 'lognorm', 1)
+    simple_tac2 = calc_tissue_tac_conv(input_tac_s, 19, 0.35, new_times, t, 'lognorm', 0.81)
+    simple_tac4 = calc_tissue_tac_conv(input_tac_s, 24, 0.35, new_times, t, 'lognorm', 0.41)
+    pancreatic =  np.where(simple_tac3==np.max(simple_tac3))[0]
 
-    plt.subplot(2, 1, 1)
-    # plt.plot(t, a)
-    plt.plot(t, simple_tac, 'r')
-    plt.plot(t, simple_tac2, 'b')
-    plt.plot(t, simple_tac3, 'g')
-    plt.subplot(2, 1, 2)
-    plt.plot(make_rc_lognorm(20, 0.4, new_times, 0.3), 'r')
-    plt.plot(make_rc_trap(20, 0.4, new_times), 'g')
-    plt.show()
+    print pancreatic
+    for mtt in np.arange(2, 100):
+        for bv in np.arange(0.1, 0.7,0.05):
+            for s in np.arange(0.01,2,0.1):
+                tum_tac = calc_tissue_tac_conv(input_tac_s, mtt, bv, new_times, t, 'lognorm', s)
+                diff = simple_tac3-tum_tac
+                if diff[pancreatic] < 10 and diff[pancreatic] > -10 and np.any(diff[:pancreatic]>10) and np.all(diff[pancreatic:]<10) and np.all(diff[pancreatic:]>-10):
+                    print diff
+                    print diff[pancreatic]
+                    print mtt,bv,s
+
+
+
+                    simple_tac4 = calc_tissue_tac_conv(input_tac_s, mtt, bv, new_times, t, 'lognorm', s)
+
+                    #plt.subplot(2, 1, 1)
+                    #plt.plot(t, a/10.)
+                    #plt.plot(t, simple_tac, 'r')
+                    plt.plot(t, simple_tac3, 'o-g')
+                    plt.fill_between(t, simple_tac3-10,simple_tac3+10,color='green',alpha=0.5)
+                    for i in t:
+                        plt.axvline(i, ls='--')
+                    #plt.plot(t, tum_tac, 'o-b')
+                    #plt.plot(t, simple_tac3-tum_tac, 'o-k')
+
+                    #plt.plot(t, simple_tac2, 'o-b')
+                    plt.plot(t, simple_tac4, 'o-r')
+
+                    #plt.plot(t, simple_tac4, 'o--g')
+                    plt.plot(t, simple_tac3-simple_tac4, 'o-k')
+                    #plt.plot(t, simple_tac3-simple_tac4, 'o--k')
+                    plt.axhline(10)
+                    #plt.subplot(2, 1, 2)
+                    #plt.plot(make_rc_lognorm(20, 0.2, new_times, 0.6), 'r')
+                    #plt.plot(make_rc_trap(20, 0.4, new_times), 'g')
+
+                    plt.savefig('2mtt%s_bv%s_s%s.png'%(mtt,bv,s))
+                    plt.clf()
+
 
 

@@ -51,6 +51,8 @@ class Workflow():
         self.dir_manager.add_path('FILTERED', 'filtered', add_to='nii')
         self.dir_manager.add_path('4dvol.nii', '4d', add_to='nii', create=False)
 
+        self.dir_manager.add_path('perfusion_roi.nii.gz', '4d_mask', add_to='roi', create=False)
+
         self.dir_manager.add_path('registration.nii.gz', 'registration_roi', add_to='roi', create=False)
         self.dir_manager.add_path('aorta_roi.nii.gz', 'aorta', add_to='roi', create=False)
         self.dir_manager.add_path('porta_roi.nii.gz', 'porta', add_to='roi', create=False)
@@ -125,13 +127,21 @@ class Workflow():
 
 
     def filter_vols(self, intensity_sigma=40, gaussian_sigma=1.5):
-        cr_vol = nib.load(self.dir_manager.get_path('crop')).get_data()
-        if len(cr_vol.shape) == 4:
-            cr_vol = cr_vol[..., 0]
+        try:
+            cr_vol = nib.load(self.dir_manager.get_path('crop')).get_data()
 
-        borders_vol = np.where(cr_vol == 1)
-        x_fr, y_fr, z_fr = map(np.min, borders_vol)
-        x_to, y_to, z_to = map(np.max, borders_vol)
+            if len(cr_vol.shape) == 4:
+                cr_vol = cr_vol[..., 0]
+
+            borders_vol = np.where(cr_vol == 1)
+            x_fr, y_fr, z_fr = map(np.min, borders_vol)
+            x_to, y_to, z_to = map(np.max, borders_vol)
+            print x_fr, y_fr, z_fr, x_to, y_to, z_to
+        except IOError,s:
+            print 'no crop volume',s
+            x_fr, y_fr, z_fr = (None,None,None)
+            x_to, y_to, z_to = (None,None,None)
+
 
         for p, d, f in os.walk(self.dir_manager.get_path('separated')):
             for fname in f:
@@ -233,13 +243,14 @@ class Workflow():
                 print s, a
                 times += self.get_img_time(s, a),
                 vol_list += self.dir_manager.get_path(label, s, a),
+        print times
         list_of_volumes = [nib.load(v) for t, v in sorted(zip(times, vol_list))]
         image4d = nib.funcs.concat_images(list_of_volumes)
         nib.save(image4d, os.path.join(self.dir_manager.get_path('nii'), '4dvol.nii'))
 
         return image4d.get_data()
 
-    def add_roi(self, roi_name, vol_label='filtered'):
+    def add_roi(self, roi_name, vol_label='filtered',t_increment=0):
         for fn in self.dir_manager.files_in(vol_label):
             splited_fname = re.split(r"s|a|_", fn)
             print splited_fname
@@ -249,7 +260,7 @@ class Workflow():
             self.rois.add_roi_from_file(roi_name,
                                         self.dir_manager.get_path(roi_name),
                                         self.dir_manager.get_path(vol_label, s, a),
-                                        self.get_img_time(s, int(a)))
+                                        self.get_img_time(s, int(a)+t_increment))
         self.rois.save_txt(self.dir_manager.get_path('saved_roi'),
                            self.dir_manager.get_path('folder_roi'), )
 
@@ -294,6 +305,12 @@ class Workflow():
         except:
             input_tac2 = None
             pass
+
+        try:
+            vol4d_mask=nib.load(self.dir_manager.get_path('4d_mask')).get_data()[...,0]
+        except:
+            vol4d_mask = None
+
         times = self.rois.get_time_list()
         # new_times = np.arange(8, 60, .1)
         print map(int, times)
@@ -307,20 +324,26 @@ class Workflow():
         nii_im = nib.Nifti1Image(volume4d, mrx, hdr)
 
         nib.save(nii_im, os.path.join(self.dir_manager.get_path('nii'), 'subtracted.nii'))
-
-        bv_vol, mtt_vol, bf_vol, sigma_vol, lag_vol, ssd_vol, portal_map = express.make_map_conv_cython(volume4d,
+        plt.plot(times,input_tac)
+        plt.plot(times,input_tac2)
+        plt.show()
+        bv_vol, mtt_vol, bf_vol, sigma_vol, lag_vol, ssd_vol, portal_map = express.make_map_conv_cython2(volume4d,
                                                                                             times,
                                                                                             input_tac,
-                                                                                            (10, 80, 10),
-                                                                                            (0.01, 1, 0.2),
+                                                                                            (5, 80, 10),
+                                                                                            (0.01, 1, 0.1),
                                                                                             (0, 1, 1),
                                                                                             (0.01, 1.5, 0.3),
                                                                                             'lognorm',
                                                                                             1,
-                                                                                            input_tac2=input_tac2)
+                                                                                            input_tac2=input_tac2,
+                                                                                            vol4d_mask=vol4d_mask)
         print 4
-        if input_tac2:
-            out_vol = np.concatenate((bv_vol[..., None],
+        #try:
+        del(volume4d,vol4d_mask)
+        print dir()
+        """
+        out_vol = np.concatenate((bv_vol[..., None],
                                       portal_map['bv'][..., None],
                                       mtt_vol[..., None],
                                       portal_map['mtt'][..., None],
@@ -331,19 +354,32 @@ class Workflow():
                                       lag_vol[..., None],
                                       ssd_vol[..., None]),
                                      axis=3)
-        else:
-            out_vol = np.concatenate((bv_vol[..., None],
+
+
+
+        """
+        #except:
+
+        out_vol = np.concatenate((bv_vol[..., None],
                                       mtt_vol[..., None],
                                       bf_vol[..., None],
                                       sigma_vol[..., None] * 100,
-                                      lag_vol[..., None],
                                       ssd_vol[..., None]),
                                      axis=3)
+
         print 5
         hdr = nib.load(self.dir_manager.get_path('4d')).get_header()
         mrx = hdr.get_sform()
         nii_im = nib.Nifti1Image(out_vol, mrx, hdr)
         nib.save(nii_im, os.path.join(self.dir_manager.get_path('perf_map')))
+
+        out_vol = np.concatenate((portal_map['bv'][..., None],
+                                  portal_map['mtt'][..., None],
+                                  portal_map['bf'][..., None],
+                                  portal_map['sigma'][..., None]*100),
+                                     axis=3)
+        nii_im = nib.Nifti1Image(out_vol, mrx, hdr)
+        nib.save(nii_im, os.path.join(self.dir_manager.get_path('perf_map')[:-7]+'2.nii.gz'))
 
         #plt.plot(new_times, smoothed_tac)
         #plt.plot(times, input_tac)
@@ -393,6 +429,90 @@ class Workflow():
         plt.subplot(3, 1, 3)
         plt.plot(modeled_pars[:, 0][subset_array], ssd[subset_array], 'o')
         plt.show()
+    def make_4dvol_frommaps(self):
+        #load maps bv,mtt,bf,sigma
+        perfmap_art = nib.load(self.dir_manager.get_path('perf_map')).get_data() 
+        perfmap_port = nib.load(os.path.join(self.dir_manager.get_path('perf_map')[:-7]+'2.nii.gz')).get_data() 
+
+        perfmap = np.concatenate((perfmap_art[...,(1,0,3)],perfmap_port[...,(1,0,3)]),axis=3)
+        perfmap[...,(0,3)] /= 100.
+
+        
+
+        perfmap2d = perfmap.reshape( (np.prod(perfmap.shape[:-1]),perfmap.shape[-1]) )
+        pars_subset = perfmap2d[ np.where(perfmap2d[...,0] != 0)]
+        
+
+        #load input tacs
+        times = self.rois.get_time_list()
+        new_time_steps = np.arange(times[0], times[-1] + 1, 2)
+
+        input_tac = np.array(self.rois.get_concentrations('aorta'))
+        input_tac -= input_tac[0]
+        input_tac_smoothed, input_tac_splines = express.spline_interpolation(input_tac, times, new_time_steps)
+        try:
+            input_tac2 = np.array(self.rois.get_concentrations('porta'))
+            input_tac2 -= input_tac2[0]
+            input_tac_smoothed2, input_tac_splines2 = express.spline_interpolation(input_tac2, times, new_time_steps)
+        except:
+            input_tac2 = None
+            pass
+
+        
+
+
+
+        vol4d = express.calc_tissue_tac_from_pars(input_tac_smoothed,
+                                                  input_tac_smoothed2,
+                                                  time_steps=new_time_steps,
+                                                  time_subset=[60,70,80],
+                                                  params=pars_subset)
+        
+
+        vol4d = vol4d.reshape( (np.prod(perfmap.shape[:-1]),vol4d_2d.shape[-1]) )
+
+        hdr = nib.load(self.dir_manager.get_path('4d')).get_header()
+        mrx = hdr.get_sform()
+        nii_im = nib.Nifti1Image(out_vol, mrx, hdr)
+        nib.save(nii_im, os.path.join(self.dir_manager.get_path('4D')[:-4]+'2.nii.gz'))
+        
+    def get_limit(self):
+        #load input tacs
+        times = self.rois.get_time_list()
+        new_time_steps = np.arange(times[0], times[-1] + 1, 1)
+
+        input_tac = np.array(self.rois.get_concentrations('aorta'))
+        input_tac -= input_tac[0]
+        input_tac_smoothed, input_tac_splines = express.spline_interpolation(input_tac, times, new_time_steps)
+        try:
+            input_tac2 = np.array(self.rois.get_concentrations('porta'))
+            input_tac2 -= input_tac2[0]
+            input_tac_smoothed2, input_tac_splines2 = express.spline_interpolation(input_tac2, times, new_time_steps)
+        except:
+            input_tac2 = None
+            pass
+
+        
+        pars_subset = express.perf_pars_gen(bvs=np.arange(0.01,0.1,0.05),
+                                            mtts=np.arange(10,100,10),
+                                            sigmas=np.arange(0.1,2,0.5),
+                                            lags=(0,))
+
+
+
+        vol4d = express.calc_tissue_tac_from_pars(input_tac_smoothed,
+                                                  input_tac_smoothed2,
+                                                  time_steps=new_time_steps,
+                                                  time_subset=times,
+                                                  params=pars_subset)
+        
+        max_hu = np.max(vol4d ,axis=0)
+        print np.array(np.where(pars_subset[:,5]<0.1)).shape
+        sp = np.array(np.where(pars_subset[:,1]<0.1)+np.where(pars_subset[:,5]<0.1))[0]
+        print sp.shape
+        plt.plot(times,vol4d[:,sp],'o-',alpha=0.05,color='red')
+        plt.show()
+        
 
 
 class AutoVivification(dict):
@@ -595,7 +715,7 @@ roi_name;vol_path,vol_time....
 
 if __name__ == "__main__":
     ROOT_FOLDER_WIN = 'E:/_PerfDB/ROGACHEVSKIJ/ROGACHEVSKIJ V.F. 10.03.1945/20111129_1396'
-    ROOT_FOLDER_LIN = '/home/denest/PERF_volumes/ZAKHAROVA  O.A. 13.11.1981/20140909_833/'
+    ROOT_FOLDER_LIN = '/home/denest/PERF_volumes/FEFILOV  B.G. 02.03.1953/20140506_532'
     wf = Workflow(ROOT_FOLDER_LIN)
     wf.dir_manager.add_path('FILTERED', 'filtered', add_to='nii')
     wf.setup_env(mricron='/home/denest/mricron/dcm2nii')
@@ -606,8 +726,9 @@ if __name__ == "__main__":
     wf.update_label()
     #wf.registration_start(11)
     #wf.make_4dvol()
-    wf.add_roi('aorta')
-    wf.add_roi('porta')
+    #wf.add_roi('aorta')
+    #wf.add_roi('porta')
+    #wf.add_roi('4d_mask')
     """
     wf.add_roi('aorta')
     wf.dir_manager.add_path('tumor2.nii.gz', 'tumor2', add_to='roi', create=False)
@@ -622,6 +743,7 @@ if __name__ == "__main__":
     #wf.calculate_roi_perf()
     #3wf.rois.output()
     wf.create_perf_map()
+    #wf.make_4dvol_frommaps()
     #wf.show_curves()
 
     pass
