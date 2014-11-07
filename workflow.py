@@ -125,6 +125,19 @@ class Workflow():
                         print s
                         continue
 
+    def crop_volume(self, volume_to_crop):
+            cr_vol = nib.load(self.dir_manager.get_path('crop')).get_data()
+
+            if len(cr_vol.shape) == 4:
+                cr_vol = cr_vol[..., 0]
+
+            borders_vol = np.where(cr_vol == 1)
+            x_fr, y_fr, z_fr = map(np.min, borders_vol)
+            x_to, y_to, z_to = map(np.max, borders_vol)
+            print x_fr, y_fr, z_fr, x_to, y_to, z_to
+            self.dir_manager.get_path(volume_to_crop)
+
+
 
     def filter_vols(self, intensity_sigma=40, gaussian_sigma=1.5):
         try:
@@ -252,7 +265,7 @@ class Workflow():
 
     def add_roi(self, roi_name, vol_label='filtered',t_increment=0):
         for fn in self.dir_manager.files_in(vol_label):
-            splited_fname = re.split(r"s|a|_", fn)
+            splited_fname = re.split(r"\.|s|a|_", fn)
             print splited_fname
             s, a = [int(i) for i in (splited_fname[1], splited_fname[3])]
             self.dir_manager.add_path(fn, vol_label, s, a, add_to=vol_label)

@@ -77,68 +77,33 @@ simple_tac2 = calc_tissue_tac_conv(input_tac_s, 19, 0.35, new_times, t, 'lognorm
 simple_tac4 = calc_tissue_tac_conv(input_tac_s, 24, 0.35, new_times, t, 'lognorm', 0.41)
 pancreatic =  np.where(simple_tac3==np.max(simple_tac3))[0]
 
-print pancreatic
+
 tacs=[]
 bad_tacs=[]
 maximums = np.zeros(t.shape[0])
-for mtt in np.arange(8, 30,2):
-    for bv in np.arange(0.3, 0.8, 0.2):
-        for s in np.arange(0.01,1.5,0.2):
+
+p_phase = np.where(simple_tac4==np.max(simple_tac4))[0]
+print p_phase
+
+#plt.plot(t,a)
+#plt.plot(t,simple_tac4)
+for mtt in np.arange(2, 60,5):
+    for bv in np.arange(0.8, 0.9, 0.1):
+        for s in np.arange(0.5,10,1):
+            plt.plot(make_rc_lognorm(mtt, bv, new_times, s), alpha=0.2)
             tum_tac = calc_tissue_tac_conv(input_tac_s, mtt, bv, new_times, t, 'lognorm', s)
-            tum_tac/=np.max(tum_tac)
-            maximums[np.where(tum_tac==np.max(tum_tac))]+=1
-
-            tacs.append(tum_tac)
-            plt.subplot(311)
-            if tum_tac[7] != np.max(tum_tac):
-                bad_tacs.append(tum_tac)
-                plt.plot(t,tum_tac,'o-',color=(mtt/30.,bv,0.8))
-
-            #diff = simple_tac3-tum_tac
-            """
-            if diff[pancreatic] < 10 and diff[pancreatic] > -10 and np.any(diff[:pancreatic]>10) and np.all(diff[pancreatic:]<10) and np.all(diff[pancreatic:]>-10):
-                print diff
-                print diff[pancreatic]
+            
+            diff = simple_tac4-tum_tac
+            if np.all(diff[p_phase]<10) and np.all(diff[p_phase]>-10):
+              
+              if np.any(diff[:p_phase]>10):
                 print mtt,bv,s
+                
+                #plt.plot(t,tum_tac,alpha=0.5)
 
 
 
-                simple_tac4 = calc_tissue_tac_conv(input_tac_s, mtt, bv, new_times, t, 'lognorm', s)
 
-                #plt.subplot(2, 1, 1)
-                #plt.plot(t, a/10.)
-                #plt.plot(t, simple_tac, 'r')
-                plt.plot(t, simple_tac3, 'o-g')
-                plt.fill_between(t, simple_tac3-10,simple_tac3+10,color='green',alpha=0.5)
-                for i in t:
-                    plt.axvline(i, ls='--')
-                #plt.plot(t, tum_tac, 'o-b')
-                #plt.plot(t, simple_tac3-tum_tac, 'o-k')
-
-                #plt.plot(t, simple_tac2, 'o-b')
-                plt.plot(t, simple_tac4, 'o-r')
-
-                #plt.plot(t, simple_tac4, 'o--g')
-                plt.plot(t, simple_tac3-simple_tac4, 'o-k')
-                #plt.plot(t, simple_tac3-simple_tac4, 'o--k')
-                plt.axhline(10)
-                #plt.subplot(2, 1, 2)
-                #plt.plot(make_rc_lognorm(20, 0.2, new_times, 0.6), 'r')
-                #plt.plot(make_rc_trap(20, 0.4, new_times), 'g')
-
-                plt.savefig('2mtt%s_bv%s_s%s.png'%(mtt,bv,s))
-                plt.clf()
-            """
-tacs=np.array(tacs).T
-print tacs.shape, t.shape
-plt.subplot(312)
-#plt.plot(t,np.std(tacs,axis=1))
-#plt.plot(t,np.min(tacs,axis=1))
-plt.boxplot(tacs.T)
-plt.subplot(313)
-plt.boxplot(np.array(bad_tacs))
-
-#plt.plot(t,maximums,'o-')
 
 plt.show()
 

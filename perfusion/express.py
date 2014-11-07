@@ -328,9 +328,10 @@ def make_rc_lognorm(mtt, bv, ts, sigma=0.01):
     ts_fr0 = np.arange(0, ts.max(), ts[1] - ts[0])
 
     rc = 1 - stats.lognorm.cdf(ts_fr0, sigma, 0, mtt)
+    rc /= np.sum(rc)
     s_rc = bv * rc
     # print rc
-    return s_rc / np.sum(rc)
+    return s_rc
 
 
 def make_rc_gamma(mtt, bv, ts, sigma=0.01):
