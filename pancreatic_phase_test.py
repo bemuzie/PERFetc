@@ -87,25 +87,12 @@ print p_phase
 
 #plt.plot(t,a)
 #plt.plot(t,simple_tac4)
-for mtt in np.arange(2, 60,5):
-    for bv in np.arange(0.8, 0.9, 0.1):
-        for s in np.arange(0.5,10,1):
-            plt.plot(make_rc_lognorm(mtt, bv, new_times, s), alpha=0.2)
-            tum_tac = calc_tissue_tac_conv(input_tac_s, mtt, bv, new_times, t, 'lognorm', s)
-            
-            diff = simple_tac4-tum_tac
-            if np.all(diff[p_phase]<10) and np.all(diff[p_phase]>-10):
-              
-              if np.any(diff[:p_phase]>10):
-                print mtt,bv,s
-                
-                #plt.plot(t,tum_tac,alpha=0.5)
-
-
-
-
-
-plt.show()
+pars_subset = perf_pars_gen(bvs=np.arange(0.01,0.2,0.05),
+                            mtts=np.arange(10,100,10),
+                            sigmas=np.arange(0.1,2,0.5),
+                            lags=(0,))
+print pars_subset
+calc_tissue_tacs_mrx(a, pars_subset, new_times, t_subset=None)
 
 
 
