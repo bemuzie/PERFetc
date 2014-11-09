@@ -100,11 +100,11 @@ reference_tacs, reference_pars = expr.calc_tissue_tac_mrx_conv2(input_tac_smooth
 
 
 reference_tacs = expr.calc_tissue_tac_from_pars(input_tac_smoothed,
-                                                                    input_tac_smoothed2,
-                                                                    time_steps=new_time_steps,
-                                                                    time_subset=times,
-                                                                    rc_type='lognorm',
-                                                                    params = reference_pars)
+                                                input_tac_smoothed2,
+                                                time_steps=new_time_steps,
+                                                time_subset=times,
+                                                rc_type='lognorm',
+                                                params = reference_pars)
 
 plt.plot(times,input_tac2)
 plt.plot(new_time_steps,input_tac_smoothed2)
