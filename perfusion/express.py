@@ -133,6 +133,44 @@ def perf_pars_gen(bvs,mtts,sigmas,lags=(0,),bvs2=None,mtts2=None,sigmas2=None,la
     print 'params shape', params.shape
     return params
 
+def args_gen(**kwargs):
+    """
+    Generate combination of arguments
+    :param kwargs: argument name and array of its possible values
+    :return:
+    """
+
+    
+    if bvs2 is None:
+        bvs2=bvs
+    if mtts2 is None:
+        mtts2 = mtts
+    if sigmas2 is None:
+        sigmas2=sigmas
+    if lags2 is None:
+        lags2=lags
+
+    params11 = [(i_mtt, i_bv, i_lag, i_sigma, i2_mtt, i2_bv, i2_lag, i2_sigma) for i_mtt in mtts
+                                                                                for i_bv in bvs[1:]
+                                                                                for i_lag in lags
+                                                                                for i_sigma in sigmas
+                                                                                for i2_mtt in mtts2
+                                                                                for i2_bv in bvs2[1:] if i_bv+i2_bv<=1
+                                                                                for i2_lag in lags2
+                                                                                for i2_sigma in sigmas2]
+
+    params00 = [(mtts[0], bvs[0], lags[0], sigmas[0], mtts2[0], bvs2[0], lags2[0], sigmas2[0]),]
+    params01 = [(mtts[0], bvs[0], lags[0], sigmas[0], i2_mtt, i2_bv, i2_lag, i2_sigma) for i2_mtt in mtts2
+                                                                                      for i2_bv in bvs2[1:]
+                                                                                      for i2_lag in lags2
+                                                                                      for i2_sigma in sigmas2]
+    params10 = [(i_mtt, i_bv, i_lag, i_sigma, mtts2[0], bvs2[0], lags2[0], sigmas2[0]) for i_mtt in mtts
+                                                                                for i_bv in bvs[1:]
+                                                                                for i_lag in lags
+                                                                                for i_sigma in sigmas]
+    params = np.array(params11 + params00 + params01 + params10)
+    print 'params shape', params.shape
+    return params
 
 def calc_tissue_tac_mrx_conv2(input_tac, input_tac2, time_steps, time_subset, rc_type, mtts, bvs, rc_sigma=(0.5,), lags=(0,)):
     """
@@ -201,9 +239,7 @@ def calc_tissue_tac_mrx_conv2(input_tac, input_tac2, time_steps, time_subset, rc
 
     return tacs, params
 
-
-
-def calc_tissue_tac_from_pars(input_tac, input_tac2, time_steps, time_subset, params):
+def calc_tissue_tac_from_pars(input_tac, time_steps, params, time_subset=None, input_tac2=None):
 
     print 'params.shape',params.shape
     params1={'mtt':params[...,0],'bv':params[...,1],'sigma':params[...,3]}
@@ -215,14 +251,16 @@ def calc_tissue_tac_from_pars(input_tac, input_tac2, time_steps, time_subset, pa
                                 params = params1,
                                 time_steps=time_steps,
                                t_subset=time_subset)
-
-    tac2 = calc_tissue_tacs_mrx(input_tac2,
-                                params = params2,
-                                time_steps=time_steps,
-                               t_subset=time_subset)
+    if input_tac2:
+        print 1
+        tac2 = calc_tissue_tacs_mrx(input_tac2,
+                                    params = params2,
+                                    time_steps=time_steps,
+                                    t_subset=time_subset)
+    else:
+       tac2=0
     tacs = tac1+tac2
     return tacs
-
 
 def calc_tissue_tac(input_tac, mtt, bv, t, lag=0):
     """
@@ -251,7 +289,6 @@ def calc_tissue_tac(input_tac, mtt, bv, t, lag=0):
     final_arr = np.array([interpolate.splint(ft, tt, input_tac) for ft, tt in zip(from_t, t2)])
     return (final_arr * bv) / mtt
 
-
 def calc_tissue_tac_conv(input_tac, mtt, bv, time_steps, t_subset=None, rc_family='trap', sigma=1):
     if rc_family == 'trap':
         rc_func = lambda x, y, z: make_rc_trap(x, y, z)
@@ -266,30 +303,31 @@ def calc_tissue_tac_conv(input_tac, mtt, bv, time_steps, t_subset=None, rc_famil
         out = out[subset]
     return out
 
-def calc_tissue_tacs_mrx(input_tac, params, time_steps, t_subset=None):
+def calc_tissue_tacs_mrx(input_tac, params, time_steps, t_subset=None,t_res=1):
     """
-    params - dictionary w keys: 'mtt','bv','sigma'
+    params - dictionary w keys: 'mtt','bv','sigma','lag'
     """
     from scipy import signal
     #print 'max params',np.max(params['mtt']),np.max(params['sigma']),np.max(params['bv'])
     out = np.array([[]])    
     #print t.shape
     params_num = params['mtt'].shape[0]
+
     for i_to,i_fr in zip(np.append(np.arange(50000,params_num,50000),params_num),
                                     np.arange(0,params_num,50000)):
-        print 'slices',i_to,i_fr
-        t = time_steps[...,None].repeat(len(params['mtt'][i_fr:i_to]),axis=1)
-        print t[:,0]
-
+        t = np.arange(0,np.max(time_steps),t_res)[...,None].repeat(len(params['mtt'][i_fr:i_to]),axis=1)
         rc = 1 - stats.gamma.cdf(t, 1, params['mtt'][i_fr:i_to], params['sigma'][i_fr:i_to])
+        #add lags
+
         print 'rc shape', rc.shape
         rc /= np.sum(rc,axis=0)
         rc = params['bv'][i_fr:i_to] * rc 
         print 'rc max', np.max(rc)
         print 'zeros',params['mtt'][i_fr:i_to][np.where(np.sum(rc,axis=0)==0)],params['sigma'][i_fr:i_to][np.where(np.sum(rc,axis=0)==0)],params['bv'][i_fr:i_to][np.where(np.sum(rc,axis=0)==0)]
         #rc = s_rc / np.sum(rc,axis=0)
-        
-        #plt.plot(time_steps,rc)
+        #plt.plot(time_steps,input_tac)
+        #plt.show()
+        #plt.plot(t,rc)
         #plt.show()
     
         tacs = signal.fftconvolve(input_tac[:,None], rc)
@@ -297,10 +335,11 @@ def calc_tissue_tacs_mrx(input_tac, params, time_steps, t_subset=None):
 
         if not t_subset is None:
           subset = []
-          sub0=t_subset[0]
+          sub0=0
           print sub0
 
           for i in  t_subset:
+            print i,time_steps
             print np.where(time_steps == i-sub0)
 
             subset.append(np.where(time_steps == i-sub0)[0][0])
@@ -311,6 +350,54 @@ def calc_tissue_tacs_mrx(input_tac, params, time_steps, t_subset=None):
             print s
             out = tacs[subset]
           print 'subset shape', out.shape
+        else:
+            out=tacs
+
+    print out.shape, np.max(out)
+    return out
+
+def calc_tissue_tacs_mrx_3gamma(input_tac, params, time_steps, t_subset=None,t_res=1):
+    """
+    params - dictionary w keys: 'a','bv','loc','scale'
+    """
+    from scipy import signal
+    #print 'max params',np.max(params['mtt']),np.max(params['sigma']),np.max(params['bv'])
+    out = np.array([[]])
+    #print t.shape
+    params_num = params['a'].shape[0]
+
+    for i_to,i_fr in zip(np.append(np.arange(50000,params_num,50000),params_num),
+                                    np.arange(0,params_num,50000)):
+        t = np.arange(0,np.max(time_steps),t_res)[...,None].repeat(len(params['a'][i_fr:i_to]),axis=1)
+        rc = 1 - stats.gamma.cdf(t, params['a'][i_fr:i_to], params['loc'][i_fr:i_to], params['scale'][i_fr:i_to])
+        #add lags
+
+        rc /= np.sum(rc,axis=0)
+        rc = params['bv'][i_fr:i_to] * rc
+
+
+        tacs = signal.fftconvolve(input_tac[:,None], rc)
+
+
+        if not t_subset is None:
+          subset = []
+          sub0=0
+          print sub0
+
+          for i in  t_subset:
+            print i,time_steps
+            print np.where(time_steps == i-sub0)
+
+            subset.append(np.where(time_steps == i-sub0)[0][0])
+
+          try:
+            out = np.append(out,tacs[subset],axis=1)
+          except ValueError,s:
+            print s
+            out = tacs[subset]
+          print 'subset shape', out.shape
+        else:
+            out=tacs
 
     print out.shape, np.max(out)
     return out
