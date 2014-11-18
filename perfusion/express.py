@@ -1,7 +1,10 @@
 # -*- coding: utf8 -*-
+import gc
+
 import numpy as np
-from scipy import interpolate, stats
+from scipy import interpolate, stats, signal
 import matplotlib.pyplot as plt
+import json
 
 import pyximport
 import itertools
@@ -135,11 +138,114 @@ def perf_pars_gen(bvs,mtts,sigmas,lags=(0,),bvs2=None,mtts2=None,sigmas2=None,la
 
 def combine_pars(**kwargs):
     lists_of_values = tuple([list(i) for i in kwargs.values()])
+    print 'tuple generated',lists_of_values
     pars = np.array([i for i in itertools.product(*lists_of_values)])
+    print 'array generated'
     out_dict = {}
     for k, vi in zip(kwargs.keys(), range(pars.shape[1])):
         out_dict[k] = pars[:, vi]
     return out_dict
+def gen_fname(**kwargs):
+    #bv,a,loc,scale,bf,mtt,full=True,prefix='pars',lag=0,
+    full=True
+    white_list=('prefix','dist','a','b','loc','scale','bv','lag','bf','mtt')
+    ranges = dict((k,kwargs[k]) for k in kwargs if k in white_list)
+    #ranges={'bv':bv,'a':a,'loc':loc,'scale':scale,'bf':bf,'mtt':mtt,'prefix':prefix,'lag':lag}
+    format_str = lambda x: format(x,'g')
+    fname_l =[]
+    for k in white_list:
+        try:
+            ranges[k]=map(format_str, ranges[k])
+            s = '-'.join([k,]+ranges[k])
+            fname_l.append(s)
+        except:
+            if k == 'prefix':
+                fname_l.append(ranges[k])
+            pass
+
+
+
+
+    fname='_'.join(fname_l)
+
+    """
+    try:
+        fname='{prefix}_a-{a[0]}-{a[1]}-{a[2]}_loc-{loc[0]}-{loc[1]}-{loc[2]}_scale-{scale[0]}-{scale[1]}-{scale[2]}_bv-{bv[0]}-{bv[1]}-{bv[2]}\
+_lag-{lag}_bf-{bf[0]}-{bf[1]}_mtt-{mtt[0]}-{mtt[1]}'\
+        .format(**ranges)
+    except KeyError,s:
+        print s
+        fname='{prefix}_a-{a[0]}-{a[1]}-{a[2]}_loc-{loc[0]}-{loc[1]}-{loc[2]}_scale-{scale[0]}-{scale[1]}-{scale[2]}_bv-{bv[0]}-{bv[1]}-{bv[2]}\
+_bf-{bf[0]}-{bf[1]}_mtt-{mtt[0]}-{mtt[1]}'\
+        .format(**ranges)
+    """
+    return fname
+
+def fname_to_range(fname):
+    fname = fname.strip('.npy')
+    out=[i.split('-') for i in fname.split('_')][1:]
+    out=dict([[i[0],tuple(map(float,i[1:]))] for i in out])
+    return out
+
+def save_pars(pars,fname):
+    pars = dict([[k,list(v)] for k,v in pars.items()])
+    print 'presave made'
+    with open(fname, 'wb') as fp:
+        json.dump(pars, fp)
+    print 'saved'
+    return True
+def load_pars(fname):
+    with open(fname, 'rb') as fp:
+        pars_subset = json.load(fp)
+        pars_subset = dict([[k,np.array(v)] for k,v in pars_subset.items()])
+    return pars_subset
+def load_rc(fname):
+    return np.load(fname)
+def save_rc(rc,fname):
+    np.save(fname,rc)
+
+def filter_pars(pars,mtt_range=(0,np.inf),bv_range=(0,np.inf),bf_range=(0,np.inf),time_max=None,dist=None):
+    mtt_array=(pars['a']*pars['scale']+pars['loc'])
+    bv_array=pars['bv']
+    bf_array=bv_array/mtt_array
+    print 'all',pars['a'].shape
+    mtt_mask = (mtt_range[0]<mtt_array) & (mtt_array<mtt_range[1])
+    print 'mtt',np.sum(mtt_mask)
+    bv_mask = (bv_range[0]<bv_array) & (bv_array<bv_range[1])
+    print 'bv',np.sum(bv_mask)
+    bf_mask = (bf_range[0]<bf_array) & (bf_array<bf_range[1])
+    print 'bf', np.sum(bf_mask)
+    mask = bf_mask & bv_mask & mtt_mask
+    print np.sum(mask)
+    return dict([[k,v[mask]] for k,v in pars.items()])
+
+def filter_pars_md(pars,mtt_range=(0,np.inf),bv_range=(0,np.inf),bf_range=(0,np.inf),time_max=None,dist=None):
+    d=make_distribution(pars,dist)
+    mtt_array=d.mean()
+    bv_array=pars['bv']
+    bf_array=bv_array/mtt_array
+    print 'all',pars['a'].shape
+    mtt_mask = (mtt_range[0]<mtt_array) & (mtt_array<mtt_range[1])
+    print 'mtt',np.sum(mtt_mask)
+    bv_mask = (bv_range[0]<bv_array) & (bv_array<bv_range[1])
+    print 'bv',np.sum(bv_mask)
+    bf_mask = (bf_range[0]<bf_array) & (bf_array<bf_range[1])
+    print 'bf', np.sum(bf_mask)
+
+    mask = bf_mask & bv_mask & mtt_mask
+    print np.sum(mask)
+    del d
+    pars = dict([[k,v[mask]] for k,v in pars.items()])
+    d=make_distribution(pars,dist)
+    if time_max:
+        interval_mask=d.interval(0.99)[1]<time_max
+        print 'interval', np.sum(interval_mask)
+        mask =interval_mask
+
+    print np.sum(mask)
+    return dict([[k,v[mask]] for k,v in pars.items()])
+
+
 
 def calc_tissue_tac_mrx_conv2(input_tac, input_tac2, time_steps, time_subset, rc_type, mtts, bvs, rc_sigma=(0.5,), lags=(0,)):
     """
@@ -325,11 +431,102 @@ def calc_tissue_tacs_mrx(input_tac, params, time_steps, t_subset=None,t_res=1):
     print out.shape, np.max(out)
     return out
 
+def calc_rc_big(params, time_res, maxtime=100):
+    params_num = params['a'].shape[0]
+    out_rc = np.array([[]])
+    for i_to,i_fr in zip(np.append(np.arange(50000,params_num,50000),params_num),
+                                    np.arange(0,params_num,50000)):
+
+        rc = calc_rc(dict([[k,v[i_fr:i_to]] for k,v in params.items()]),time_res,maxtime)
+        try:
+            out_rc = np.append(out_rc,rc,axis=1)
+        except ValueError,s:
+            print s
+            out_rc = rc
+
+    return out_rc
+
+def calc_rc(params,time_res,maxtime=100):
+    t = np.arange(0, maxtime, time_res)[...,None].repeat(len(params['a']),axis=1)
+    rc = 1 - stats.gamma.cdf(t, params['a'], params['loc'], params['scale'])
+    rc /= np.sum(rc,axis=0)
+    return params['bv'] * rc
+
+def make_distribution(params,dist):
+    distribution={'gamma':{'func':stats.gamma,'white_list':('a','loc','scale')},
+                  'beta':stats.beta,
+                  'alpha':stats.alpha,
+                  'norm':stats.norm,
+                  'lognorm':stats.lognorm}
+    d=distribution[dist]
+    return d['func'](**dict((k,params[k]) for k in params if k in d['white_list'] ))
+
+def calc_pdfs(params, time_res, maxtime=100):
+    params_num = params['a'].shape[0]
+    out_rc = np.array([[]])
+    for i_to,i_fr in zip(np.append(np.arange(50000,params_num,50000),params_num),
+                                    np.arange(0,params_num,50000)):
+        t = np.arange(0, maxtime, time_res)[...,None].repeat(len(params['a'][i_fr:i_to]),axis=1)
+        rc = stats.gamma.pdf(t, params['a'][i_fr:i_to], params['loc'][i_fr:i_to], params['scale'][i_fr:i_to])
+
+        try:
+            out_rc = np.append(out_rc,rc,axis=1)
+        except ValueError,s:
+            print s
+            out_rc = rc
+
+    return out_rc
+
+def calc_tac_gamma(input_tac, rc, time_subset=None, t_res=1, t_lag=0, loop_size=50000):
+    """
+    Compute tissue TACs from input TAC and tissue residue function with FFT convolution
+    :param input_tac: 1d np.array of input TAC
+    :param rc: nd np.array of residue curves
+    :param time_subset: times in seconds that will be subseted from result TACS
+    :param t_res: time resolution in seconds of input and residue TACs (should be same for the both TACs)
+    :param t_lag: time in seconds needed for blood path from input to tissue
+    :param loop_size: size of tacs calculated in one loop to prevent MemmoryError
+    :return: nd np.array of subseted tissue TACs
+    """
+    rc_num = rc.shape[1]
+    out = np.array([[]])
+    time_steps=np.round(np.arange(time_subset[0], time_subset[-1] + 1, t_res),1)
+    #lag input TAC
+    input_tac= np.append(np.zeros(t_lag/t_res),input_tac)
+    print rc_num
+    for i_to,i_fr in zip(np.append(np.arange(loop_size,rc_num,loop_size),rc_num),
+                                    np.arange(0,rc_num,loop_size)):
+        print i_to,i_fr
+        #print rc[:,i_fr:i_to].shape
+        tacs_temp = signal.fftconvolve(input_tac[:,None], rc[:,i_fr:i_to])
+
+        if not time_subset is None:
+            subset = []
+            sub0=0
+            #print sub0
+
+            for i in  time_subset:
+                #print i,time_steps
+                #print np.where(time_steps == i-sub0)
+
+                subset.append(np.where(time_steps == i-sub0)[0][0])
+
+            try:
+                out = np.append(out,tacs_temp[subset],axis=1)
+            except ValueError,s:
+                print s
+                out = tacs_temp[subset]
+                #print 'subset shape', out.shape
+        else:
+            out=tacs_temp
+    return out
+
+
 def calc_tissue_tacs_mrx_3gamma(input_tac, params, time_steps, time_subset=None,t_res=1):
     """
     params - dictionary w keys: 'a','bv','loc','scale'
     """
-    from scipy import signal
+
     #print 'max params',np.max(params['mtt']),np.max(params['sigma']),np.max(params['bv'])
     out = np.array([[]])
     #print t.shape

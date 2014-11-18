@@ -92,13 +92,14 @@ class Roi():
         for i in r_name:
             for t in self.get_time_list():
                 d = self.rois[i]['series'][t]['data']
-                print i, t
+                print i, t,d
                 try:
                     self.rois[i]['series'][t]['mean_density'] = np.mean(d)
                     self.rois[i]['series'][t]['median_density'] = np.median(d)
                     self.rois[i]['series'][t]['sd_density'] = np.std(d)
                 except TypeError as s:
-                    if s[0] == "unsupported operand type(s) for /: 'Vividict' and 'float'":
+                    if s[0] == "unsupported operand type(s) for /: 'Vividict' and 'float'" or\
+                       s[0] == "unsupported operand type(s) for /: 'Vividict' and 'int'":
                         pass
                     else:
                         print s, type(s), s[0]
