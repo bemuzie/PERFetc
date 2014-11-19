@@ -1,0 +1,10 @@
+-gamma_test
+dist:gamma
+bv range: 0.1,0.9,0.05
+a range: 0.01,100,0.2
+max time: 100
+-beta_test
+dist:gamma
+bv range: 0.1,0.9,0.05
+a range: 0.01,1,0.02; 1,10,2
+max time: 100
