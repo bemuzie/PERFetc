@@ -136,7 +136,7 @@ def perf_pars_gen(bvs,mtts,sigmas,lags=(0,),bvs2=None,mtts2=None,sigmas2=None,la
     print 'params shape', params.shape
     return params
 
-def combine_pars(**kwargs):
+def combine_pars1(**kwargs):
     lists_of_values = tuple([list(i) for i in kwargs.values()])
     print 'tuple generated',lists_of_values
     pars = np.array([i for i in itertools.product(*lists_of_values)])
@@ -145,10 +145,31 @@ def combine_pars(**kwargs):
     for k, vi in zip(kwargs.keys(), range(pars.shape[1])):
         out_dict[k] = pars[:, vi]
     return out_dict
+def combine_pars(pars_to_combine,mtt_range=(0,np.inf),bv_range=(0,np.inf),bf_range=(0,np.inf),time_max=None,dist=None):
+    lists_of_values = tuple([list(i) for i in pars_to_combine.values()])
+
+    print 'tuple generated', lists_of_values
+    combined_pars = itertools.product(*lists_of_values)
+    filtered_pars=dict([(k,[]) for k in pars_to_combine.keys()])
+    made_i=0
+    while True:
+        pars = np.array([i for i,ii in zip(combined_pars,range(10**6))])
+        made_i+=len(pars)
+        print 'made',made_i
+        if len(pars)==0:
+            break
+        out_dict = {}
+        for k, vi in zip(pars_to_combine.keys(), range(pars.shape[1])):
+            out_dict[k] = pars[:, vi]
+        fp = filter_pars_md(out_dict,mtt_range,bv_range,bf_range,time_max,dist)
+        for k,v in fp.items():
+            filtered_pars[k]=np.append(filtered_pars[k],(list(v)))
+    return filtered_pars
+
 def gen_fname(**kwargs):
     #bv,a,loc,scale,bf,mtt,full=True,prefix='pars',lag=0,
     full=True
-    white_list=('prefix','dist','a','b','loc','scale','bv','lag','bf','mtt')
+    white_list=('prefix','dist','a','b','loc','scale','bv','lag','bf','mtt','maxtime')
     ranges = dict((k,kwargs[k]) for k in kwargs if k in white_list)
     #ranges={'bv':bv,'a':a,'loc':loc,'scale':scale,'bf':bf,'mtt':mtt,'prefix':prefix,'lag':lag}
     format_str = lambda x: format(x,'g')
@@ -159,7 +180,7 @@ def gen_fname(**kwargs):
             s = '-'.join([k,]+ranges[k])
             fname_l.append(s)
         except:
-            if k == 'prefix':
+            if k in ['prefix','dist']:
                 fname_l.append(ranges[k])
             pass
 
@@ -220,11 +241,12 @@ def filter_pars(pars,mtt_range=(0,np.inf),bv_range=(0,np.inf),bf_range=(0,np.inf
     return dict([[k,v[mask]] for k,v in pars.items()])
 
 def filter_pars_md(pars,mtt_range=(0,np.inf),bv_range=(0,np.inf),bf_range=(0,np.inf),time_max=None,dist=None):
+    print 'all',pars['a'].shape
     d=make_distribution(pars,dist)
     mtt_array=d.mean()
     bv_array=pars['bv']
     bf_array=bv_array/mtt_array
-    print 'all',pars['a'].shape
+
     mtt_mask = (mtt_range[0]<mtt_array) & (mtt_array<mtt_range[1])
     print 'mtt',np.sum(mtt_mask)
     bv_mask = (bv_range[0]<bv_array) & (bv_array<bv_range[1])
@@ -235,9 +257,11 @@ def filter_pars_md(pars,mtt_range=(0,np.inf),bv_range=(0,np.inf),bf_range=(0,np.
     mask = bf_mask & bv_mask & mtt_mask
     print np.sum(mask)
     del d
-    pars = dict([[k,v[mask]] for k,v in pars.items()])
-    d=make_distribution(pars,dist)
-    if time_max:
+
+
+    if time_max and dist:
+        pars = dict([[k,v[mask]] for k,v in pars.items()])
+        d=make_distribution(pars,dist)    
         interval_mask=d.interval(0.99)[1]<time_max
         print 'interval', np.sum(interval_mask)
         mask =interval_mask
@@ -454,7 +478,7 @@ def calc_rc(params,time_res,maxtime=100):
 
 def make_distribution(params,dist):
     distribution={'gamma':{'func':stats.gamma,'white_list':('a','loc','scale')},
-                  'beta':stats.beta,
+                  'beta':{'func':stats.beta,'white_list':('a','b','loc','scale')},
                   'alpha':stats.alpha,
                   'norm':stats.norm,
                   'lognorm':stats.lognorm}
