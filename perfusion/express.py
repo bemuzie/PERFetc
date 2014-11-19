@@ -153,7 +153,7 @@ def combine_pars(pars_to_combine,mtt_range=(0,np.inf),bv_range=(0,np.inf),bf_ran
     filtered_pars=dict([(k,[]) for k in pars_to_combine.keys()])
     made_i=0
     while True:
-        pars = np.array([i for i,ii in zip(combined_pars,range(10**6))])
+        pars = np.array([i for i,ii in zip(combined_pars,range(2*10**6))])
         made_i+=len(pars)
         print 'made',made_i
         if len(pars)==0:
@@ -261,8 +261,11 @@ def filter_pars_md(pars,mtt_range=(0,np.inf),bv_range=(0,np.inf),bf_range=(0,np.
 
     if time_max and dist:
         pars = dict([[k,v[mask]] for k,v in pars.items()])
-        d=make_distribution(pars,dist)    
-        interval_mask=d.interval(0.99)[1]<time_max
+        d=make_distribution(pars,dist)
+        interv=d.interval(0.99)
+        interval_mask1=interv[1]<time_max
+        interval_mask2=interv[0]>0
+        interval_mask= interval_mask1 & interval_mask2
         print 'interval', np.sum(interval_mask)
         mask =interval_mask
 
