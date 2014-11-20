@@ -152,6 +152,7 @@ def combine_pars(pars_to_combine,mtt_range=(0,np.inf),bv_range=(0,np.inf),bf_ran
     combined_pars = itertools.product(*lists_of_values)
     filtered_pars=dict([(k,[]) for k in pars_to_combine.keys()])
     made_i=0
+    saved_i=0
     while True:
         pars = np.array([i for i,ii in zip(combined_pars,range(2*10**6))])
         made_i+=len(pars)
@@ -164,6 +165,9 @@ def combine_pars(pars_to_combine,mtt_range=(0,np.inf),bv_range=(0,np.inf),bf_ran
         fp = filter_pars_md(out_dict,mtt_range,bv_range,bf_range,time_max,dist)
         for k,v in fp.items():
             filtered_pars[k]=np.append(filtered_pars[k],(list(v)))
+
+        saved_i+=len(fp.values()[0])
+        print 'saved',saved_i
     return filtered_pars
 
 def gen_fname(**kwargs):
@@ -244,17 +248,21 @@ def filter_pars_md(pars,mtt_range=(0,np.inf),bv_range=(0,np.inf),bf_range=(0,np.
     print 'all',pars['a'].shape
     d=make_distribution(pars,dist)
     mtt_array=d.mean()
+    mtt_mask = (mtt_range[0]<mtt_array) & (mtt_array<mtt_range[1])
+    print 'mtt',np.sum(mtt_mask)
+    pars = dict([[k,v[mtt_mask]] for k,v in pars.items()])
+    d=make_distribution(pars,dist)
+    mtt_array=mtt_array[mtt_mask]
     bv_array=pars['bv']
     bf_array=bv_array/mtt_array
 
-    mtt_mask = (mtt_range[0]<mtt_array) & (mtt_array<mtt_range[1])
-    print 'mtt',np.sum(mtt_mask)
+
     bv_mask = (bv_range[0]<bv_array) & (bv_array<bv_range[1])
     print 'bv',np.sum(bv_mask)
     bf_mask = (bf_range[0]<bf_array) & (bf_array<bf_range[1])
     print 'bf', np.sum(bf_mask)
 
-    mask = bf_mask & bv_mask & mtt_mask
+    mask = bf_mask & bv_mask
     print np.sum(mask)
     del d
 

@@ -14,7 +14,7 @@ ranges={'bv':(0.1,0.9,0.05),
         'loc':(-20,20,1),
         'scale':(5,60,1),
         'bf':(20,300),
-        'mtt':(10,30),
+        'mtt':(10,15),
         'maxtime':100,
         'dist':'beta'
         }
@@ -52,7 +52,7 @@ def create_all():
                       time_max=ranges['maxtime'],
                       dist=ranges['dist'])
     """
-    a_range=np.concatenate([np.arange(0.01,2,0.05),np.arange(2,10,0.2),np.arange(10,60,1)])
+    a_range=rang
     b_range=np.concatenate([np.arange(0.01,2,0.05),np.arange(2,10,0.2),np.arange(10,60,1)])
 
     p=express.combine_pars(pars_to_combine=dict(bv=np.arange(*ranges['bv']),
