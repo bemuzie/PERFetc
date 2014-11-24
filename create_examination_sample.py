@@ -6,9 +6,11 @@ import numpy as np
 import workflow
 from perfusion import express
 import os
+def lag_input(input_curve,LAG=10,scale=1.1):
+    return np.append(np.repeat(input_curve[0],LAG),input_curve)[:input_curve.shape[0]]*scale
 
 #set const
-ROOT_FOLDER_LIN = '/media/WORK/_PERF/OBUKHOVA I.V. 11.10.1976/20140630_664'
+ROOT_FOLDER_LIN = '/media/WORK_/_PERF/OBUKHOVA I.V. 11.10.1976/20140630_664'
 wf = workflow.Workflow(ROOT_FOLDER_LIN)
 wf.dir_manager.add_path('FILTERED', 'filtered', add_to='nii')
 wf.setup_env(mricron='/home/denest/mricron/dcm2nii')
@@ -18,6 +20,9 @@ wf.setup_env(mricron='/home/denest/mricron/dcm2nii')
 #wf.filter_vols(intensity_sigma=40, gaussian_sigma=1.5)
 wf.update_label()
 AORTA = np.array(wf.rois.get_concentrations('aorta'))
+print AORTA
+times=np.array(wf.rois.get_time_list())
+print times
 """
 AORTA = np.array([44.64877990864637,
          60.49938896933365,
@@ -39,7 +44,7 @@ AORTA = np.array([44.64877990864637,
          101.09165687256322,
          94.59840815055142])
 """
-
+"""
 AORTA = np.array([44.64877990864637,
          60.49938896933365,
          185.7885957985045,
@@ -79,13 +84,14 @@ times = np.array([10,
                   91,
                   101,
                   111])
-
+"""
 #make input tac
 new_time_steps = np.arange(times[0], times[-1] + 1, 1)
 input_tac_smoothed, input_tac_splines = express.spline_interpolation(AORTA, times, new_time_steps)
-
-
-
+time_steps = np.arange(10,60,2)
+#lag and scale input
+input_tac_smoothed = lag_input(input_tac_smoothed)
+input_tac_smoothed-=input_tac_smoothed[0]
 
 pars_subset = express.perf_pars_gen(bvs=np.arange(0.01,0.7,0.1),
                                     mtts=np.arange(2,40,5),
@@ -95,7 +101,7 @@ pars_subset = express.perf_pars_gen(bvs=np.arange(0.01,0.7,0.1),
                                     mtts2=(0,),
                                     sigmas2=(0,),
                                     lags2=(0,))
-pancreatic_pars = np.array([[3,0.21,0,11,0,0,0,0],
+pancreatic_pars = np.array([[1.5,0.31,0,27,0,0,0,0],
                             [9,0.28,0,16,0,0,0,0],
                             [6,0.41,0,16,0,0,0,0],
                             [11,0.25,0,11,0,0,0,0],
@@ -103,34 +109,35 @@ pancreatic_pars = np.array([[3,0.21,0,11,0,0,0,0],
                             [1,0.41,0,15,0,0,0,0],
                             [7,0.29,0,27,0,0,0,0]
                            ])
-tumor_pars = np.array([[3,0.19,0,19,0,0,0,0],])
+tumor_pars = np.array([[2,0.28,0,35,0,0,0,0],])
 
 
 
 pancreatic_tac = express.calc_tissue_tac_from_pars(input_tac_smoothed,
                                           time_steps=new_time_steps,
-                                          time_subset=new_time_steps,
+                                          time_subset=time_steps,
                                           params=pancreatic_pars )
 tumor_tac = express.calc_tissue_tac_from_pars(input_tac_smoothed,
                                           time_steps=new_time_steps,
-                                          time_subset=new_time_steps,
+                                          time_subset=time_steps,
                                           params=tumor_pars )
 plt.plot(times,AORTA/10.)
+plt.plot(new_time_steps,input_tac_smoothed/10.)
 #print AORTA>100
 #print np.where(AORTA>100)[0][0]
 print pancreatic_tac[0]
 #plt.plot(new_time_steps,pancreatic_tac,alpha=0.3)
-plt.plot(new_time_steps,pancreatic_tac[:,0],'g')
+plt.plot(time_steps,pancreatic_tac[:,0],'g')
 #plt.plot(new_time_steps,pancreatic_tac[:,1],'b')
-plt.plot(new_time_steps,pancreatic_tac[:,2],'k')
+plt.plot(time_steps,pancreatic_tac[:,2],'k')
 diff_tac=pancreatic_tac-tumor_tac
 #plt.plot(new_time_steps,diff_tac,'--',alpha=.5)
-plt.plot(new_time_steps,diff_tac[:,0],'g--')
+plt.plot(time_steps,diff_tac[:,0],'g--')
 #plt.plot(new_time_steps,diff_tac[:,1],'b--')
-plt.plot(new_time_steps,diff_tac[:,2],'k--')
+plt.plot(time_steps,diff_tac[:,2],'k--')
 
 
-plt.plot(new_time_steps,tumor_tac,'r')
+plt.plot(time_steps,tumor_tac,'r')
 #plt.plot(new_time_steps,tumor_tac,'k--')
 
 #plt.plot(times,wf.rois.get_concentrations('pancreas'),'k')
@@ -157,3 +164,17 @@ with open(os.path.join(CSV_PATH),'a') as summary_csv:
             for t,rv in zip(times,r_tac):
                   summary_csv.write(','.join(map(str,[p_id,t,r_name,rv,'\n'])))
 """
+
+
+CSV_PATH = '/home/denest/DISSER/R/data/ts_hu.csv'
+AORTA_SMOOTHED = lag_input(express.spline_interpolation(AORTA, times, time_steps)[0])
+
+rois={'aorta':np.round(AORTA_SMOOTHED),
+      'pancreas':np.round(np.ravel(pancreatic_tac[:,0]) + np.random.randint(40,60)),
+      'tumor':np.round(np.ravel(tumor_tac)+ np.random.randint(40,60))}
+
+p_id='obukhova_kovalchuk_test6'
+with open(os.path.join(CSV_PATH),'a') as summary_csv:
+      for t in enumerate(time_steps):
+            list_to_write = [p_id,t[1],rois['aorta'][t[0]],rois['pancreas'][t[0]],rois['tumor'][t[0]]]
+            summary_csv.write(','.join(map(str,list_to_write ))+'\n')

@@ -8,3 +8,4 @@ dist:gamma
 bv range: 0.1,0.9,0.05
 a range: 0.01,1,0.02; 1,10,2
 max time: 100
+mtt range:1,6;7,
