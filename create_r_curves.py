@@ -85,7 +85,21 @@ def create_pars_subset():
         express.save_pars(pars_subset,pars_fname)
     print s
 ##Create and save all residue curves
-def create_rc_subset():
+def create_rc_subset(pars_folder, output_folder):
+    for p,d,f in os.walk(pars_folder):
+        for i in f:
+            pars_subset=express.load_pars(os.path.join(pars_folder,i))
+            ranges = express.fname_to_range(i)
+            ranges['dist']='gamma' #temporary
+            rc_fname = express.gen_fname(prefix='rc',full=True,**ranges)
+
+            print ranges
+            #express.filter_pars_md(pars_subset,time_max=100,dist='gamma')
+            rc = express.calc_rc_big(pars_subset,time_res=0.1)
+            express.save_rc(rc,os.path.join(output_folder,rc_fname))
+
+    """
+    print express.fname_to_range(i)
     s=0
     for mtt_fr,mtt_to in zip(range(1,60,5),range(6,62,5)):
         ranges['mtt_mask']=(mtt_fr,mtt_to)
@@ -96,9 +110,9 @@ def create_rc_subset():
         rc=express.calc_rc_big(pars_subset,1)
         express.save_rc(rc,rc_fname)
         print mtt_fr,mtt_to
-
-
     print s
+    """
+
 def read_rc(pathto):
     for p,d,f in os.walk(pathto):
         for i in f:
@@ -106,7 +120,13 @@ def read_rc(pathto):
 
 
 if __name__=='__main__':
-    create_all()
-    create_pars_subset()
-    #create_rc_subset()
+    FILES_FOLDER = '/home/denest/PERFetc_files'
+    PARS_FOLDER = 'pars'
+    RC_FOLDER = 'rc'
+    root_folder = os.path.abspath(FILES_FOLDER)
+    pars_folder = os.path.join(root_folder,PARS_FOLDER)
+    rc_folder = os.path.join(root_folder,RC_FOLDER)
+    #create_all()
+    #create_pars_subset()
+    create_rc_subset(pars_folder,rc_folder)
     #read_rc(os.path.abspath('rc_100_1'))

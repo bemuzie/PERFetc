@@ -6,11 +6,11 @@ import numpy as np
 import workflow
 from perfusion import express
 import os
-def lag_input(input_curve,LAG=10,scale=1.1):
+def lag_input(input_curve,LAG=0,scale=1):
     return np.append(np.repeat(input_curve[0],LAG),input_curve)[:input_curve.shape[0]]*scale
 
 #set const
-ROOT_FOLDER_LIN = '/media/WORK_/_PERF/OBUKHOVA I.V. 11.10.1976/20140630_664'
+ROOT_FOLDER_LIN = '/media/WORK_/_PERF/BENDER  ^V.A/20111206_1445'
 wf = workflow.Workflow(ROOT_FOLDER_LIN)
 wf.dir_manager.add_path('FILTERED', 'filtered', add_to='nii')
 wf.setup_env(mricron='/home/denest/mricron/dcm2nii')
@@ -101,7 +101,7 @@ pars_subset = express.perf_pars_gen(bvs=np.arange(0.01,0.7,0.1),
                                     mtts2=(0,),
                                     sigmas2=(0,),
                                     lags2=(0,))
-pancreatic_pars = np.array([[1.5,0.31,0,27,0,0,0,0],
+pancreatic_pars = np.array([[1,0.46,0,20,0,0,0,0],
                             [9,0.28,0,16,0,0,0,0],
                             [6,0.41,0,16,0,0,0,0],
                             [11,0.25,0,11,0,0,0,0],
@@ -109,7 +109,7 @@ pancreatic_pars = np.array([[1.5,0.31,0,27,0,0,0,0],
                             [1,0.41,0,15,0,0,0,0],
                             [7,0.29,0,27,0,0,0,0]
                            ])
-tumor_pars = np.array([[2,0.28,0,35,0,0,0,0],])
+tumor_pars = np.array([[10,0.2,0,35,0,0,0,0],])
 
 
 
@@ -173,7 +173,7 @@ rois={'aorta':np.round(AORTA_SMOOTHED),
       'pancreas':np.round(np.ravel(pancreatic_tac[:,0]) + np.random.randint(40,60)),
       'tumor':np.round(np.ravel(tumor_tac)+ np.random.randint(40,60))}
 
-p_id='obukhova_kovalchuk_test6'
+p_id='bender_test888'
 with open(os.path.join(CSV_PATH),'a') as summary_csv:
       for t in enumerate(time_steps):
             list_to_write = [p_id,t[1],rois['aorta'][t[0]],rois['pancreas'][t[0]],rois['tumor'][t[0]]]

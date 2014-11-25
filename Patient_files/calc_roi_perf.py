@@ -21,7 +21,7 @@ def getbest(tacs, reference, best_num=1):
 # choose_tacs
 
 if __name__ == "__main__":
-    ROOT_FOLDER_LIN = './'
+    ROOT_FOLDER_LIN = '/media/WORK_/_PERF/BENDER  ^V.A/20111206_1445'
     wf = workflow.Workflow(ROOT_FOLDER_LIN)
     wf.update_label()
     #get time steps

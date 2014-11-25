@@ -210,6 +210,7 @@ def fname_to_range(fname):
     fname = fname.strip('.npy')
     out=[i.split('-') for i in fname.split('_')][1:]
     out=dict([[i[0],tuple(map(float,i[1:]))] for i in out])
+
     return out
 
 def save_pars(pars,fname):
@@ -224,6 +225,8 @@ def load_pars(fname):
         pars_subset = json.load(fp)
         pars_subset = dict([[k,np.array(v)] for k,v in pars_subset.items()])
     return pars_subset
+
+
 def load_rc(fname):
     return np.load(fname)
 def save_rc(rc,fname):
@@ -466,13 +469,12 @@ def calc_tissue_tacs_mrx(input_tac, params, time_steps, t_subset=None,t_res=1):
     print out.shape, np.max(out)
     return out
 
-def calc_rc_big(params, time_res, maxtime=100):
+def calc_rc_big(params, time_res, maxtime=100, dist='gamma'):
     params_num = params['a'].shape[0]
     out_rc = np.array([[]])
     for i_to,i_fr in zip(np.append(np.arange(50000,params_num,50000),params_num),
                                     np.arange(0,params_num,50000)):
-
-        rc = calc_rc(dict([[k,v[i_fr:i_to]] for k,v in params.items()]),time_res,maxtime)
+        rc = calc_rc(dict([[k,v[i_fr:i_to]] for k,v in params.items()]),time_res,maxtime,dist)
         try:
             out_rc = np.append(out_rc,rc,axis=1)
         except ValueError,s:
@@ -481,9 +483,10 @@ def calc_rc_big(params, time_res, maxtime=100):
 
     return out_rc
 
-def calc_rc(params,time_res,maxtime=100):
+def calc_rc(params,time_res,maxtime=100,dist='gamma'):
     t = np.arange(0, maxtime, time_res)[...,None].repeat(len(params['a']),axis=1)
-    rc = 1 - stats.gamma.cdf(t, params['a'], params['loc'], params['scale'])
+    d=make_distribution(params,dist)
+    rc = 1 - d.cdf(t)
     rc /= np.sum(rc,axis=0)
     return params['bv'] * rc
 

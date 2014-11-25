@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ca7396ea-78df-4e98-901e-a045ad143151" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Patient_files/calc_roi_perf.py" afterPath="$PROJECT_DIR$/Patient_files/calc_roi_perf.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/create_examination_sample.py" afterPath="$PROJECT_DIR$/create_examination_sample.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/misc/rc_gen_settings" afterPath="$PROJECT_DIR$/misc/rc_gen_settings" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/create_r_curves.py" afterPath="$PROJECT_DIR$/create_r_curves.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/perfusion/express.py" afterPath="$PROJECT_DIR$/perfusion/express.py" />
     </list>
     <ignored path="FlowPy.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -34,34 +35,71 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="express.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="express.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/perfusion/express.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="2.6666667" vertical-offset="9188" max-vertical-offset="17784">
-              <caret line="514" column="66" selection-start-line="514" selection-start-column="61" selection-end-line="514" selection-end-column="66" />
-              <folding />
+            <state vertical-scroll-proportion="0.3" vertical-offset="2136" max-vertical-offset="3870">
+              <caret line="470" column="0" selection-start-line="470" selection-start-column="0" selection-end-line="470" selection-end-column="0" />
+              <folding>
+                <element signature="e#245#360#0" expanded="false" />
+                <element signature="e#402#583#0" expanded="false" />
+                <element signature="e#644#742#0" expanded="false" />
+                <element signature="e#814#1868#0" expanded="false" />
+                <element signature="e#814#1372#1" expanded="false" />
+                <element signature="e#1990#3276#0" expanded="false" />
+                <element signature="e#1990#2548#1" expanded="false" />
+                <element signature="e#3373#5422#0" expanded="false" />
+                <element signature="e#5457#5789#0" expanded="false" />
+                <element signature="e#5914#6767#0" expanded="false" />
+                <element signature="e#8221#8392#0" expanded="false" />
+                <element signature="e#8611#8632#0" expanded="false" />
+                <element signature="e#8660#8677#0" expanded="false" />
+                <element signature="e#8791#9331#0" expanded="false" />
+                <element signature="e#10649#14194#0" expanded="false" />
+                <element signature="e#10649#11207#1" expanded="false" />
+                <element signature="e#14298#15004#0" expanded="false" />
+                <element signature="e#15061#15916#0" expanded="false" />
+                <element signature="e#15061#15559#1" expanded="false" />
+                <element signature="e#16022#16416#0" expanded="false" />
+                <element signature="e#16502#18276#0" expanded="false" />
+                <element signature="e#16502#16570#1" expanded="false" />
+                <element signature="e#19540#20113#0" expanded="false" />
+                <element signature="e#20207#21883#0" expanded="false" />
+                <element signature="e#20207#20792#1" expanded="false" />
+                <element signature="e#21980#23294#0" expanded="false" />
+                <element signature="e#21980#22046#1" expanded="false" />
+                <element signature="e#23332#23484#0" expanded="false" />
+                <element signature="e#23537#23709#0" expanded="false" />
+                <element signature="e#23760#23906#0" expanded="false" />
+                <element signature="e#23976#24220#0" expanded="false" />
+                <element signature="e#24298#25703#0" expanded="false" />
+                <element signature="e#25782#27084#0" expanded="false" />
+                <element signature="e#27211#30081#0" expanded="false" />
+                <element signature="e#30257#33890#0" expanded="false" />
+                <element signature="e#34084#39804#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="calc_roi_perf.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/calc_roi_perf.py">
+        <entry file="file://$PROJECT_DIR$/Patient_files/calc_roi_perf.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1466" max-vertical-offset="2124">
-              <caret line="14" column="21" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="524" max-vertical-offset="1314">
+              <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="create_examination_sample.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="create_examination_sample.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/create_examination_sample.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.64705884" vertical-offset="1707" max-vertical-offset="2268">
-              <caret line="175" column="30" selection-start-line="175" selection-start-column="30" selection-end-line="175" selection-end-column="30" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1678" max-vertical-offset="2268">
+              <caret line="12" column="64" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="64" />
               <folding>
-                <element signature="e#838#1398#1" expanded="false" />
-                <element signature="e#1399#2385#1" expanded="false" />
+                <element signature="e#824#1384#1" expanded="false" />
+                <element signature="e#1385#2371#1" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -80,7 +118,7 @@
       <file leaf-file-name="create_r_curves2.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/create_r_curves2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="1296">
+            <state vertical-scroll-proportion="0.0" vertical-offset="490" max-vertical-offset="1296">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
@@ -97,31 +135,33 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pancreatic_phase_test.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pancreatic_phase_test.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1167" max-vertical-offset="1836">
-              <caret line="78" column="0" selection-start-line="78" selection-start-column="0" selection-end-line="78" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="create_r_curves.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/create_r_curves.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1437" max-vertical-offset="1998">
-              <caret line="83" column="41" selection-start-line="83" selection-start-column="41" selection-end-line="83" selection-end-column="41" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1066" max-vertical-offset="2142">
+              <caret line="97" column="34" selection-start-line="97" selection-start-column="34" selection-end-line="97" selection-end-column="34" />
+              <folding>
+                <element signature="e#2373#2936#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="npyio.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file:///usr/local/lib/python2.7/dist-packages/numpy/lib/npyio.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="6392" max-vertical-offset="34164">
+              <caret line="445" column="0" selection-start-line="445" selection-start-column="0" selection-end-line="445" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="rc_gen_settings" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/misc/rc_gen_settings">
+      <file leaf-file-name="fromnumeric.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file:///usr/local/lib/python2.7/dist-packages/numpy/core/fromnumeric.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="288">
-              <caret line="10" column="16" selection-start-line="10" selection-start-column="16" selection-end-line="10" selection-end-column="16" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1784" max-vertical-offset="52668">
+              <caret line="124" column="36" selection-start-line="124" selection-start-column="36" selection-end-line="124" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -189,7 +229,6 @@
         <option value="$PROJECT_DIR$/workflow.py" />
         <option value="$USER_HOME$/test_pubmed.py" />
         <option value="$PROJECT_DIR$/calc_roi_perf.py" />
-        <option value="$PROJECT_DIR$/Patient_files/calc_roi_perf.py" />
         <option value="$PROJECT_DIR$/perfusion/roi.py" />
         <option value="/media/WORK/_PERF/ARHKIPOVA  N.A. 11.06.1959/20140313_17/calc_roi_perf.py" />
         <option value="/media/WORK/_PERF/YAVNIK  G.A. 12.08.1948/20141015_993/calc_roi_perf.py" />
@@ -197,18 +236,18 @@
         <option value="$PROJECT_DIR$/misc/__init__.py" />
         <option value="$PROJECT_DIR$/rc_gen_settings" />
         <option value="$PROJECT_DIR$/misc/fileops.py" />
-        <option value="$PROJECT_DIR$/perfusion/express.py" />
-        <option value="$PROJECT_DIR$/create_r_curves.py" />
         <option value="$PROJECT_DIR$/misc/rc_gen_settings" />
         <option value="$PROJECT_DIR$/create_examination_sample.py" />
+        <option value="$PROJECT_DIR$/Patient_files/calc_roi_perf.py" />
+        <option value="$PROJECT_DIR$/perfusion/express.py" />
+        <option value="$PROJECT_DIR$/create_r_curves.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1" />
-    <option name="y" value="80" />
-    <option name="width" value="1918" />
-    <option name="height" value="1147" />
+    <option name="y" value="24" />
+    <option name="width" value="1920" />
+    <option name="height" value="1176" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -463,7 +502,7 @@
       <recent name="$PROJECT_DIR$/filters" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.create_examination_sample">
+  <component name="RunManager" selected="Python.create_r_curves">
     <configuration default="false" name="create_r_curves" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -478,27 +517,6 @@
       <module name="FlowPy" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/create_r_curves.py" />
-      <option name="PARAMETERS" value="" />
-      <RunnerSettings RunnerId="PyDebugRunner" />
-      <RunnerSettings RunnerId="PythonRunner" />
-      <ConfigurationWrapper RunnerId="PyDebugRunner" />
-      <ConfigurationWrapper RunnerId="PythonRunner" />
-      <method />
-    </configuration>
-    <configuration default="false" name="calc_roi_perf (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="/media/WORK/_PERF/ARHKIPOVA  N.A. 11.06.1959/20140313_17" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="FlowPy" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="/media/WORK/_PERF/ARHKIPOVA  N.A. 11.06.1959/20140313_17/calc_roi_perf.py" />
       <option name="PARAMETERS" value="" />
       <RunnerSettings RunnerId="PyDebugRunner" />
       <RunnerSettings RunnerId="PythonRunner" />
@@ -563,6 +581,25 @@
       <RunnerSettings RunnerId="PythonRunner" />
       <ConfigurationWrapper RunnerId="PyDebugRunner" />
       <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="calc_roi_perf" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Patient_files" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="FlowPy" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Patient_files/calc_roi_perf.py" />
+      <option name="PARAMETERS" value="" />
+      <RunnerSettings RunnerId="PyDebugRunner" />
+      <ConfigurationWrapper RunnerId="PyDebugRunner" />
       <method />
     </configuration>
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
@@ -1099,18 +1136,18 @@
       <item index="18" class="java.lang.String" itemvalue="Python.radon" />
       <item index="19" class="java.lang.String" itemvalue="Python.compilesmth" />
       <item index="20" class="java.lang.String" itemvalue="Python.create_r_curves" />
-      <item index="21" class="java.lang.String" itemvalue="Python.calc_roi_perf (1)" />
-      <item index="22" class="java.lang.String" itemvalue="Python.calc_roi_perf (2)" />
-      <item index="23" class="java.lang.String" itemvalue="Python.fileops" />
-      <item index="24" class="java.lang.String" itemvalue="Python.create_examination_sample" />
+      <item index="21" class="java.lang.String" itemvalue="Python.calc_roi_perf (2)" />
+      <item index="22" class="java.lang.String" itemvalue="Python.fileops" />
+      <item index="23" class="java.lang.String" itemvalue="Python.create_examination_sample" />
+      <item index="24" class="java.lang.String" itemvalue="Python.calc_roi_perf" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.create_examination_sample" />
-        <item index="1" class="java.lang.String" itemvalue="Python.create_r_curves" />
-        <item index="2" class="java.lang.String" itemvalue="Python.fileops" />
-        <item index="3" class="java.lang.String" itemvalue="Python.calc_roi_perf (2)" />
-        <item index="4" class="java.lang.String" itemvalue="Python.calc_roi_perf (1)" />
+        <item index="0" class="java.lang.String" itemvalue="Python.create_r_curves" />
+        <item index="1" class="java.lang.String" itemvalue="Python.calc_roi_perf" />
+        <item index="2" class="java.lang.String" itemvalue="Python.create_examination_sample" />
+        <item index="3" class="java.lang.String" itemvalue="Python.fileops" />
+        <item index="4" class="java.lang.String" itemvalue="Python.calc_roi_perf (2)" />
       </list>
     </recent_temporary>
   </component>
@@ -1262,18 +1299,18 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1" y="80" width="1918" height="1147" extended-state="0" />
+    <frame x="0" y="24" width="1920" height="1176" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32685184" sideWeight="0.47337902" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33614776" sideWeight="0.63199216" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33579335" sideWeight="0.63199216" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293718" sideWeight="0.49630412" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.41389152" sideWeight="0.15620053" order="11" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4027778" sideWeight="0.15603584" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32159847" sideWeight="0.83693933" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.328125" sideWeight="0.3514398" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16898395" sideWeight="0.6278626" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.41389152" sideWeight="0.8437995" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4027778" sideWeight="0.84396416" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32819584" sideWeight="0.49737877" order="10" side_tool="false" content_ui="tabs" />
@@ -1344,7 +1381,44 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4301">
           <caret line="142" column="30" selection-start-line="142" selection-start-column="30" selection-end-line="142" selection-end-column="30" />
-          <folding />
+          <folding>
+            <element signature="e#245#360#0" expanded="false" />
+            <element signature="e#402#583#0" expanded="false" />
+            <element signature="e#644#742#0" expanded="false" />
+            <element signature="e#814#1868#0" expanded="false" />
+            <element signature="e#814#1372#1" expanded="false" />
+            <element signature="e#1990#3276#0" expanded="false" />
+            <element signature="e#1990#2548#1" expanded="false" />
+            <element signature="e#3373#5422#0" expanded="false" />
+            <element signature="e#5457#5789#0" expanded="false" />
+            <element signature="e#5914#6767#0" expanded="false" />
+            <element signature="e#8221#8392#0" expanded="false" />
+            <element signature="e#8611#8632#0" expanded="false" />
+            <element signature="e#8660#8677#0" expanded="false" />
+            <element signature="e#8791#9331#0" expanded="false" />
+            <element signature="e#10649#14194#0" expanded="false" />
+            <element signature="e#10649#11207#1" expanded="false" />
+            <element signature="e#14298#15004#0" expanded="false" />
+            <element signature="e#15061#15916#0" expanded="false" />
+            <element signature="e#15061#15559#1" expanded="false" />
+            <element signature="e#16022#16416#0" expanded="false" />
+            <element signature="e#16502#18276#0" expanded="false" />
+            <element signature="e#16502#16570#1" expanded="false" />
+            <element signature="e#19540#20113#0" expanded="false" />
+            <element signature="e#20207#21883#0" expanded="false" />
+            <element signature="e#20207#20792#1" expanded="false" />
+            <element signature="e#21980#23294#0" expanded="false" />
+            <element signature="e#21980#22046#1" expanded="false" />
+            <element signature="e#23332#23484#0" expanded="false" />
+            <element signature="e#23537#23709#0" expanded="false" />
+            <element signature="e#23760#23906#0" expanded="false" />
+            <element signature="e#23976#24220#0" expanded="false" />
+            <element signature="e#24298#25703#0" expanded="false" />
+            <element signature="e#25782#27084#0" expanded="false" />
+            <element signature="e#27211#30081#0" expanded="false" />
+            <element signature="e#30257#33890#0" expanded="false" />
+            <element signature="e#34084#39804#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1352,7 +1426,44 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1206" max-vertical-offset="4662">
           <caret line="71" column="32" selection-start-line="71" selection-start-column="32" selection-end-line="71" selection-end-column="32" />
-          <folding />
+          <folding>
+            <element signature="e#245#360#0" expanded="false" />
+            <element signature="e#402#583#0" expanded="false" />
+            <element signature="e#644#742#0" expanded="false" />
+            <element signature="e#814#1868#0" expanded="false" />
+            <element signature="e#814#1372#1" expanded="false" />
+            <element signature="e#1990#3276#0" expanded="false" />
+            <element signature="e#1990#2548#1" expanded="false" />
+            <element signature="e#3373#5422#0" expanded="false" />
+            <element signature="e#5457#5789#0" expanded="false" />
+            <element signature="e#5914#6767#0" expanded="false" />
+            <element signature="e#8221#8392#0" expanded="false" />
+            <element signature="e#8611#8632#0" expanded="false" />
+            <element signature="e#8660#8677#0" expanded="false" />
+            <element signature="e#8791#9331#0" expanded="false" />
+            <element signature="e#10649#14194#0" expanded="false" />
+            <element signature="e#10649#11207#1" expanded="false" />
+            <element signature="e#14298#15004#0" expanded="false" />
+            <element signature="e#15061#15916#0" expanded="false" />
+            <element signature="e#15061#15559#1" expanded="false" />
+            <element signature="e#16022#16416#0" expanded="false" />
+            <element signature="e#16502#18276#0" expanded="false" />
+            <element signature="e#16502#16570#1" expanded="false" />
+            <element signature="e#19540#20113#0" expanded="false" />
+            <element signature="e#20207#21883#0" expanded="false" />
+            <element signature="e#20207#20792#1" expanded="false" />
+            <element signature="e#21980#23294#0" expanded="false" />
+            <element signature="e#21980#22046#1" expanded="false" />
+            <element signature="e#23332#23484#0" expanded="false" />
+            <element signature="e#23537#23709#0" expanded="false" />
+            <element signature="e#23760#23906#0" expanded="false" />
+            <element signature="e#23976#24220#0" expanded="false" />
+            <element signature="e#24298#25703#0" expanded="false" />
+            <element signature="e#25782#27084#0" expanded="false" />
+            <element signature="e#27211#30081#0" expanded="false" />
+            <element signature="e#30257#33890#0" expanded="false" />
+            <element signature="e#34084#39804#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1381,13 +1492,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6749">
           <caret line="313" column="5" selection-start-line="313" selection-start-column="5" selection-end-line="313" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/lib/python2.7/dist-packages/numpy/core/fromnumeric.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="32746" max-vertical-offset="46170">
-          <caret line="1832" column="0" selection-start-line="1832" selection-start-column="0" selection-end-line="1832" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1545,14 +1649,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/local/lib/python2.7/dist-packages/numpy/lib/npyio.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="6338" max-vertical-offset="34164">
-          <caret line="438" column="41" selection-start-line="438" selection-start-column="41" selection-end-line="438" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/local/lib/python2.7/dist-packages/scipy/interpolate/fitpack.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334" vertical-offset="7904" max-vertical-offset="23076">
@@ -1572,6 +1668,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.88435376" vertical-offset="9506" max-vertical-offset="56898">
           <caret line="571" column="0" selection-start-line="571" selection-start-column="0" selection-end-line="571" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1586,6 +1683,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334" vertical-offset="29360" max-vertical-offset="72108">
           <caret line="1671" column="0" selection-start-line="1671" selection-start-column="0" selection-end-line="1671" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1614,26 +1712,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Patient_files/calc_roi_perf.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="290" max-vertical-offset="1332">
-          <caret line="64" column="51" selection-start-line="64" selection-start-column="51" selection-end-line="64" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pancreatic_phase_test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1167" max-vertical-offset="1836">
           <caret line="78" column="0" selection-start-line="78" selection-start-column="0" selection-end-line="78" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/create_r_curves.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="779" max-vertical-offset="1998">
-          <caret line="83" column="41" selection-start-line="83" selection-start-column="41" selection-end-line="83" selection-end-column="41" />
           <folding />
         </state>
       </provider>
@@ -1662,22 +1744,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/create_r_curves2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1296">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/calc_roi_perf.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1466" max-vertical-offset="2124">
-          <caret line="14" column="21" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/perfusion/roi.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-6.9666667" vertical-offset="1159" max-vertical-offset="4464">
@@ -1686,21 +1752,108 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/perfusion/express.py">
+    <entry file="file://$PROJECT_DIR$/calc_roi_perf.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.6666667" vertical-offset="9188" max-vertical-offset="17784">
-          <caret line="514" column="66" selection-start-line="514" selection-start-column="61" selection-end-line="514" selection-end-column="66" />
+        <state vertical-scroll-proportion="0.30508474" vertical-offset="0" max-vertical-offset="2124">
+          <caret line="14" column="21" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/create_r_curves2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="519" max-vertical-offset="1296">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Patient_files/calc_roi_perf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="524" max-vertical-offset="1314">
+          <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/create_examination_sample.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.64705884" vertical-offset="1707" max-vertical-offset="2268">
-          <caret line="175" column="30" selection-start-line="175" selection-start-column="30" selection-end-line="175" selection-end-column="30" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2268">
+          <caret line="12" column="64" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="64" />
           <folding>
-            <element signature="e#838#1398#1" expanded="false" />
-            <element signature="e#1399#2385#1" expanded="false" />
+            <element signature="e#824#1384#1" expanded="false" />
+            <element signature="e#1385#2371#1" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/numpy/lib/npyio.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="6392" max-vertical-offset="34164">
+          <caret line="445" column="0" selection-start-line="445" selection-start-column="0" selection-end-line="445" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/numpy/core/fromnumeric.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1784" max-vertical-offset="52668">
+          <caret line="124" column="36" selection-start-line="124" selection-start-column="36" selection-end-line="124" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/create_r_curves.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1066" max-vertical-offset="2142">
+          <caret line="97" column="34" selection-start-line="97" selection-start-column="34" selection-end-line="97" selection-end-column="34" />
+          <folding>
+            <element signature="e#2373#2936#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/perfusion/express.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3" vertical-offset="2136" max-vertical-offset="3870">
+          <caret line="470" column="0" selection-start-line="470" selection-start-column="0" selection-end-line="470" selection-end-column="0" />
+          <folding>
+            <element signature="e#245#360#0" expanded="false" />
+            <element signature="e#402#583#0" expanded="false" />
+            <element signature="e#644#742#0" expanded="false" />
+            <element signature="e#814#1868#0" expanded="false" />
+            <element signature="e#814#1372#1" expanded="false" />
+            <element signature="e#1990#3276#0" expanded="false" />
+            <element signature="e#1990#2548#1" expanded="false" />
+            <element signature="e#3373#5422#0" expanded="false" />
+            <element signature="e#5457#5789#0" expanded="false" />
+            <element signature="e#5914#6767#0" expanded="false" />
+            <element signature="e#8221#8392#0" expanded="false" />
+            <element signature="e#8611#8632#0" expanded="false" />
+            <element signature="e#8660#8677#0" expanded="false" />
+            <element signature="e#8791#9331#0" expanded="false" />
+            <element signature="e#10649#14194#0" expanded="false" />
+            <element signature="e#10649#11207#1" expanded="false" />
+            <element signature="e#14298#15004#0" expanded="false" />
+            <element signature="e#15061#15916#0" expanded="false" />
+            <element signature="e#15061#15559#1" expanded="false" />
+            <element signature="e#16022#16416#0" expanded="false" />
+            <element signature="e#16502#18276#0" expanded="false" />
+            <element signature="e#16502#16570#1" expanded="false" />
+            <element signature="e#19540#20113#0" expanded="false" />
+            <element signature="e#20207#21883#0" expanded="false" />
+            <element signature="e#20207#20792#1" expanded="false" />
+            <element signature="e#21980#23294#0" expanded="false" />
+            <element signature="e#21980#22046#1" expanded="false" />
+            <element signature="e#23332#23484#0" expanded="false" />
+            <element signature="e#23537#23709#0" expanded="false" />
+            <element signature="e#23760#23906#0" expanded="false" />
+            <element signature="e#23976#24220#0" expanded="false" />
+            <element signature="e#24298#25703#0" expanded="false" />
+            <element signature="e#25782#27084#0" expanded="false" />
+            <element signature="e#27211#30081#0" expanded="false" />
+            <element signature="e#30257#33890#0" expanded="false" />
+            <element signature="e#34084#39804#0" expanded="false" />
           </folding>
         </state>
       </provider>
