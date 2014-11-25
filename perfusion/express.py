@@ -1,15 +1,17 @@
 # -*- coding: utf8 -*-
 import gc
-
+import platform
 import numpy as np
 from scipy import interpolate, stats, signal
 import matplotlib.pyplot as plt
 import json
 
-import pyximport
+if platform.system()=='Linux': #TEMPORARY HACK due to installation problem of Cython on windows
+    print 'We are on linux'
+    import pyximport
+    pyximport.install()
+    import cssd
 import itertools
-pyximport.install()
-import cssd
 
 def get_tac(roi, vol4d, time):
     tac = []
