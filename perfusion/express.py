@@ -211,9 +211,15 @@ _bf-{bf[0]}-{bf[1]}_mtt-{mtt[0]}-{mtt[1]}'\
 def fname_to_range(fname):
     fname = fname.strip('.npy')
     out=[i.split('-') for i in fname.split('_')][1:]
-    out=dict([[i[0],tuple(map(float,i[1:]))] for i in out])
+    out_dict={}
+    distributions=('gamma','beta')
+    for i in out:
+        if i[0] in distributions:
+            out_dict['dist']=i[0]
+        else:
+            out_dict[i[0]]=tuple(map(float,i[1:]))
 
-    return out
+    return out_dict
 
 def save_pars(pars,fname):
     pars = dict([[k,list(v)] for k,v in pars.items()])
@@ -485,6 +491,15 @@ def calc_rc_big(params, time_res, maxtime=100, dist='gamma'):
 
     return out_rc
 
+def append_result(output,result):
+    try:
+        return np.append(output,result,axis=1)
+    except ValueError,s:
+        print s
+        return result
+
+
+
 def calc_rc(params,time_res,maxtime=100,dist='gamma'):
     t = np.arange(0, maxtime, time_res)[...,None].repeat(len(params['a']),axis=1)
     d=make_distribution(params,dist)
@@ -517,49 +532,7 @@ def calc_pdfs(params, time_res, maxtime=100):
 
     return out_rc
 
-def calc_tac_gamma(input_tac, rc, time_subset=None, t_res=1, t_lag=0, loop_size=50000):
-    """
-    Compute tissue TACs from input TAC and tissue residue function with FFT convolution
-    :param input_tac: 1d np.array of input TAC
-    :param rc: nd np.array of residue curves
-    :param time_subset: times in seconds that will be subseted from result TACS
-    :param t_res: time resolution in seconds of input and residue TACs (should be same for the both TACs)
-    :param t_lag: time in seconds needed for blood path from input to tissue
-    :param loop_size: size of tacs calculated in one loop to prevent MemmoryError
-    :return: nd np.array of subseted tissue TACs
-    """
-    rc_num = rc.shape[1]
-    out = np.array([[]])
-    time_steps=np.round(np.arange(time_subset[0], time_subset[-1] + 1, t_res),1)
-    #lag input TAC
-    input_tac= np.append(np.zeros(t_lag/t_res),input_tac)
-    print rc_num
-    for i_to,i_fr in zip(np.append(np.arange(loop_size,rc_num,loop_size),rc_num),
-                                    np.arange(0,rc_num,loop_size)):
-        print i_to,i_fr
-        #print rc[:,i_fr:i_to].shape
-        tacs_temp = signal.fftconvolve(input_tac[:,None], rc[:,i_fr:i_to])
 
-        if not time_subset is None:
-            subset = []
-            sub0=0
-            #print sub0
-
-            for i in  time_subset:
-                #print i,time_steps
-                #print np.where(time_steps == i-sub0)
-
-                subset.append(np.where(time_steps == i-sub0)[0][0])
-
-            try:
-                out = np.append(out,tacs_temp[subset],axis=1)
-            except ValueError,s:
-                print s
-                out = tacs_temp[subset]
-                #print 'subset shape', out.shape
-        else:
-            out=tacs_temp
-    return out
 
 
 def calc_tissue_tacs_mrx_3gamma(input_tac, params, time_steps, time_subset=None,t_res=1):
@@ -609,30 +582,6 @@ def calc_tissue_tacs_mrx_3gamma(input_tac, params, time_steps, time_subset=None,
     return out
 
 
-def make_rc_trap(mtt, bv, ts):
-    ts_fr0 = np.arange(0, ts.max(), ts[1] - ts[0])
-    rc = np.zeros(ts_fr0.shape[0])
-    rc[ts_fr0 < mtt] = 1
-    print np.sum(rc)
-    return bv * rc / mtt
-
-
-def make_rc_lognorm(mtt, bv, ts, sigma=0.01):
-    ts_fr0 = np.arange(0, ts.max(), ts[1] - ts[0])
-
-    rc = 1 - stats.lognorm.cdf(ts_fr0, sigma, 0, mtt)
-    rc /= np.sum(rc)
-    s_rc = bv * rc
-    # print rc
-    return s_rc
-
-
-def make_rc_gamma(mtt, bv, ts, sigma=0.01):
-    ts_fr0 = np.arange(0, ts.max(), ts[1] - ts[0])
-    rc = 1 - stats.gamma.cdf(ts_fr0, 1, mtt, sigma)
-    s_rc = bv * rc
-    return s_rc / np.sum(rc)
-
 
 def calculate_mtt_bv(tac, example_mrx, mtt_vector, bv_vector):
     # tac=np.array(tac)
@@ -643,6 +592,73 @@ def calculate_mtt_bv(tac, example_mrx, mtt_vector, bv_vector):
     return mtt_vector[mtt_idx], bv_vector[bv_idx]
 
 
+
+#params generators
+
+#rc generators
+def make_rc_trap(mtt, bv, ts):
+    ts_fr0 = np.arange(0, ts.max(), ts[1] - ts[0])
+    rc = np.zeros(ts_fr0.shape[0])
+    rc[ts_fr0 < mtt] = 1
+    print np.sum(rc)
+    return bv * rc / mtt
+
+def make_rc_lognorm(mtt, bv, ts, sigma=0.01):
+    ts_fr0 = np.arange(0, ts.max(), ts[1] - ts[0])
+
+    rc = 1 - stats.lognorm.cdf(ts_fr0, sigma, 0, mtt)
+    rc /= np.sum(rc)
+    s_rc = bv * rc
+    # print rc
+    return s_rc
+
+def make_rc_gamma(mtt, bv, ts, sigma=0.01):
+    ts_fr0 = np.arange(0, ts.max(), ts[1] - ts[0])
+    rc = 1 - stats.gamma.cdf(ts_fr0, 1, mtt, sigma)
+    s_rc = bv * rc
+    return s_rc / np.sum(rc)
+#tacs generators
+def calc_tac_gamma(input_tac, rc, time_subset=None, t_res=1, t_lag=0, loop_size=50000):
+    """
+    Compute tissue TACs from input TAC and tissue residue function with FFT convolution
+    :param input_tac: 1d np.array of input TAC
+    :param rc: nd np.array of residue curves
+    :param time_subset: times in seconds that will be subseted from result TACS
+    :param t_res: time resolution in seconds of input and residue TACs (should be same for the both TACs)
+    :param t_lag: time in seconds needed for blood path from input to tissue
+    :param loop_size: size of tacs calculated in one loop to prevent MemmoryError
+    :return: nd np.array of subseted tissue TACs
+    """
+    rc_num = rc.shape[1]
+    out = np.array([[]])
+    time_steps=np.round(np.arange(time_subset[0], time_subset[-1] + 1, t_res),1)
+    #lag input TAC
+    input_tac= np.append(np.zeros(t_lag/t_res),input_tac)
+    print rc_num
+    for i_to,i_fr in zip(np.append(np.arange(loop_size,rc_num,loop_size),rc_num),
+                                    np.arange(0,rc_num,loop_size)):
+        print i_to,i_fr
+        #print rc[:,i_fr:i_to].shape
+        tacs_temp = signal.fftconvolve(input_tac[:,None], rc[:,i_fr:i_to])
+
+        if not time_subset is None:
+            subset = []
+            sub0=0
+            #print sub0
+            for i in  time_subset:
+                #print i,time_steps
+                #print np.where(time_steps == i-sub0)
+                subset.append(np.where(time_steps == i-sub0)[0][0])
+            try:
+                out = np.append(out,tacs_temp[subset],axis=1)
+            except ValueError,s:
+                print s
+                out = tacs_temp[subset]
+                #print 'subset shape', out.shape
+        else:
+            out=tacs_temp
+    return out
+#map generators
 def make_map(vol4d, input_tac, mtt_range, bv_range, times, lag_range):
     mtt_array = np.arange(mtt_range[0], mtt_range[1], mtt_range[2])
     bv_array = np.arange(bv_range[0], bv_range[1], bv_range[2])
@@ -977,8 +993,6 @@ def make_map_conv_cython2(vol4d, times, input_tac, mtt_range, bv_range, lag_rang
 
 
     return bv_vol, mtt_vol, bf_vol, sigma_vol, lag_vol, ssd_vol, portal_volumes
-
-
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 

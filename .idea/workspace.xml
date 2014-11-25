@@ -5,7 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ca7396ea-78df-4e98-901e-a045ad143151" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Patient_files/calc_roi_perf.py" afterPath="$PROJECT_DIR$/Patient_files/calc_roi_perf.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/create_r_curves.py" afterPath="$PROJECT_DIR$/create_r_curves.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/perfusion/express.py" afterPath="$PROJECT_DIR$/perfusion/express.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="FlowPy.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -35,56 +39,65 @@
       <file leaf-file-name="express.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/perfusion/express.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1" max-vertical-offset="4050">
-              <caret line="9" column="26" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1892" max-vertical-offset="7974">
+              <caret line="486" column="44" selection-start-line="486" selection-start-column="44" selection-end-line="486" selection-end-column="44" />
               <folding>
                 <element signature="e#23#32#0" expanded="true" />
                 <element signature="e#396#511#0" expanded="false" />
                 <element signature="e#553#734#0" expanded="false" />
                 <element signature="e#795#893#0" expanded="false" />
-                <element signature="e#965#2019#0" expanded="false" />
                 <element signature="e#965#1523#1" expanded="false" />
                 <element signature="e#2141#3427#0" expanded="false" />
                 <element signature="e#2141#2699#1" expanded="false" />
                 <element signature="e#3524#5573#0" expanded="false" />
                 <element signature="e#5608#5940#0" expanded="false" />
                 <element signature="e#6065#6918#0" expanded="false" />
-                <element signature="e#8372#8543#0" expanded="false" />
-                <element signature="e#8762#8783#0" expanded="false" />
-                <element signature="e#8811#8828#0" expanded="false" />
-                <element signature="e#8942#9482#0" expanded="false" />
-                <element signature="e#10800#14345#0" expanded="false" />
-                <element signature="e#10800#11358#1" expanded="false" />
-                <element signature="e#14449#15155#0" expanded="false" />
-                <element signature="e#15212#16067#0" expanded="false" />
-                <element signature="e#15212#15710#1" expanded="false" />
-                <element signature="e#16173#16567#0" expanded="false" />
-                <element signature="e#16653#18427#0" expanded="false" />
-                <element signature="e#16653#16721#1" expanded="false" />
-                <element signature="e#19691#20264#0" expanded="false" />
-                <element signature="e#20358#22034#0" expanded="false" />
-                <element signature="e#20358#20943#1" expanded="false" />
-                <element signature="e#22131#23445#0" expanded="false" />
-                <element signature="e#22131#22197#1" expanded="false" />
-                <element signature="e#23483#23635#0" expanded="false" />
-                <element signature="e#23688#23860#0" expanded="false" />
-                <element signature="e#23911#24057#0" expanded="false" />
-                <element signature="e#24127#24371#0" expanded="false" />
-                <element signature="e#24449#25854#0" expanded="false" />
-                <element signature="e#25933#27235#0" expanded="false" />
-                <element signature="e#27362#30232#0" expanded="false" />
-                <element signature="e#30408#34041#0" expanded="false" />
-                <element signature="e#34235#39955#0" expanded="false" />
+                <element signature="e#6949#8150#0" expanded="false" />
+                <element signature="e#8183#8486#0" expanded="false" />
+                <element signature="e#8519#8690#0" expanded="false" />
+                <element signature="e#8717#8882#0" expanded="false" />
+                <element signature="e#8909#8930#0" expanded="false" />
+                <element signature="e#8958#8975#0" expanded="false" />
+                <element signature="e#9089#9629#0" expanded="false" />
+                <element signature="e#10947#14492#0" expanded="false" />
+                <element signature="e#10947#11505#1" expanded="false" />
+                <element signature="e#14596#15302#0" expanded="false" />
+                <element signature="e#15359#16214#0" expanded="false" />
+                <element signature="e#15359#15857#1" expanded="false" />
+                <element signature="e#16320#16714#0" expanded="false" />
+                <element signature="e#16800#18574#0" expanded="false" />
+                <element signature="e#16800#16868#1" expanded="false" />
+                <element signature="e#19994#20567#0" expanded="false" />
+                <element signature="e#20666#21980#0" expanded="false" />
+                <element signature="e#20666#20732#1" expanded="false" />
+                <element signature="e#22051#22295#0" expanded="false" />
+                <element signature="e#22573#22745#0" expanded="false" />
+                <element signature="e#22795#22941#0" expanded="false" />
+                <element signature="e#24816#26221#0" expanded="false" />
+                <element signature="e#26300#27602#0" expanded="false" />
+                <element signature="e#27729#30599#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="calc_roi_perf.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="calc_roi_perf.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Patient_files/calc_roi_perf.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="738" max-vertical-offset="1332">
-              <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+            <state vertical-scroll-proportion="2.2842638" vertical-offset="0" max-vertical-offset="1818">
+              <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+              <folding>
+                <element signature="e#22#32#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="fileops.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/misc/fileops.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="21" max-vertical-offset="612">
+              <caret line="16" column="98" selection-start-line="16" selection-start-column="98" selection-end-line="16" selection-end-column="98" />
               <folding />
             </state>
           </provider>
@@ -130,21 +143,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="create_r_curves.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="create_r_curves.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/create_r_curves.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.33502537" vertical-offset="1638" max-vertical-offset="2358">
-              <caret line="108" column="26" selection-start-line="108" selection-start-column="26" selection-end-line="108" selection-end-column="26" />
+            <state vertical-scroll-proportion="-15.7" vertical-offset="1563" max-vertical-offset="2286">
+              <caret line="119" column="51" selection-start-line="114" selection-start-column="4" selection-end-line="119" selection-end-column="51" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="r_curves_test.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/r_curves_test.py">
+      <file leaf-file-name="function_base.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file:///usr/local/lib/python2.7/dist-packages/numpy/lib/function_base.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="126">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="68709" max-vertical-offset="69516">
+              <caret line="3877" column="25" selection-start-line="3877" selection-start-column="25" selection-end-line="3877" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -211,9 +224,10 @@
         <option value="$PROJECT_DIR$/misc/fileops.py" />
         <option value="$PROJECT_DIR$/misc/rc_gen_settings" />
         <option value="$PROJECT_DIR$/create_examination_sample.py" />
-        <option value="$PROJECT_DIR$/Patient_files/calc_roi_perf.py" />
+        <option value="$PROJECT_DIR$/__init__.py" />
         <option value="$PROJECT_DIR$/create_r_curves.py" />
         <option value="$PROJECT_DIR$/perfusion/express.py" />
+        <option value="$PROJECT_DIR$/Patient_files/calc_roi_perf.py" />
       </list>
     </option>
   </component>
@@ -475,7 +489,7 @@
       <recent name="$PROJECT_DIR$/filters" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.create_r_curves">
+  <component name="RunManager" selected="Python.calc_roi_perf">
     <configuration default="false" name="create_r_curves" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -1116,8 +1130,8 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.create_r_curves" />
-        <item index="1" class="java.lang.String" itemvalue="Python.calc_roi_perf" />
+        <item index="0" class="java.lang.String" itemvalue="Python.calc_roi_perf" />
+        <item index="1" class="java.lang.String" itemvalue="Python.create_r_curves" />
         <item index="2" class="java.lang.String" itemvalue="Python.create_examination_sample" />
         <item index="3" class="java.lang.String" itemvalue="Python.fileops" />
         <item index="4" class="java.lang.String" itemvalue="Python.calc_roi_perf (2)" />
@@ -1273,26 +1287,26 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="24" width="1920" height="1176" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32685184" sideWeight="0.47337902" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33579335" sideWeight="0.63199216" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293718" sideWeight="0.49630412" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.40185186" sideWeight="0.15603584" order="11" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32592592" sideWeight="0.51555085" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23425926" sideWeight="0.6167633" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32159847" sideWeight="0.83693933" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.328125" sideWeight="0.3514398" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16898395" sideWeight="0.6278626" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.40185186" sideWeight="0.84396416" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.40185186" sideWeight="0.84396416" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32819584" sideWeight="0.49737877" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32936507" sideWeight="0.63199216" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23425926" sideWeight="0.6167633" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32592592" sideWeight="0.51555085" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -1332,24 +1346,10 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="23" />
+      <option name="time" value="25" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/image/dcm_parser.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3349" max-vertical-offset="3451">
-          <caret line="197" column="93" selection-start-line="197" selection-start-column="93" selection-end-line="197" selection-end-column="93" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/perfusion/roi.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="491" max-vertical-offset="4131">
-          <caret line="68" column="41" selection-start-line="68" selection-start-column="41" selection-end-line="68" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/perfusion/express.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4301">
@@ -1359,39 +1359,36 @@
             <element signature="e#396#511#0" expanded="false" />
             <element signature="e#553#734#0" expanded="false" />
             <element signature="e#795#893#0" expanded="false" />
-            <element signature="e#965#2019#0" expanded="false" />
             <element signature="e#965#1523#1" expanded="false" />
             <element signature="e#2141#3427#0" expanded="false" />
             <element signature="e#2141#2699#1" expanded="false" />
             <element signature="e#3524#5573#0" expanded="false" />
             <element signature="e#5608#5940#0" expanded="false" />
             <element signature="e#6065#6918#0" expanded="false" />
-            <element signature="e#8372#8543#0" expanded="false" />
-            <element signature="e#8762#8783#0" expanded="false" />
-            <element signature="e#8811#8828#0" expanded="false" />
-            <element signature="e#8942#9482#0" expanded="false" />
-            <element signature="e#10800#14345#0" expanded="false" />
-            <element signature="e#10800#11358#1" expanded="false" />
-            <element signature="e#14449#15155#0" expanded="false" />
-            <element signature="e#15212#16067#0" expanded="false" />
-            <element signature="e#15212#15710#1" expanded="false" />
-            <element signature="e#16173#16567#0" expanded="false" />
-            <element signature="e#16653#18427#0" expanded="false" />
-            <element signature="e#16653#16721#1" expanded="false" />
-            <element signature="e#19691#20264#0" expanded="false" />
-            <element signature="e#20358#22034#0" expanded="false" />
-            <element signature="e#20358#20943#1" expanded="false" />
-            <element signature="e#22131#23445#0" expanded="false" />
-            <element signature="e#22131#22197#1" expanded="false" />
-            <element signature="e#23483#23635#0" expanded="false" />
-            <element signature="e#23688#23860#0" expanded="false" />
-            <element signature="e#23911#24057#0" expanded="false" />
-            <element signature="e#24127#24371#0" expanded="false" />
-            <element signature="e#24449#25854#0" expanded="false" />
-            <element signature="e#25933#27235#0" expanded="false" />
-            <element signature="e#27362#30232#0" expanded="false" />
-            <element signature="e#30408#34041#0" expanded="false" />
-            <element signature="e#34235#39955#0" expanded="false" />
+            <element signature="e#6949#8150#0" expanded="false" />
+            <element signature="e#8183#8486#0" expanded="false" />
+            <element signature="e#8519#8690#0" expanded="false" />
+            <element signature="e#8717#8882#0" expanded="false" />
+            <element signature="e#8909#8930#0" expanded="false" />
+            <element signature="e#8958#8975#0" expanded="false" />
+            <element signature="e#9089#9629#0" expanded="false" />
+            <element signature="e#10947#14492#0" expanded="false" />
+            <element signature="e#10947#11505#1" expanded="false" />
+            <element signature="e#14596#15302#0" expanded="false" />
+            <element signature="e#15359#16214#0" expanded="false" />
+            <element signature="e#15359#15857#1" expanded="false" />
+            <element signature="e#16320#16714#0" expanded="false" />
+            <element signature="e#16800#18574#0" expanded="false" />
+            <element signature="e#16800#16868#1" expanded="false" />
+            <element signature="e#19994#20567#0" expanded="false" />
+            <element signature="e#20666#21980#0" expanded="false" />
+            <element signature="e#20666#20732#1" expanded="false" />
+            <element signature="e#22051#22295#0" expanded="false" />
+            <element signature="e#22573#22745#0" expanded="false" />
+            <element signature="e#22795#22941#0" expanded="false" />
+            <element signature="e#24816#26221#0" expanded="false" />
+            <element signature="e#26300#27602#0" expanded="false" />
+            <element signature="e#27729#30599#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1405,39 +1402,36 @@
             <element signature="e#396#511#0" expanded="false" />
             <element signature="e#553#734#0" expanded="false" />
             <element signature="e#795#893#0" expanded="false" />
-            <element signature="e#965#2019#0" expanded="false" />
             <element signature="e#965#1523#1" expanded="false" />
             <element signature="e#2141#3427#0" expanded="false" />
             <element signature="e#2141#2699#1" expanded="false" />
             <element signature="e#3524#5573#0" expanded="false" />
             <element signature="e#5608#5940#0" expanded="false" />
             <element signature="e#6065#6918#0" expanded="false" />
-            <element signature="e#8372#8543#0" expanded="false" />
-            <element signature="e#8762#8783#0" expanded="false" />
-            <element signature="e#8811#8828#0" expanded="false" />
-            <element signature="e#8942#9482#0" expanded="false" />
-            <element signature="e#10800#14345#0" expanded="false" />
-            <element signature="e#10800#11358#1" expanded="false" />
-            <element signature="e#14449#15155#0" expanded="false" />
-            <element signature="e#15212#16067#0" expanded="false" />
-            <element signature="e#15212#15710#1" expanded="false" />
-            <element signature="e#16173#16567#0" expanded="false" />
-            <element signature="e#16653#18427#0" expanded="false" />
-            <element signature="e#16653#16721#1" expanded="false" />
-            <element signature="e#19691#20264#0" expanded="false" />
-            <element signature="e#20358#22034#0" expanded="false" />
-            <element signature="e#20358#20943#1" expanded="false" />
-            <element signature="e#22131#23445#0" expanded="false" />
-            <element signature="e#22131#22197#1" expanded="false" />
-            <element signature="e#23483#23635#0" expanded="false" />
-            <element signature="e#23688#23860#0" expanded="false" />
-            <element signature="e#23911#24057#0" expanded="false" />
-            <element signature="e#24127#24371#0" expanded="false" />
-            <element signature="e#24449#25854#0" expanded="false" />
-            <element signature="e#25933#27235#0" expanded="false" />
-            <element signature="e#27362#30232#0" expanded="false" />
-            <element signature="e#30408#34041#0" expanded="false" />
-            <element signature="e#34235#39955#0" expanded="false" />
+            <element signature="e#6949#8150#0" expanded="false" />
+            <element signature="e#8183#8486#0" expanded="false" />
+            <element signature="e#8519#8690#0" expanded="false" />
+            <element signature="e#8717#8882#0" expanded="false" />
+            <element signature="e#8909#8930#0" expanded="false" />
+            <element signature="e#8958#8975#0" expanded="false" />
+            <element signature="e#9089#9629#0" expanded="false" />
+            <element signature="e#10947#14492#0" expanded="false" />
+            <element signature="e#10947#11505#1" expanded="false" />
+            <element signature="e#14596#15302#0" expanded="false" />
+            <element signature="e#15359#16214#0" expanded="false" />
+            <element signature="e#15359#15857#1" expanded="false" />
+            <element signature="e#16320#16714#0" expanded="false" />
+            <element signature="e#16800#18574#0" expanded="false" />
+            <element signature="e#16800#16868#1" expanded="false" />
+            <element signature="e#19994#20567#0" expanded="false" />
+            <element signature="e#20666#21980#0" expanded="false" />
+            <element signature="e#20666#20732#1" expanded="false" />
+            <element signature="e#22051#22295#0" expanded="false" />
+            <element signature="e#22573#22745#0" expanded="false" />
+            <element signature="e#22795#22941#0" expanded="false" />
+            <element signature="e#24816#26221#0" expanded="false" />
+            <element signature="e#26300#27602#0" expanded="false" />
+            <element signature="e#27729#30599#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1645,13 +1639,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.18190476" vertical-offset="20689" max-vertical-offset="30132">
-          <caret line="1225" column="0" selection-start-line="1225" selection-start-column="0" selection-end-line="1225" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/local/lib/python2.7/dist-packages/scipy/stats/_continuous_distns.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334" vertical-offset="29360" max-vertical-offset="72108">
@@ -1663,13 +1650,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="589">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/misc/fileops.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="630">
-          <caret line="16" column="98" selection-start-line="16" selection-start-column="98" selection-end-line="16" selection-end-column="98" />
         </state>
       </provider>
     </entry>
@@ -1718,25 +1698,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/calc_roi_perf.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.30508474" vertical-offset="0" max-vertical-offset="2124">
-          <caret line="14" column="21" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/create_r_curves2.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="519" max-vertical-offset="1296">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Patient_files/calc_roi_perf.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="524" max-vertical-offset="1314">
-          <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1765,57 +1730,106 @@
         </state>
       </provider>
     </entry>
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/numpy/lib/function_base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="68709" max-vertical-offset="69516">
+          <caret line="3877" column="25" selection-start-line="3877" selection-start-column="25" selection-end-line="3877" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="591">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/misc/fileops.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="630">
+          <caret line="16" column="98" selection-start-line="16" selection-start-column="98" selection-end-line="16" selection-end-column="98" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/calc_roi_perf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1389" max-vertical-offset="1980">
+          <caret line="7" column="34" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="34" />
+          <folding>
+            <element signature="e#168#758#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/perfusion/express.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1" max-vertical-offset="4050">
-          <caret line="9" column="26" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1892" max-vertical-offset="7974">
+          <caret line="486" column="44" selection-start-line="486" selection-start-column="44" selection-end-line="486" selection-end-column="44" />
           <folding>
             <element signature="e#23#32#0" expanded="true" />
             <element signature="e#396#511#0" expanded="false" />
             <element signature="e#553#734#0" expanded="false" />
             <element signature="e#795#893#0" expanded="false" />
-            <element signature="e#965#2019#0" expanded="false" />
             <element signature="e#965#1523#1" expanded="false" />
             <element signature="e#2141#3427#0" expanded="false" />
             <element signature="e#2141#2699#1" expanded="false" />
             <element signature="e#3524#5573#0" expanded="false" />
             <element signature="e#5608#5940#0" expanded="false" />
             <element signature="e#6065#6918#0" expanded="false" />
-            <element signature="e#8372#8543#0" expanded="false" />
-            <element signature="e#8762#8783#0" expanded="false" />
-            <element signature="e#8811#8828#0" expanded="false" />
-            <element signature="e#8942#9482#0" expanded="false" />
-            <element signature="e#10800#14345#0" expanded="false" />
-            <element signature="e#10800#11358#1" expanded="false" />
-            <element signature="e#14449#15155#0" expanded="false" />
-            <element signature="e#15212#16067#0" expanded="false" />
-            <element signature="e#15212#15710#1" expanded="false" />
-            <element signature="e#16173#16567#0" expanded="false" />
-            <element signature="e#16653#18427#0" expanded="false" />
-            <element signature="e#16653#16721#1" expanded="false" />
-            <element signature="e#19691#20264#0" expanded="false" />
-            <element signature="e#20358#22034#0" expanded="false" />
-            <element signature="e#20358#20943#1" expanded="false" />
-            <element signature="e#22131#23445#0" expanded="false" />
-            <element signature="e#22131#22197#1" expanded="false" />
-            <element signature="e#23483#23635#0" expanded="false" />
-            <element signature="e#23688#23860#0" expanded="false" />
-            <element signature="e#23911#24057#0" expanded="false" />
-            <element signature="e#24127#24371#0" expanded="false" />
-            <element signature="e#24449#25854#0" expanded="false" />
-            <element signature="e#25933#27235#0" expanded="false" />
-            <element signature="e#27362#30232#0" expanded="false" />
-            <element signature="e#30408#34041#0" expanded="false" />
-            <element signature="e#34235#39955#0" expanded="false" />
+            <element signature="e#6949#8150#0" expanded="false" />
+            <element signature="e#8183#8486#0" expanded="false" />
+            <element signature="e#8519#8690#0" expanded="false" />
+            <element signature="e#8717#8882#0" expanded="false" />
+            <element signature="e#8909#8930#0" expanded="false" />
+            <element signature="e#8958#8975#0" expanded="false" />
+            <element signature="e#9089#9629#0" expanded="false" />
+            <element signature="e#10947#14492#0" expanded="false" />
+            <element signature="e#10947#11505#1" expanded="false" />
+            <element signature="e#14596#15302#0" expanded="false" />
+            <element signature="e#15359#16214#0" expanded="false" />
+            <element signature="e#15359#15857#1" expanded="false" />
+            <element signature="e#16320#16714#0" expanded="false" />
+            <element signature="e#16800#18574#0" expanded="false" />
+            <element signature="e#16800#16868#1" expanded="false" />
+            <element signature="e#19994#20567#0" expanded="false" />
+            <element signature="e#20666#21980#0" expanded="false" />
+            <element signature="e#20666#20732#1" expanded="false" />
+            <element signature="e#22051#22295#0" expanded="false" />
+            <element signature="e#22573#22745#0" expanded="false" />
+            <element signature="e#22795#22941#0" expanded="false" />
+            <element signature="e#24816#26221#0" expanded="false" />
+            <element signature="e#26300#27602#0" expanded="false" />
+            <element signature="e#27729#30599#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/create_r_curves.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33502537" vertical-offset="1638" max-vertical-offset="2358">
-          <caret line="108" column="26" selection-start-line="108" selection-start-column="26" selection-end-line="108" selection-end-column="26" />
+        <state vertical-scroll-proportion="-15.7" vertical-offset="1563" max-vertical-offset="2286">
+          <caret line="119" column="51" selection-start-line="114" selection-start-column="4" selection-end-line="119" selection-end-column="51" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.61245674" vertical-offset="20526" max-vertical-offset="30132">
+          <caret line="1225" column="0" selection-start-line="1225" selection-start-column="0" selection-end-line="1225" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Patient_files/calc_roi_perf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="2.2842638" vertical-offset="0" max-vertical-offset="1818">
+          <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+          <folding>
+            <element signature="e#22#32#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
