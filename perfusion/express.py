@@ -182,13 +182,20 @@ def gen_fname(**kwargs):
     fname_l =[]
     for k in white_list:
         try:
+            if kwargs['prefix'] != 'tacs' and k == 'lag':
+                continue
             ranges[k]=map(format_str, ranges[k])
             s = '-'.join([k,]+ranges[k])
             fname_l.append(s)
-        except:
+        except ValueError: #prefix,dist are strings so forma_str() craches with ValueError
             if k in ['prefix','dist']:
                 fname_l.append(ranges[k])
+        except TypeError: #lag is float so map craches with TypeError
+            if k in ['lag',]:
+                fname_l.append('-'.join([k,format_str(ranges[k])]))
+        except KeyError:
             pass
+
 
 
 
