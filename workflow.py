@@ -312,6 +312,8 @@ class Workflow():
     def create_perf_map(self):
         input_tac = np.array(self.rois.get_concentrations('aorta'))
         input_tac -= input_tac[0]
+        print input_tac
+
         try:
             input_tac2 = np.array(self.rois.get_concentrations('porta'))
             input_tac2 -= input_tac2[0]
@@ -338,15 +340,15 @@ class Workflow():
 
         nib.save(nii_im, os.path.join(self.dir_manager.get_path('nii'), 'subtracted.nii'))
         plt.plot(times,input_tac)
-        plt.plot(times,input_tac2)
+
         plt.show()
         bv_vol, mtt_vol, bf_vol, sigma_vol, lag_vol, ssd_vol, portal_map = express.make_map_conv_cython2(volume4d,
                                                                                             times,
                                                                                             input_tac,
-                                                                                            (5, 80, 10),
+                                                                                            (0.01, 80, 5),
                                                                                             (0.01, 1, 0.1),
                                                                                             (0, 1, 1),
-                                                                                            (0.01, 1.5, 0.3),
+                                                                                            (0.01, 60, 5),
                                                                                             'lognorm',
                                                                                             1,
                                                                                             input_tac2=input_tac2,
