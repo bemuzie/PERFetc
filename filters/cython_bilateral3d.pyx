@@ -163,3 +163,4 @@ def bilateral3d(int [:,:,:] data, voxel_size, float sigg, float sigi, x_range=No
                 result[x-kside_x,y-kside_y,z-kside_z]= value/weights
 
     return result
+
