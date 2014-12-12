@@ -31,7 +31,7 @@ class Workflow():
         except IOError:
             pass
 
-    def setup_env(self, gzip=None, mricron=None, ants='/home/denest/ANTs-1.9.x-Linux/bin'):
+    def setup_env(self, gzip=None, mricron=None, ants=None):
         if gzip:
             self.gzip = gzip
         if mricron:
@@ -146,7 +146,7 @@ class Workflow():
             if len(cr_vol.shape) == 4:
                 cr_vol = cr_vol[..., 0]
 
-            borders_vol = np.where(cr_vol != 0)
+            borders_vol = np.where(cr_vol == 1)
             x_fr, y_fr, z_fr = map(np.min, borders_vol)
             x_to, y_to, z_to = map(np.max, borders_vol)
             print x_fr, y_fr, z_fr, x_to, y_to, z_to
@@ -171,10 +171,8 @@ class Workflow():
                     print 'exists', os.path.join(self.dir_manager.get_path('filtered'), '%s_I%s_G%s.nii' % (
                         fname.rstrip('.nii.gz'), intensity_sigma, gaussian_sigma))
 
-    def registration_start(self, target_phase, phase_exclusion=()):
+    def registration_start(self, target_phase):
         ants = self.ants
-
-
         # registration
 
         def registration(moved_image, fixed_image, mask, output_folder):
@@ -186,7 +184,7 @@ class Workflow():
             registration_parametrs = ['-d', '3',
                                       '--transform', 'Affine[0.75]',
                                       '--metric', 'MI[%s,%s,0.5,32]' % (fixed_image, moved_image),
-                                      '--convergence', '[100x100x100,1e-6,5]',
+                                      '--convergence', '[100x100x0,1e-6,5]',
                                       '--shrink-factors', '8x2x1',
                                       '--smoothing-sigmas', '6x2x2vox',
                                       '--use-estimate-learning-rate-once',
@@ -194,19 +192,19 @@ class Workflow():
 
                                       '--transform', 'SyN[0.75]',
                                       '--metric', 'MI[%s,%s,0.5,32]' % (fixed_image, moved_image),
-                                      '--convergence', '[100x100x100,1e-6,5]',
+                                      '--convergence', '[100x0x0,1e-6,5]',
                                       '--shrink-factors', '6x2x1',
-                                      '--smoothing-sigmas', '8x2x2vox',
+                                      '--smoothing-sigmas', '8x2x1vox',
                                       '--use-estimate-learning-rate-once'
                                       '-x %s' % mask,
                                       '-o', prefix
             ]
 
             subprocess.check_call('ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=3', shell=True)
-            subprocess.check_call(' '.join([os.path.join(ants ,'antsRegistration'), ' '.join(registration_parametrs)]),
+            subprocess.check_call(' '.join([ants + 'antsRegistration', ' '.join(registration_parametrs)]),
                                   shell=True,
                                   cwd=output_folder)
-            subprocess.check_call(' '.join([os.path.join(ants, 'antsApplyTransforms'),
+            subprocess.check_call(' '.join([ants + 'antsApplyTransforms',
                                             '-d 3',
                                             '-r', fixed_image,
                                             '-i', moved_image,
@@ -217,8 +215,7 @@ class Workflow():
 
         for snum in self.dir_manager.p['filtered']:
             for anum in self.dir_manager.p['filtered'][snum]:
-                print anum,snum
-                if not all([type(i) is int for i in (anum, snum)]) or anum in phase_exclusion:
+                if not all([type(i) is int for i in (anum, snum)]):
                     continue
 
                 mi = self.dir_manager.get_path('filtered', snum, anum)
@@ -234,8 +231,8 @@ class Workflow():
                     print 1
                     registration(mi, fi, self.dir_manager.get_path('registration_roi'),
                                  self.dir_manager.get_path('reg'))
-                #self.dir_manager.add_path('%s_registered.nii.gz' % prefix, 'reg', snum, anum,
-                #                          add_to=self.dir_manager.get_path('reg'))
+                self.dir_manager.add_path('%s_registered.nii.gz' % prefix, 'reg', snum, anum,
+                                          add_to=self.dir_manager.get_path('reg'))
 
     def update_label(self, label='filtered'):
         for fn in self.dir_manager.files_in(label):
