@@ -13,8 +13,12 @@ if __name__ == '__main__':
     wf.dir_manager.add_path('FILTERED', 'filtered', add_to='nii')
     wf.setup_env(mricron='/home/denest/mricron/dcm2nii')
     wf.dir_manager.add_path('tumor2.nii.gz', 'tumor', add_to='roi', create=False)
-    tum_nii = nib.load(wf.dir_manager.get_path('tumor'))
-    tum_mrx = tum_img
+
+    tum_dist_map =
+    tum_ct =
+
+    tum_dist_map[tum_dist_map>0]
+    tum_ct[tum_dist_map>0]
 
 
     #wf.filter_vols(intensity_sigma=40, gaussian_sigma=1.5)

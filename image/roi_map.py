@@ -109,6 +109,6 @@ def make_map_nii(input_file_path,kernel_size=60):
     nib.nifti1.save(nii_map,
                     os.path.join(input_path , input_fname + "_dist_map.nii"))
 
-make_map_nii('/media/WORK___/_PERF/LAGUNOVA  V.V. 21.01.1939/20140113_20/ROI/tumor_roi2.nii.gz',kernel_size=20)
+make_map_nii('/home/denest/Share/BELODED  I.E. 22.07.1940/20131224_1841/ROI/tumor_roi2.nii.gz',kernel_size=20)
 
 

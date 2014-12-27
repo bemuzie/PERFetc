@@ -13,7 +13,7 @@ import os
 
 
 def bilateral(input_file, output_folder=None, sig_i=40, sig_g=1, x_range=(20, 512 - 20), y_range=(20, 512 - 20),
-              z_range=(20, 300)):
+              z_range=(20, 300),times=None):
     """
     Process input 3d nii file with bilateral filter with 3d kernel
 
@@ -45,7 +45,12 @@ def bilateral(input_file, output_folder=None, sig_i=40, sig_g=1, x_range=(20, 51
                                                     sig_g,
                                                     sig_i,
                                                     x_range=x_range, y_range=y_range, z_range=z_range)
-
+    if times:
+        for i in range(times):
+            vol3d = np.array(filtered_image, dtype='int32', order='C')
+            cython_bilateral3d.bilateral3d(vol3d, res,
+                                                    sig_g,
+                                                    sig_i)
     file_name_base = os.path.basename(os.path.abspath(input_file)).split('.')[0]
     if not output_folder:
         new_folder = os.path.basename(os.path.abspath(input_file)).split('.')[0] + '_filtered'  # naming output folder like file without extension
