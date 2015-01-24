@@ -7,7 +7,7 @@ from perfusion import express
 
 
 
-ranges={'bv':(0.1,0.9,0.05),
+ranges={'bv':(0.5,0.8,0.05),
         'a':(0.1,70,0.5),
         'loc':(0,40,0.5),
         'scale':(0.1,70,0.5),
@@ -16,7 +16,7 @@ ranges={'bv':(0.1,0.9,0.05),
 }
 fname='pars_a-{a[0]}-{a[1]}-{a[2]}_loc-{loc[0]}-{loc[1]}-{loc[2]}_scale-{scale[0]}-{scale[1]}-{scale[2]}_bv-{bv[0]}-{bv[1]}-{bv[2]}'\
        .format(**ranges)
-"""
+
 
 pars_subset = express.combine_pars(bv=np.arange(*ranges['bv']),
                                    a=np.arange(*ranges['a']),
@@ -27,17 +27,17 @@ pars_subset = dict([[k,list(v)] for k,v in pars_subset.items()])
 print 'converted'
 with open(fname, 'wb') as fp:
     json.dump(pars_subset, fp)
-"""    
+
 print 'saved'
 with open(fname, 'rb') as fp:
     pars_subset = json.load(fp)
     print 'converted'
     pars_subset = dict([[k,np.array(v)] for k,v in pars_subset.items()])
 print 'loaded'
-ranges['bf_mask']=(20,300)
+ranges['bf_mask']=(80,160)
 ranges['mtt_mask']=(20,30)
 
-pars_subset=express.filter_pars(pars_subset,mtt_range=ranges['mtt_mask'],bf_range=np.array(ranges['mtt_mask'])/(100.*60))
+pars_subset=express.filter_pars(pars_subset,mtt_range=ranges['mtt_mask'],bf_range=np.array(ranges['bf_mask'])/(100.*60))
 
 rc_curves=express.calc_rc_big(pars_subset,0.1)
 

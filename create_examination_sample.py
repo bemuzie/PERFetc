@@ -10,7 +10,7 @@ def lag_input(input_curve,LAG=0,scale=1):
     return np.append(np.repeat(input_curve[0],LAG),input_curve)[:input_curve.shape[0]]*scale
 
 #set const
-ROOT_FOLDER_LIN = '/media/WORK/_PERF/KUZNETSOVA G.P. 22.09.1946/20140617_641'
+ROOT_FOLDER_LIN = '/media/WORK_/_PERF/KUZNETSOVA G.P. 22.09.1946/20140617_641'
 
 wf = workflow.Workflow(ROOT_FOLDER_LIN)
 wf.dir_manager.add_path('FILTERED', 'filtered', add_to='nii')
@@ -124,7 +124,7 @@ tumor_tac = express.calc_tissue_tac_from_pars(input_tac_smoothed,
                                           params=tumor_pars )
 
 
-#plt.plot(times,AORTA/10.)
+plt.plot(times,AORTA/10.)
 #plt.plot(new_time_steps,input_tac_smoothed/10.)
 #print AORTA>100
 #print np.where(AORTA>100)[0][0]
@@ -168,7 +168,7 @@ with open(os.path.join(CSV_PATH),'a') as summary_csv:
             for t,rv in zip(times,r_tac):
                   summary_csv.write(','.join(map(str,[p_id,t,r_name,rv,'\n'])))
 """
-
+"""
 CSV_PATH = '/home/denest/DISSER/R/data/ts_hu.csv'
 AORTA_SMOOTHED = lag_input(express.spline_interpolation(AORTA, times, time_steps)[0])
 
@@ -181,3 +181,4 @@ with open(os.path.join(CSV_PATH),'a') as summary_csv:
       for t in enumerate(time_steps):
             list_to_write = [p_id,t[1],rois['aorta'][t[0]],rois['pancreas'][t[0]],rois['tumor'][t[0]]]
             summary_csv.write(','.join(map(str,list_to_write ))+'\n')
+"""
