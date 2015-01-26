@@ -510,6 +510,7 @@ def append_result(output,result):
 def calc_rc(params,time_res,maxtime=100,dist='gamma'):
     t = np.arange(0, maxtime, time_res)[...,None].repeat(len(params['a']),axis=1)
     d=make_distribution(params,dist)
+    print d
     rc = 1 - d.cdf(t)
     rc /= np.sum(rc,axis=0)
     return params['bv'] * rc
