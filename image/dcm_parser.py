@@ -199,4 +199,4 @@ def get_times(folder, folder_out=None, force=False, ):
 
 
 if __name__ == "__main__":
-    Parser('/home/denest/_TEMP', '/home/denest/PERF_volumes')
+    Parser('/media/My Passport/_PERF/_TMP', '/media/My Passport/_PERF')
